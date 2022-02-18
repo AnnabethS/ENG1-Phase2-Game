@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import tk.shardsoftware.World;
+import tk.shardsoftware.util.Difficulty;
 import tk.shardsoftware.util.ResourceUtil;
 import tk.shardsoftware.util.SoundManager;
 
@@ -18,8 +19,8 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 	/** How much time left until cannons can be fired */
 	public float timeUntilFire = 0f;
 
-	protected float maxHealth = 100f;
-	protected float health = maxHealth;
+	protected float maxHealth;
+	protected float health;
 
 	protected String collegeName;
 	public boolean isPlayer = false;
@@ -27,11 +28,27 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 	private Sound cannonSfx = ResourceUtil.getSound("audio/entity/cannon.mp3");
 
 	/** @param worldObj the World object the ship belongs to */
-	public EntityShip(World worldObj) {
+	public EntityShip(World worldObj, Difficulty d) {
 		super(worldObj, 0, 0, 50, 50);
 		this.setTexture("textures/entity/playership.png");
 		this.setMaxSpeed(100);
 		this.setHitboxScale(0.39f);
+		switch(d)
+		{
+			case EASY:
+				maxHealth = 150f;
+				break;
+			case NORMAL:
+				maxHealth = 100f;
+				break;
+			case HARD:
+				maxHealth = 50f;
+				break;
+			case GAMER:
+				maxHealth = 1f;
+				break;
+		}
+		health = maxHealth;
 	}
 
 	public String getCollegeName() {

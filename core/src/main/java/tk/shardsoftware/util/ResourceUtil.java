@@ -66,6 +66,16 @@ public abstract class ResourceUtil {
 		addTexture("textures/ui/college-choice-text.png");
 		addTexture("textures/ui/sound-disabled.png");
 		addTexture("textures/ui/sound-enabled.png");
+		addTexture("textures/ui/a-button.png");
+		addTexture("textures/ui/d-button.png");
+		addTexture("textures/ui/easy-selected.png");
+		addTexture("textures/ui/easy-deselected.png");
+		addTexture("textures/ui/normal-selected.png");
+		addTexture("textures/ui/normal-deselected.png");
+		addTexture("textures/ui/hard-selected.png");
+		addTexture("textures/ui/hard-deselected.png");
+		addTexture("textures/ui/gamer-selected.png");
+		addTexture("textures/ui/gamer-deselected.png");
 
 		/* Sound */
 		addSound("audio/entity/boat-water-movement.wav");
@@ -237,6 +247,10 @@ public abstract class ResourceUtil {
 	 */
 	public static Texture getEntityTexture(String entityName) {
 		return getTexture("textures/entity/" + entityName);
+	}
+
+	public static Texture getUITexture(String uiTextureName){
+		return getTexture("textures/ui/" + uiTextureName + ".png");
 	}
 
 }

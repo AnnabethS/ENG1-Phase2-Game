@@ -3,6 +3,7 @@ package tk.shardsoftware.entity;
 import com.badlogic.gdx.math.Vector2;
 
 import tk.shardsoftware.World;
+import tk.shardsoftware.util.Difficulty;
 
 /**
  * A simple AI ship that circles around the player. It can't fire yet as this
@@ -25,7 +26,7 @@ public class EntityAIShip extends EntityShip {
 	 * @param player the ship controlled by the player
 	 */
 	public EntityAIShip(World world, EntityShip player) {
-		super(world);
+		super(world, Difficulty.NORMAL);
 		this.aiState = AIState.IDLE;
 		this.player = player;
 		this.maxHealth = 25;

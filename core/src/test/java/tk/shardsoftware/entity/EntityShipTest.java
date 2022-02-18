@@ -4,13 +4,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import tk.shardsoftware.util.Difficulty;
+
 /** @author James Burnell */
 public class EntityShipTest {
 
 	/** A ship's direction is based on the direction it is traveling */
 	@Test
 	public void testSetDirectionDoesNothing() {
-		EntityShip e = new EntityShip(null);
+		EntityShip e = new EntityShip(null, Difficulty.NORMAL);
 		assertEquals(0, e.direction);
 		e.setDirection(180);
 		assertEquals(0, e.direction);
@@ -18,7 +20,7 @@ public class EntityShipTest {
 
 	@Test
 	public void testSetVelocity() {
-		EntityShip e = new EntityShip(null);
+		EntityShip e = new EntityShip(null, Difficulty.NORMAL);
 		e.setVelocity(1, 1);
 		assertEquals(45, e.direction);
 		e.setVelocity(-1, 0);

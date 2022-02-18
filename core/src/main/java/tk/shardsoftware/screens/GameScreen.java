@@ -45,6 +45,7 @@ import tk.shardsoftware.util.Bar;
 import tk.shardsoftware.util.ChooseCollegeDisplay;
 import tk.shardsoftware.util.CollegeManager;
 import tk.shardsoftware.util.DebugUtil;
+import tk.shardsoftware.util.Difficulty;
 import tk.shardsoftware.util.Minimap;
 import tk.shardsoftware.util.ResourceUtil;
 import tk.shardsoftware.util.SoundManager;
@@ -112,6 +113,9 @@ public class GameScreen implements Screen {
 	/** Toggle sound button */
 	private ImageButton soundButton;
 
+	// difficulty
+	private Difficulty difficulty;
+
 	public void addPlunder(int p) {
 		plunder = plunder + p;
 	}
@@ -167,8 +171,9 @@ public class GameScreen implements Screen {
 	 * 
 	 * @param pg the {@link PirateGame} object
 	 */
-	public GameScreen(PirateGame pg) {
+	public GameScreen(PirateGame pg, Difficulty difficulty) {
 		this.pg = pg;
+		this.difficulty = difficulty;
 
 		// TODO: Implement ambient sounds
 		boatWaterMovement = ResourceUtil.getSound("audio/entity/boat-water-movement.wav");
@@ -206,7 +211,7 @@ public class GameScreen implements Screen {
 		/** World Objects */
 		worldObj = new World();
 		worldObj.setGameScreen(this);
-		player = new EntityShip(worldObj);
+		player = new EntityShip(worldObj, difficulty);
 		player.isPlayer = true;
 //		EntityAIShip exampleEnemy = new EntityAIShip(worldObj, player, 750, 75);
 
@@ -270,7 +275,7 @@ public class GameScreen implements Screen {
 	 */
 	public void Restart() {
 		worldObj.clearEntities();
-		player = new EntityShip(worldObj);
+		player = new EntityShip(worldObj, Difficulty.NORMAL);
 		worldObj.addEntity(player);
 		// generate a new map with a random seed
 		worldObj.worldMap.setSeed(MathUtils.random.nextLong());

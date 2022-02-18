@@ -8,6 +8,7 @@ import tk.shardsoftware.screens.LoadScreen;
 import tk.shardsoftware.screens.LossScreen;
 import tk.shardsoftware.screens.MenuScreen;
 import tk.shardsoftware.screens.VictoryScreen;
+import tk.shardsoftware.util.Difficulty;
 import tk.shardsoftware.util.ResourceUtil;
 
 import static tk.shardsoftware.util.DebugUtil.DEBUG_MODE;
@@ -24,17 +25,17 @@ public class PirateGame extends Game {
 		if (DEBUG_MODE) {
 			/* -=TESTING ONLY=- Assets should be loaded within the loading screen */
 			assets.finishLoading();
-			openNewGameScreen();
+			//openNewGameScreen();
 			// openNewVictoryScreen();
 			// openNewLossScreen();
-			// openNewMenuScreen();
+			openNewMenuScreen();
 		} else {
 			this.setScreen(new LoadScreen(assets, this));
 		}
 	}
 
-	public void openNewGameScreen() {
-		this.setScreen(new GameScreen(this));
+	public void openNewGameScreen(Difficulty difficulty) {
+		this.setScreen(new GameScreen(this, difficulty));
 	}
 
 	public void openNewLossScreen() {
