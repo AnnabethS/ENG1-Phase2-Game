@@ -76,6 +76,12 @@ public abstract class ResourceUtil {
 		addTexture("textures/ui/hard-deselected.png");
 		addTexture("textures/ui/gamer-selected.png");
 		addTexture("textures/ui/gamer-deselected.png");
+		
+		//import rain textures
+		for(int i=1; i <= 8; i++)
+		{
+			addTexture("textures/tiles/rain/rain" + i + ".png");
+		}
 
 		/* Sound */
 		addSound("audio/entity/boat-water-movement.wav");

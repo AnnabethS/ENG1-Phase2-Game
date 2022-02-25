@@ -331,6 +331,14 @@ public abstract class Entity {
 		return this;
 	}
 
+	public void setStorm(boolean isStorm)
+	{
+		if(isStorm)
+			setMaxSpeed(50);
+		else
+			setMaxSpeed(250);
+	}
+
 	public float getMaxSpeed() {
 		return maximumSpeed;
 	}
