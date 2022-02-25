@@ -10,11 +10,14 @@ import java.util.List;
 import com.badlogic.gdx.math.MathUtils;
 
 import tk.shardsoftware.entity.College;
+import tk.shardsoftware.entity.Mine;
 import tk.shardsoftware.entity.Entity;
 import tk.shardsoftware.entity.EntityCannonball;
 import tk.shardsoftware.entity.IDamageable;
 import tk.shardsoftware.screens.GameScreen;
 import tk.shardsoftware.util.CollegeManager;
+import tk.shardsoftware.util.Difficulty;
+
 
 /** @author James Burnell */
 public class World {
@@ -30,6 +33,8 @@ public class World {
 	private List<Entity> entities;
 	/** The collection of cannonballs within the world. */
 	private List<EntityCannonball> cannonballs;
+	/** The collection of mines within the world. */
+	private List<Mine> obstacles;
 	/**
 	 * The collection of damageable objects that are in the world. This includes
 	 * entities and non-entities such as college buildings.
@@ -42,10 +47,11 @@ public class World {
 	/** The {@link GameScreen} object that the world can use to call functions */
 	private GameScreen game;
 
-	public World() {
+	public World(Difficulty difficulty) {
 		entities = new ArrayList<Entity>();
 		damagableObjs = new ArrayList<IDamageable>();
 		cannonballs = new ArrayList<EntityCannonball>();
+		obstacles = new ArrayList<Mine>();
 
 		this.worldMap = new WorldMap(WORLD_TILE_SIZE, WORLD_WIDTH, WORLD_HEIGHT);
 		// worldMap.setSeed(MathUtils.random.nextLong());
@@ -71,6 +77,7 @@ public class World {
 	public void update(float delta) {
 		updateEntities(delta);
 		updateCannonballs();
+		updateObstacles();
 	}
 
 	/**
@@ -86,6 +93,23 @@ public class World {
 				// Test for intersection
 				if (c.getHitbox().overlaps(dmgObj.getHitbox())) {
 					c.onTouchingDamageable(dmgObj);
+					break;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Find intersections between mines and damageable objects. If such an
+	 * intersection is found, it will call
+	 * {@link Mine#onTouchingDamageable(IDamageable)}.
+	 */
+	private void updateObstacles() {
+		for (Mine m : obstacles) {
+			for (IDamageable dmgObj : damagableObjs) {
+				// Test for intersection
+				if (m.getHitbox().overlaps(dmgObj.getHitbox())) {
+					m.onTouchingDamageable(dmgObj);
 					break;
 				}
 			}
@@ -111,6 +135,7 @@ public class World {
 			entities.remove(e);
 			if (e instanceof IDamageable) damagableObjs.remove((IDamageable) e);
 			if (e instanceof EntityCannonball) cannonballs.remove((EntityCannonball) e);
+			if (e instanceof Mine) obstacles.remove((Mine) e);
 			e.onRemove();
 			if (game != null) game.onEntityRemoved(e);
 		});
@@ -155,6 +180,10 @@ public class World {
 		}
 		if (e instanceof EntityCannonball) {
 			cannonballs.add((EntityCannonball) e);
+		}
+
+		if (e instanceof Mine) {
+			obstacles.add((Mine) e);
 		}
 	}
 

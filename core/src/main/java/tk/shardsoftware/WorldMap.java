@@ -18,6 +18,7 @@ import tk.shardsoftware.util.PerlinNoiseGenerator;
 /**
  * @author Hector Woods
  * @author James Burnell
+ * @author Leif Kemp
  */
 public class WorldMap {
 
@@ -82,7 +83,6 @@ public class WorldMap {
 
 			}
 		}
-
 	}
 
 	/**

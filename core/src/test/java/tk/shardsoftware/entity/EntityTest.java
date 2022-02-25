@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import com.badlogic.gdx.math.Rectangle;
 
 import tk.shardsoftware.World;
+import tk.shardsoftware.util.Difficulty;
 
 /** @author James Burnell */
 public class EntityTest {
@@ -68,7 +69,7 @@ public class EntityTest {
 	/** Test the {@link Entity#update(float)} method */
 	@Test
 	public void testLogicStep() {
-		World worldObj = new World();
+		World worldObj = new World(Difficulty.EASY);
 		Entity e = new Entity(worldObj, 5, 5, 10, 10) {};
 		e.setVelocity(1, 1);
 		assertEquals(5, e.positionVec.x);
@@ -86,7 +87,7 @@ public class EntityTest {
 	 */
 	@Test
 	public void testCollision() {
-		World worldObj = new World();
+		World worldObj = new World(Difficulty.EASY);
 		Entity e1 = new Entity(worldObj, 5, 5, 10, 10) {};
 		Entity e2 = new Entity(worldObj, 20, 5, 10, 10) {};
 		assertFalse(e1.hitbox.overlaps(e2.hitbox));
@@ -102,7 +103,7 @@ public class EntityTest {
 	 */
 	@Test
 	public void testPositionStepWithCollisionInWorld() {
-		World worldObj = new World();
+		World worldObj = new World(Difficulty.EASY);
 		worldObj.getEntities().add(new Entity(worldObj, 20, 5, 10, 10) {});
 		Entity e = new Entity(worldObj, 5, 5, 10, 10) {};
 		e.setVelocity(3, 3);
