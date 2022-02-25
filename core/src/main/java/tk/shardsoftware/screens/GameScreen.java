@@ -100,6 +100,7 @@ public class GameScreen implements Screen {
 	public GlyphLayout timerTxtLayout;
 	/** Whether or not the college destroyed text should be rendered */
 	private boolean displayCollegeDestroyTxt = true;
+	public GlyphLayout skipStormTxtLayout;
 
 	/** How many seconds are left in the game. */
 	public int gameTime = 5 * 60;
@@ -203,6 +204,8 @@ public class GameScreen implements Screen {
 		remainingCollegeTxtLayout = new GlyphLayout();
 		collegeDestroyTxtLayout = new GlyphLayout();
 		timerTxtLayout = new GlyphLayout();
+		skipStormTxtLayout = new GlyphLayout();
+		skipStormTxtLayout.setText(font, "Press E to skip the storm");
 
 		/* Overlay */
 		instOverlay = new InstructionOverlay(hudBatch);
@@ -398,6 +401,9 @@ public class GameScreen implements Screen {
 			miniMap.onToggleKeyJustPressed();
 		}
 
+		if (player.isInRangeOfFriendlyCollege() && Gdx.input.isKeyJustPressed(Input.Keys.E))
+			setStorm(false);
+
 		if (DEBUG_MODE) {
 			// Instantly halt the player movement
 			if (Gdx.input.isKeyPressed(Input.Keys.K)) {
@@ -510,6 +516,13 @@ public class GameScreen implements Screen {
 					(Gdx.graphics.getWidth() - collegeDestroyTxtLayout.width) / 2,
 					(Gdx.graphics.getHeight() - collegeDestroyTxtLayout.height) / 2);
 
+			if (isStorm && player.isInRangeOfFriendlyCollege())
+			{
+				font.draw(hudBatch, skipStormTxtLayout, 
+					(Gdx.graphics.getWidth() - skipStormTxtLayout.width) / 2,
+					(Gdx.graphics.getHeight() - skipStormTxtLayout.height) / 2);
+			}
+
 		});
 
 		hudBatch.end();
@@ -602,6 +615,8 @@ public class GameScreen implements Screen {
 			SoundManager.stopMusic();
 			pg.openNewWinScreen();
 		}
+
+		player.isInRangeOfFriendlyCollege();
 
 		if (!isStorm)
 		{ // chance to start a storm

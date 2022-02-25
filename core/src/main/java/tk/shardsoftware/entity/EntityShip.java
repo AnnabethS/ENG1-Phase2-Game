@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import tk.shardsoftware.World;
+import tk.shardsoftware.util.CollegeManager;
 import tk.shardsoftware.util.Difficulty;
 import tk.shardsoftware.util.ResourceUtil;
 import tk.shardsoftware.util.SoundManager;
@@ -184,6 +185,12 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 	@Override
 	public float getCannonDamage() {
 		return 10;
+	}
+
+	public boolean isInRangeOfFriendlyCollege()
+	{
+		College c = CollegeManager.getCollegeWithName(getCollegeName());
+		return positionVec.dst(c.positionVec) < (c.fireDistance / 2);
 	}
 
 }
