@@ -11,11 +11,14 @@ import tk.shardsoftware.util.ResourceUtil;
  * To be used for any object in the world that moves or is interactable
  * 
  * @author James Burnell
+ * @author Anna Singleton
  */
 public abstract class Entity {
 
 	/** The maximum speed the entity is allowed to travel at */
 	protected float maximumSpeed = 250f;
+	protected float drag = 0.99f;
+	protected boolean isStorm = false;
 	/**
 	 * The direction the entity is facing in degrees. Note that this can be
 	 * different than the direction it is moving.
@@ -329,6 +332,15 @@ public abstract class Entity {
 	public Entity setMaxSpeed(float speed) {
 		this.maximumSpeed = speed;
 		return this;
+	}
+
+	public void setStorm(boolean isStorm)
+	{
+		this.isStorm = isStorm;
+		if(isStorm)
+			setMaxSpeed(50);
+		else
+			setMaxSpeed(250);
 	}
 
 	public float getMaxSpeed() {

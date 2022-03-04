@@ -35,6 +35,7 @@ public class PirateGame extends Game {
 	}
 
 	public void openNewGameScreen(Difficulty difficulty) {
+		System.out.println("switch to game screen");
 		this.setScreen(new GameScreen(this, difficulty));
 	}
 

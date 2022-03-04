@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
  * Handles texture access
  * 
  * @author James Burnell
+ * @author Anna Singleton
  */
 public abstract class ResourceUtil {
 
@@ -32,7 +33,7 @@ public abstract class ResourceUtil {
 	/** The game's asset manager */
 	private static AssetManager assetManager;
 
-	public static BitmapFont font, debugFont, collegeFont, miniMapFont, chooseCollegeFont;
+	public static BitmapFont font, debugFont, collegeFont, miniMapFont, chooseCollegeFont, powerupFont;
 
 	/**
 	 * Load any required textures into memory
@@ -52,6 +53,12 @@ public abstract class ResourceUtil {
 		addTexture("textures/entity/playership.png");
 		addTexture("textures/entity/cannonball.png");
 		addTexture("textures/entity/college.png");
+		/* Powerups */
+		addTexture("textures/powerups/speed.png");
+		addTexture("textures/powerups/damage.png");
+		addTexture("textures/powerups/ram.png");
+		addTexture("textures/powerups/rapidfire.png");
+		addTexture("textures/powerups/invincibility.png");
 		/* UI */
 		addTexture("textures/ui/expand-map-button.png");
 		addTexture("textures/ui/minimise-map-button.png");
@@ -76,6 +83,12 @@ public abstract class ResourceUtil {
 		addTexture("textures/ui/hard-deselected.png");
 		addTexture("textures/ui/gamer-selected.png");
 		addTexture("textures/ui/gamer-deselected.png");
+		
+		//import rain textures
+		for(int i=1; i <= 8; i++)
+		{
+			addTexture("textures/tiles/rain/rain" + i + ".png");
+		}
 
 		/* Sound */
 		addSound("audio/entity/boat-water-movement.wav");
@@ -116,6 +129,10 @@ public abstract class ResourceUtil {
 					false);
 			miniMapFont.setColor(Color.WHITE);
 			miniMapFont.getData().setScale(0.2f);
+			powerupFont = new BitmapFont(Gdx.files.internal("font/jagged-font.fnt"), // jagged-font
+					false);
+			powerupFont.setColor(Color.WHITE);
+			powerupFont.getData().setScale(0.4f);
 		} else {
 			Gdx.app.error("error", "Could not locate jagged font file");
 		}

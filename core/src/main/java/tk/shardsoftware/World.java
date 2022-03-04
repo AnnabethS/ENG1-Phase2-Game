@@ -11,12 +11,15 @@ import com.badlogic.gdx.math.MathUtils;
 
 import tk.shardsoftware.entity.College;
 import tk.shardsoftware.entity.Mine;
+import tk.shardsoftware.entity.Powerup;
 import tk.shardsoftware.entity.Entity;
 import tk.shardsoftware.entity.EntityCannonball;
+import tk.shardsoftware.entity.EntityShip;
 import tk.shardsoftware.entity.IDamageable;
 import tk.shardsoftware.screens.GameScreen;
 import tk.shardsoftware.util.CollegeManager;
 import tk.shardsoftware.util.Difficulty;
+import tk.shardsoftware.util.PowerupType;
 
 
 /** @author James Burnell */
@@ -35,6 +38,8 @@ public class World {
 	private List<EntityCannonball> cannonballs;
 	/** The collection of mines within the world. */
 	private List<Mine> obstacles;
+	/** The collection of powerups within the world. */
+	private List<Powerup> powerups;
 	/**
 	 * The collection of damageable objects that are in the world. This includes
 	 * entities and non-entities such as college buildings.
@@ -52,6 +57,7 @@ public class World {
 		damagableObjs = new ArrayList<IDamageable>();
 		cannonballs = new ArrayList<EntityCannonball>();
 		obstacles = new ArrayList<Mine>();
+		powerups = new ArrayList<Powerup>();
 
 		this.worldMap = new WorldMap(WORLD_TILE_SIZE, WORLD_WIDTH, WORLD_HEIGHT);
 		// worldMap.setSeed(MathUtils.random.nextLong());
@@ -78,6 +84,8 @@ public class World {
 		updateEntities(delta);
 		updateCannonballs();
 		updateObstacles();
+		updatePowerups();
+		updatePlayer();
 	}
 
 	/**
@@ -115,6 +123,18 @@ public class World {
 			}
 		}
 	}
+	
+	private void updatePowerups() {
+		for (Powerup p : powerups) {
+			for (IDamageable dmgObj : damagableObjs) {
+				// Test for intersection
+				if (p.getHitbox().overlaps(dmgObj.getHitbox())) {
+					p.onTouchingDamageable(dmgObj);
+					break;
+				}
+			}
+		}
+	}
 
 	/**
 	 * Progress the logical step for each entity. Also remove them from the world if
@@ -136,9 +156,28 @@ public class World {
 			if (e instanceof IDamageable) damagableObjs.remove((IDamageable) e);
 			if (e instanceof EntityCannonball) cannonballs.remove((EntityCannonball) e);
 			if (e instanceof Mine) obstacles.remove((Mine) e);
+			if (e instanceof Powerup) powerups.remove((Powerup) e);
 			e.onRemove();
 			if (game != null) game.onEntityRemoved(e);
 		});
+	}
+	
+	/**
+	 * Used to check collisions between the player and other
+	 * damageable objects, this is used for ramming.
+	 * 
+	 * @param delta the time elapsed since the last update in seconds
+	 */
+	private void updatePlayer() {
+		EntityShip player = game.getPlayer();
+		if(player.ramming) {
+			for (IDamageable dmgObj : damagableObjs) {
+				// Test for intersection
+				if (player.getHitbox().overlaps(dmgObj.getHitbox())) {
+					player.onTouchingDamageable(dmgObj);
+				}
+			}
+		}
 	}
 
 	/** Removes all entities from the world */
@@ -185,6 +224,10 @@ public class World {
 		if (e instanceof Mine) {
 			obstacles.add((Mine) e);
 		}
+		
+		if (e instanceof Powerup) {
+			powerups.add((Powerup) e);
+		}
 	}
 
 	/** @return The width of the world in pixels */
@@ -205,6 +248,11 @@ public class World {
 	public void onCollegeDestroyed(College college) {
 		destroyedColleges++;
 		if (game != null) game.onCollegeDestroyed(college);
+	}
+	
+	public void onPowerupObtained(PowerupType powerup) {
+		game.addPowerup(powerup);
+		System.out.println("Player has obtained a powerup of type " + powerup.toString());
 	}
 
 	/** @return The number of colleges remaining in the world */
