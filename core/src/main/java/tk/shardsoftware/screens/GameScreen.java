@@ -37,6 +37,7 @@ import tk.shardsoftware.PirateGame;
 import tk.shardsoftware.TileType;
 import tk.shardsoftware.World;
 import tk.shardsoftware.entity.College;
+import tk.shardsoftware.entity.Mine;
 import tk.shardsoftware.entity.Entity;
 import tk.shardsoftware.entity.EntityAIShip;
 import tk.shardsoftware.entity.EntityShip;
@@ -47,6 +48,7 @@ import tk.shardsoftware.util.CollegeManager;
 import tk.shardsoftware.util.DebugUtil;
 import tk.shardsoftware.util.Difficulty;
 import tk.shardsoftware.util.Minimap;
+import tk.shardsoftware.util.ObstacleManager;
 import tk.shardsoftware.util.ResourceUtil;
 import tk.shardsoftware.util.SoundManager;
 
@@ -55,6 +57,7 @@ import tk.shardsoftware.util.SoundManager;
  * 
  * @author James Burnell
  * @author Hector Woods
+ * @author Leif Kemp
  */
 public class GameScreen implements Screen {
 
@@ -209,7 +212,7 @@ public class GameScreen implements Screen {
 		stage.addActor(soundButton);
 
 		/** World Objects */
-		worldObj = new World();
+		worldObj = new World(difficulty);
 		worldObj.setGameScreen(this);
 		player = new EntityShip(worldObj, difficulty);
 		player.isPlayer = true;
@@ -217,6 +220,7 @@ public class GameScreen implements Screen {
 
 		worldObj.addEntity(player);
 		placeColleges();
+		placeObstacles();
 //		exampleEnemy
 //				.setPosition(new Vector2(player.getPosition().x - 20, player.getPosition().y - 20));
 //		worldObj.addEntity(exampleEnemy);
@@ -236,8 +240,10 @@ public class GameScreen implements Screen {
 	 * @param collegeName the name of the college the player belongs to
 	 */
 	public void setPlayerCollege(String collegeName) {
+		// TODO: Remove mines near player starting position
 		player.setCollegeName(collegeName);
 		setPlayerStartPosition();
+		ObstacleManager.removeNearbyMines(worldObj, 10, player);
 		CollegeManager.setFriendlyCollege(collegeName);
 	}
 
@@ -282,6 +288,7 @@ public class GameScreen implements Screen {
 		worldObj.worldMap.buildWorld();
 
 		placeColleges();
+		placeObstacles();
 		miniMap.prepareMap();
 		cDisplay = new ChooseCollegeDisplay(worldObj, 0, 0, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight(), batch, stage, CollegeManager.collegeList, this);
@@ -309,6 +316,7 @@ public class GameScreen implements Screen {
 		boolean down = Gdx.input.isKeyPressed(Input.Keys.S);
 		boolean left = Gdx.input.isKeyPressed(Input.Keys.A);
 		boolean right = Gdx.input.isKeyPressed(Input.Keys.D);
+		boolean accelerate = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
 		boolean verticalFlag = up || down;
 		boolean horizontalFlag = left || right;
 		boolean vertCancel = up && down;
@@ -317,7 +325,7 @@ public class GameScreen implements Screen {
 		// If a key is pressed, the ship should turn
 		boolean turnFlag = (verticalFlag && !vertCancel) || (horizontalFlag && !horizCancel);
 
-		boolean accelWithoutTurn = (vertCancel || horizCancel) && !turnFlag;
+		boolean accelWithoutTurn = (vertCancel || horizCancel || accelerate) && !turnFlag;
 
 		if (turnFlag) {
 			if ((vertCancel || !verticalFlag) && !horizCancel) {
@@ -352,6 +360,33 @@ public class GameScreen implements Screen {
 	public void placeColleges() {
 		CollegeManager.generateColleges(worldObj, 5, 50, player);
 		for (College c : CollegeManager.collegeList) {
+			worldObj.addEntity(c);
+		}
+	}
+
+	/**
+	 * Calls ObstacleManager.generateObstacles(), generating the mines on the map, and
+	 * adds them to the entity handler.
+	 */
+	public void placeObstacles(){
+		int mines = 0;
+		switch(difficulty){
+			case EASY:
+				mines = 100;
+				break;
+			case NORMAL:
+				mines = 200;
+				break;
+			case HARD:
+				mines = 300;
+				break;
+			case GAMER:
+				mines = 500;
+				break;
+		}
+		ObstacleManager.generateObstacles(worldObj, mines, 5, 25, CollegeManager.collegeList, player);
+
+		for (Mine c : ObstacleManager.obstacleList) {
 			worldObj.addEntity(c);
 		}
 	}
