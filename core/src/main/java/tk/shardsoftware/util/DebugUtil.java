@@ -21,7 +21,7 @@ public class DebugUtil {
 	}
 
 	/** Controls additional logging and on-screen data */
-	public static boolean DEBUG_MODE = false;
+	public static boolean DEBUG_MODE = true;
 
 	/**
 	 * A list of maps determined to be playable. This is to have a reliable testing

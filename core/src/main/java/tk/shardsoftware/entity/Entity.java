@@ -11,6 +11,7 @@ import tk.shardsoftware.util.ResourceUtil;
  * To be used for any object in the world that moves or is interactable
  * 
  * @author James Burnell
+ * @author Anna Singleton
  */
 public abstract class Entity {
 
@@ -329,6 +330,14 @@ public abstract class Entity {
 	public Entity setMaxSpeed(float speed) {
 		this.maximumSpeed = speed;
 		return this;
+	}
+
+	public void setStorm(boolean isStorm)
+	{
+		if(isStorm)
+			setMaxSpeed(50);
+		else
+			setMaxSpeed(250);
 	}
 
 	public float getMaxSpeed() {

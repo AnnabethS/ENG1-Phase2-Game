@@ -8,17 +8,20 @@ import java.util.function.Function;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import tk.shardsoftware.util.PerlinNoiseGenerator;
+import tk.shardsoftware.util.ResourceUtil;
 
 /**
  * @author Hector Woods
  * @author James Burnell
  * @author Leif Kemp
+ * @author Anna Singleton
  */
 public class WorldMap {
 
@@ -33,6 +36,12 @@ public class WorldMap {
 	public HashMap<Vector2, TileType> tileMap = new HashMap<Vector2, TileType>();
 
 	public PerlinNoiseGenerator perlin;
+
+	// use for drawing the rain
+	private Texture[] rainTextures;
+	private int rainFrame = 0;
+	private final float frameTime = 0.05f; //amount each rain frame should be on screen (in seconds)
+	private float remainingFrameTime = frameTime;
 
 	/** The local random object */
 	private Random rand = new Random();
@@ -49,6 +58,11 @@ public class WorldMap {
 		this.tile_size = world_tile_size;
 		this.width = world_width;
 		this.height = world_height;
+		rainTextures = new Texture[8];
+		for(int i=0; i < 8; i++)
+		{
+			rainTextures[i] = ResourceUtil.getTileTexture("rain/rain" + (i+1) + ".png");
+		}
 	}
 
 	/**
@@ -172,6 +186,32 @@ public class WorldMap {
 		for (int i = minX; i < maxX; i++) {
 			for (int j = minY; j < maxY; j++) {
 				this.drawTile(i, j, batch);
+			}
+		}
+	}
+
+	public void drawRain(Camera cam, SpriteBatch batch, float delta)
+	{
+		int numberOfTilesX = (int) (cam.viewportWidth / tile_size);
+		int numberOfTilesY = (int) (cam.viewportHeight / tile_size);
+		int cameraTilePosX = (int) (cam.position.x / tile_size);
+		int cameraTilePosY = (int) (cam.position.y / tile_size);
+		int minX = Math.max(1, cameraTilePosX - (numberOfTilesX));
+		int minY = Math.max(1, cameraTilePosY - (numberOfTilesY));
+		int maxX = Math.min(width, cameraTilePosX + (numberOfTilesX));
+		int maxY = Math.min(height, cameraTilePosY + (numberOfTilesY));
+
+		remainingFrameTime -= delta;
+		if(remainingFrameTime <= 0)
+		{
+			remainingFrameTime = frameTime;
+			rainFrame++;
+			if(rainFrame>7)
+				rainFrame = 0;
+		}
+		for (int i = minX; i < maxX; i++) {
+			for (int j = minY; j < maxY; j++) {
+				batch.draw(rainTextures[rainFrame], i*tile_size, j*tile_size, tile_size, tile_size);
 			}
 		}
 	}

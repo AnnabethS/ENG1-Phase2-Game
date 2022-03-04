@@ -58,6 +58,7 @@ import tk.shardsoftware.util.SoundManager;
  * @author James Burnell
  * @author Hector Woods
  * @author Leif Kemp
+ * @author Anna Singleton
  */
 public class GameScreen implements Screen {
 
@@ -103,6 +104,7 @@ public class GameScreen implements Screen {
 	public GlyphLayout timerTxtLayout;
 	/** Whether or not the college destroyed text should be rendered */
 	private boolean displayCollegeDestroyTxt = true;
+	public GlyphLayout skipStormTxtLayout;
 
 	/** How many seconds are left in the game. */
 	public int gameTime = 5 * 60;
@@ -118,6 +120,16 @@ public class GameScreen implements Screen {
 
 	// difficulty
 	private Difficulty difficulty;
+
+	// storm control
+	public boolean isStorm = false;
+	private final float stormChanceInterval = 15f;
+	private float lastStormChance = gameTime;
+	private final float minStormChance = 0.04f;
+	private final float maxStormChance = 0.5f;
+	private float currentStormChance = minStormChance;
+	private final float stormTime = 90f; // time a storm should last in seconds
+	private float currentStormTime = 0;
 
 	public void addPlunder(int p) {
 		plunder = plunder + p;
@@ -196,6 +208,8 @@ public class GameScreen implements Screen {
 		remainingCollegeTxtLayout = new GlyphLayout();
 		collegeDestroyTxtLayout = new GlyphLayout();
 		timerTxtLayout = new GlyphLayout();
+		skipStormTxtLayout = new GlyphLayout();
+		skipStormTxtLayout.setText(font, "Press E to skip the storm");
 
 		/* Overlay */
 		instOverlay = new InstructionOverlay(hudBatch);
@@ -264,7 +278,11 @@ public class GameScreen implements Screen {
 				}
 				timerTxtLayout.setText(font, "Time Left: " + gameTime);
 				font.setColor(Color.WHITE);
-				pointTxtLayout.setText(font, "Points: " + (++points));
+				if(isStorm)
+					points += 2;
+				else
+					points++;
+				pointTxtLayout.setText(font, "Points: " + points);
 				plunderTxtLayout.setText(font, "Plunder: " + plunder);
 				for (College c : CollegeManager.collegeList) {
 					c.fireCannons();
@@ -419,6 +437,9 @@ public class GameScreen implements Screen {
 			miniMap.onToggleKeyJustPressed();
 		}
 
+		if (player.isInRangeOfFriendlyCollege() && Gdx.input.isKeyJustPressed(Input.Keys.E))
+			setStorm(false);
+
 		if (DEBUG_MODE) {
 			// Instantly halt the player movement
 			if (Gdx.input.isKeyPressed(Input.Keys.K)) {
@@ -435,6 +456,9 @@ public class GameScreen implements Screen {
 			}
 			if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
 				DebugUtil.damageAllEntities(worldObj, 5); // cause 5 damage to all entities
+			}
+			if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
+				setStorm(!isStorm);
 			}
 
 		}
@@ -468,10 +492,18 @@ public class GameScreen implements Screen {
 		batch.begin();
 
 		DebugUtil.saveProcessTime("Map Draw Time", () -> {
-			worldObj.worldMap.drawTilesInRange(camera, batch);
+			//TODO: replace with actual check of rain
+			worldObj.worldMap.drawTilesInRange(camera, batch); 
 		});
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		DebugUtil.saveProcessTime("Entity Draw Time", () -> renderEntities());
+
+		if(isStorm) //TODO: replace with real storm check
+		{
+			worldObj.worldMap.drawRain(camera, batch, delta);
+		}
+
+		// call rain draw here
 
 		batch.end();
 
@@ -519,6 +551,13 @@ public class GameScreen implements Screen {
 			if (displayCollegeDestroyTxt) font.draw(hudBatch, collegeDestroyTxtLayout,
 					(Gdx.graphics.getWidth() - collegeDestroyTxtLayout.width) / 2,
 					(Gdx.graphics.getHeight() - collegeDestroyTxtLayout.height) / 2);
+
+			if (isStorm && player.isInRangeOfFriendlyCollege())
+			{
+				font.draw(hudBatch, skipStormTxtLayout, 
+					(Gdx.graphics.getWidth() - skipStormTxtLayout.width) / 2,
+					(Gdx.graphics.getHeight() - skipStormTxtLayout.height) / 2);
+			}
 
 		});
 
@@ -613,6 +652,34 @@ public class GameScreen implements Screen {
 			pg.openNewWinScreen();
 		}
 
+		player.isInRangeOfFriendlyCollege();
+
+		if (!isStorm)
+		{ // chance to start a storm
+			if(lastStormChance-stormChanceInterval > gameTime)
+			{
+				lastStormChance = gameTime;
+				float chance = MathUtils.random(0f, 1f);
+				if(chance <= currentStormChance)
+				{ // start the storm
+					setStorm(true);
+				}
+				else
+				{
+					currentStormChance *= 2;
+					if(currentStormChance > maxStormChance)
+						currentStormChance = maxStormChance;
+				}
+			}
+		}
+		else
+		{ // timer for ending a storm
+			if((currentStormTime - stormTime) > gameTime)
+			{
+				setStorm(false);
+			}
+		}
+
 		worldObj.update(delta);
 
 		remainingCollegeTxtLayout.setText(font,
@@ -624,6 +691,25 @@ public class GameScreen implements Screen {
 		if (SoundManager.gameVolume == 0) return;
 		float vol = (player.getVelocity().len2() / (player.getMaxSpeed() * player.getMaxSpeed()));
 		boatWaterMovement.setVolume(soundIdBoatMovement, vol * SoundManager.gameVolume * 0.5f);
+	}
+
+	private void setStorm(boolean storm)
+	{
+		if(storm)
+		{
+			isStorm = true;
+			currentStormTime = gameTime;
+			currentStormChance = minStormChance;
+		}
+		else
+		{
+			isStorm = false;
+		}
+		List<Entity> entities = worldObj.getEntities();
+		for(Entity e : entities)
+		{
+			e.setStorm(storm);
+		}
 	}
 
 	/**
