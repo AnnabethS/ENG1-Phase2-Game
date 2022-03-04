@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
  * Handles texture access
  * 
  * @author James Burnell
+ * @author Anna Singleton
  */
 public abstract class ResourceUtil {
 

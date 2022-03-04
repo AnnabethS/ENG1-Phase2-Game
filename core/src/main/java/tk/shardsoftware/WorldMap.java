@@ -20,6 +20,7 @@ import tk.shardsoftware.util.ResourceUtil;
 /**
  * @author Hector Woods
  * @author James Burnell
+ * @author Anna Singleton
  */
 public class WorldMap {
 

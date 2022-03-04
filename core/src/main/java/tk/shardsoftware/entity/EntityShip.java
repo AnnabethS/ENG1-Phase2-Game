@@ -12,6 +12,7 @@ import tk.shardsoftware.util.SoundManager;
 
 /**
  * @author James Burnell
+ * @author Anna Singleton
  */
 public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 

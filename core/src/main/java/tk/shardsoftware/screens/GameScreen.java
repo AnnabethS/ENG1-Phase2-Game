@@ -55,6 +55,7 @@ import tk.shardsoftware.util.SoundManager;
  * 
  * @author James Burnell
  * @author Hector Woods
+ * @author Anna Singleton
  */
 public class GameScreen implements Screen {
 

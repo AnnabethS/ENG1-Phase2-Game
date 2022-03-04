@@ -11,6 +11,7 @@ import tk.shardsoftware.util.ResourceUtil;
  * To be used for any object in the world that moves or is interactable
  * 
  * @author James Burnell
+ * @author Anna Singleton
  */
 public abstract class Entity {
 
