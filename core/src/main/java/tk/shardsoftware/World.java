@@ -19,7 +19,9 @@ import tk.shardsoftware.util.CollegeManager;
 import tk.shardsoftware.util.Difficulty;
 
 
-/** @author James Burnell */
+/** @author James Burnell
+  * @author Anna Singleton
+  */
 public class World {
 
 	public static final int WORLD_WIDTH = 500;
@@ -41,6 +43,12 @@ public class World {
 	 */
 	private List<IDamageable> damagableObjs;
 
+	/** 
+	 * List of entities to be added at the end of the frame (to avoid concurrent
+	 * modification of the other lists)
+	 */
+	private List<Entity> addAtEndOfFrame;
+
 	/** The map of the world */
 	public WorldMap worldMap;
 
@@ -52,6 +60,7 @@ public class World {
 		damagableObjs = new ArrayList<IDamageable>();
 		cannonballs = new ArrayList<EntityCannonball>();
 		obstacles = new ArrayList<Mine>();
+		addAtEndOfFrame = new ArrayList<Entity>();
 
 		this.worldMap = new WorldMap(WORLD_TILE_SIZE, WORLD_WIDTH, WORLD_HEIGHT);
 		// worldMap.setSeed(MathUtils.random.nextLong());
@@ -75,9 +84,15 @@ public class World {
 	 * @param delta the time between the previous update and this one
 	 */
 	public void update(float delta) {
+		// FIXME: this is unclean, it requires the garbage collector to work too much
+		addAtEndOfFrame.removeAll(addAtEndOfFrame);
 		updateEntities(delta);
 		updateCannonballs();
 		updateObstacles();
+		for(Entity e : addAtEndOfFrame)
+		{
+			addEntity(e);
+		}
 	}
 
 	/**
@@ -187,6 +202,17 @@ public class World {
 		}
 	}
 
+	/**	
+	 * Adds an entity at the end of a frame, required to avoid concurrent modification
+	 * of the entities list.	
+	 *	
+	 * @param e the entity to add at the end of the frame
+	 */
+	public void addEntityAtEndOfFrame(Entity e)
+	{
+		addAtEndOfFrame.add(e);
+	}
+	
 	/** @return The width of the world in pixels */
 	public static float getWidth() {
 		return WORLD_TILE_SIZE * WORLD_WIDTH;
