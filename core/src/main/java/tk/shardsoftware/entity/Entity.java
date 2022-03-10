@@ -17,6 +17,8 @@ public abstract class Entity {
 
 	/** The maximum speed the entity is allowed to travel at */
 	protected float maximumSpeed = 250f;
+	protected float drag = 0.99f;
+	protected boolean isStorm = false;
 	/**
 	 * The direction the entity is facing in degrees. Note that this can be
 	 * different than the direction it is moving.

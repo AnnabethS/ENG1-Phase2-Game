@@ -4,14 +4,21 @@ import static tk.shardsoftware.util.DebugUtil.DEBUG_MODE;
 import static tk.shardsoftware.util.ResourceUtil.collegeFont;
 import static tk.shardsoftware.util.ResourceUtil.debugFont;
 import static tk.shardsoftware.util.ResourceUtil.font;
+import static tk.shardsoftware.util.ResourceUtil.powerupFont;
+
 
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.function.Function;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -38,6 +45,7 @@ import tk.shardsoftware.TileType;
 import tk.shardsoftware.World;
 import tk.shardsoftware.entity.College;
 import tk.shardsoftware.entity.Mine;
+import tk.shardsoftware.entity.Powerup;
 import tk.shardsoftware.entity.Entity;
 import tk.shardsoftware.entity.EntityAIShip;
 import tk.shardsoftware.entity.EntityShip;
@@ -49,8 +57,10 @@ import tk.shardsoftware.util.DebugUtil;
 import tk.shardsoftware.util.Difficulty;
 import tk.shardsoftware.util.Minimap;
 import tk.shardsoftware.util.ObstacleManager;
+import tk.shardsoftware.util.PowerupManager;
 import tk.shardsoftware.util.ResourceUtil;
 import tk.shardsoftware.util.SoundManager;
+import tk.shardsoftware.util.PowerupType;
 
 /**
  * Handles game controls, rendering, and logic
@@ -86,6 +96,9 @@ public class GameScreen implements Screen {
 
 	/** The ship object that the player will control */
 	private EntityShip player;
+	
+	/** The list of currently active powerups the player has */
+	public HashMap<PowerupType, Float> activePowerups;
 
 	/** The number of points the player has scored */
 	private int points = 0;
@@ -96,6 +109,8 @@ public class GameScreen implements Screen {
 	public GlyphLayout pointTxtLayout;
 	/** The text to display the plunder */
 	public GlyphLayout plunderTxtLayout;
+	/** The text to display the active powerups */
+	public GlyphLayout powerupTxtLayout;
 	/** The text to display the number of remaining colleges */
 	public GlyphLayout remainingCollegeTxtLayout;
 	/** The text to display victory over a college */
@@ -151,8 +166,8 @@ public class GameScreen implements Screen {
 		Function<Vector2, Boolean> startPosConds = vec2 -> {
 
 			// Check the player is surrounded tile is in water
-			for (int x = (int) (vec2.x - 2); x < vec2.x + 2; x++) {
-				for (int y = (int) (vec2.y - 2); y < vec2.y + 2; y++) {
+			for (int x = (int) (vec2.x - 5); x < vec2.x + 5; x++) {
+				for (int y = (int) (vec2.y - 5); y < vec2.y + 5; y++) {
 					TileType tile = worldObj.worldMap.getTile(x, y);
 					if (tile != TileType.WATER_DEEP && tile != TileType.WATER_SHALLOW) {
 						return false;
@@ -189,6 +204,8 @@ public class GameScreen implements Screen {
 	public GameScreen(PirateGame pg, Difficulty difficulty) {
 		this.pg = pg;
 		this.difficulty = difficulty;
+		
+		activePowerups = new HashMap<PowerupType, Float>();
 
 		// TODO: Implement ambient sounds
 		boatWaterMovement = ResourceUtil.getSound("audio/entity/boat-water-movement.wav");
@@ -208,6 +225,7 @@ public class GameScreen implements Screen {
 		remainingCollegeTxtLayout = new GlyphLayout();
 		collegeDestroyTxtLayout = new GlyphLayout();
 		timerTxtLayout = new GlyphLayout();
+		powerupTxtLayout = new GlyphLayout();
 		skipStormTxtLayout = new GlyphLayout();
 		skipStormTxtLayout.setText(font, "Press E to skip the storm");
 
@@ -235,6 +253,7 @@ public class GameScreen implements Screen {
 		worldObj.addEntity(player);
 		placeColleges();
 		placeObstacles();
+		placePowerups();
 //		exampleEnemy
 //				.setPosition(new Vector2(player.getPosition().x - 20, player.getPosition().y - 20));
 //		worldObj.addEntity(exampleEnemy);
@@ -284,6 +303,7 @@ public class GameScreen implements Screen {
 					points++;
 				pointTxtLayout.setText(font, "Points: " + points);
 				plunderTxtLayout.setText(font, "Plunder: " + plunder);
+								
 				for (College c : CollegeManager.collegeList) {
 					c.fireCannons();
 					c.spawnShip();
@@ -307,6 +327,7 @@ public class GameScreen implements Screen {
 
 		placeColleges();
 		placeObstacles();
+		placePowerups();
 		miniMap.prepareMap();
 		cDisplay = new ChooseCollegeDisplay(worldObj, 0, 0, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight(), batch, stage, CollegeManager.collegeList, this);
@@ -408,6 +429,33 @@ public class GameScreen implements Screen {
 			worldObj.addEntity(c);
 		}
 	}
+	
+	/**
+	 * Calls PowerupManager.generatePowerups(), generating the mines on the map, and
+	 * adds them to the entity handler.
+	 */
+	public void placePowerups() {
+		int powerups = 0;
+		switch(difficulty){
+			case EASY:
+				powerups = 100;
+				break;
+			case NORMAL:
+				powerups = 50;
+				break;
+			case HARD:
+				powerups = 25;
+				break;
+			case GAMER:
+				powerups = 10;
+				break;
+		}
+		PowerupManager.generatePowerups(worldObj, powerups, 5, 25, CollegeManager.collegeList, player);
+
+		for (Powerup c : PowerupManager.powerupList) {
+			worldObj.addEntity(c);
+		}
+	}
 
 	/**
 	 * Handles user input
@@ -436,6 +484,12 @@ public class GameScreen implements Screen {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
 			miniMap.onToggleKeyJustPressed();
 		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)) {
+			player.ram(delta);
+		}
+
+		if (player.isInRangeOfFriendlyCollege() && Gdx.input.isKeyJustPressed(Input.Keys.E))
+			setStorm(false);
 
 		if (player.isInRangeOfFriendlyCollege() && Gdx.input.isKeyJustPressed(Input.Keys.E))
 			setStorm(false);
@@ -460,7 +514,25 @@ public class GameScreen implements Screen {
 			if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
 				setStorm(!isStorm);
 			}
-
+			if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
+				addPowerup(PowerupType.SPEED);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
+				addPowerup(PowerupType.DAMAGE);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
+				addPowerup(PowerupType.INVULNERABILITY);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.NUM_4)) {
+				addPowerup(PowerupType.FIRERATE);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.NUM_5)) {
+				addPowerup(PowerupType.RAM);
+			}
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.NUM_6)) {
+				decayPowerups(30);
+			}
 		}
 
 	}
@@ -547,6 +619,9 @@ public class GameScreen implements Screen {
 
 			font.draw(hudBatch, timerTxtLayout, Gdx.graphics.getWidth() - timerTxtLayout.width - 20,
 					Gdx.graphics.getHeight() - 140);
+			
+			font.draw(hudBatch, powerupTxtLayout, 20,
+					powerupTxtLayout.height + 20);
 
 			if (displayCollegeDestroyTxt) font.draw(hudBatch, collegeDestroyTxtLayout,
 					(Gdx.graphics.getWidth() - collegeDestroyTxtLayout.width) / 2,
@@ -565,6 +640,11 @@ public class GameScreen implements Screen {
 		miniMap.stage.act();
 		miniMap.stage.draw();
 		if (instOverlay.shouldDisplay) instOverlay.render();
+		
+		// TODO reduce upgrade times
+		if(activePowerups.size() > 0) {
+			decayPowerups(delta);
+		}
 	}
 
 	/** Renders the hitbox outline for all entities */
@@ -792,6 +872,54 @@ public class GameScreen implements Screen {
 		plunder += 100;
 		points += 100;
 	}
+	
+	/**
+	 * Adds the powerup to the active list and
+	 * applies it to the player
+	 * 
+	 * @param the type of powerup
+	 */
+	public void addPowerup(PowerupType powerup) {
+		activePowerups.put(powerup, difficulty == Difficulty.GAMER ? 60f : 30f);
+		player.applyPowerup(powerup);
+	}
+	
+	/**
+	 * Removes the powerup from the player
+	 * 
+	 * @param the type of powerup
+	 */
+	public void removePowerup(PowerupType powerup) {
+		player.revokePowerup(powerup);
+	}
+	
+	/**
+	 * Reduce the timer of each powerup
+	 * and remove expired ones
+	 * 
+	 * @param the time between this frame and the last
+	 */
+	public void decayPowerups(float delta) {
+		String text = "";
+		ArrayList<Entry<PowerupType, Float>> powerupsToRemove = new ArrayList<Entry<PowerupType, Float>>();
+		for(Entry<PowerupType, Float> powerup : activePowerups.entrySet()) {
+			activePowerups.put(powerup.getKey(), powerup.getValue() - delta);
+			
+			if(powerup.getValue() <= 0) {
+				powerupsToRemove.add(powerup);
+			} else {
+				if(text == "") text = powerup.getKey().powerupToString(powerup.getKey()) + ": " + Math.round(powerup.getValue());
+				else text += "\n" + powerup.getKey().powerupToString(powerup.getKey()) + ": " + Math.round(powerup.getValue());
+			}
+		}
+		
+		for(Entry<PowerupType, Float> entry : powerupsToRemove) {
+			removePowerup(entry.getKey());
+			activePowerups.remove(entry.getKey());
+		}
+		
+		powerupTxtLayout.setText(powerupFont, text);
+	}
 
 	@Override
 	public void pause() {
@@ -813,6 +941,10 @@ public class GameScreen implements Screen {
 		hudBatch.dispose();
 		shapeRenderer.dispose();
 		miniMap.dispose();
+	}
+	
+	public EntityShip getPlayer() {
+		return player;
 	}
 
 }

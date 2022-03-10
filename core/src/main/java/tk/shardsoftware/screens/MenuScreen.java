@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+
 import tk.shardsoftware.PirateGame;
 import tk.shardsoftware.util.Difficulty;
 import tk.shardsoftware.util.ResourceUtil;
@@ -24,7 +25,6 @@ public class MenuScreen implements Screen {
 
 	private SpriteBatch batch;
 	private Music menuMusic = ResourceUtil.getMusic("audio/music/tiki-bar-mixer.mp3");
-
 	/** Width of the display */
 	private int width;
 	/** Height of the display */

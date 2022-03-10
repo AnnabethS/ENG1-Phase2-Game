@@ -9,20 +9,31 @@ import tk.shardsoftware.util.CollegeManager;
 import tk.shardsoftware.util.Difficulty;
 import tk.shardsoftware.util.ResourceUtil;
 import tk.shardsoftware.util.SoundManager;
+import tk.shardsoftware.util.PowerupType;
 
 /**
  * @author James Burnell
  * @author Anna Singleton
+ * @author Leif Kemp
  */
 public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
-
+	
+	
+	
 	/** The length of time in seconds required to wait between firing cannons */
 	public float reloadTime = 1f;
 	/** How much time left until cannons can be fired */
 	public float timeUntilFire = 0f;
+	
+	private boolean doubleDamage = false;
 
 	protected float maxHealth;
 	protected float health;
+	private boolean invulnerable = false;
+	
+	public boolean canRam = false;
+	public boolean ramming = false;
+	private boolean speedBoost = false;
 
 	protected String collegeName;
 	public boolean isPlayer = false;
@@ -67,9 +78,21 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 		velocityVec.setAngleDeg(direction);
 
 		// TODO: Write water drag system
-		velocityVec.scl(0.99f);
+		velocityVec.scl(drag);
 		timeUntilFire -= delta;
 		timeUntilFire = timeUntilFire <= 0 ? 0 : timeUntilFire;
+		
+		if(getVelocity().len() < (isStorm ? 50 : (speedBoost ? 135 : 100))) {
+			ramming = false;
+			drag = speedBoost ? 0.995f : 0.99f;
+			setMaxSpeed((isStorm ? 50 : (speedBoost ? 130 : 100)));
+			this.setIgnoreEntityCollision(false);
+		} else {
+			ramming = true;
+			drag = speedBoost ? 0.96f : 0.97f;
+			setMaxSpeed(500f);
+			this.setIgnoreEntityCollision(true);
+		}
 	}
 
 	/**
@@ -170,7 +193,7 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 
 	@Override
 	public void damage(float dmgAmount) {
-		health -= dmgAmount;
+		if(!invulnerable && !ramming) health -= dmgAmount;
 		health = health < 0 ? 0 : health;
 		if (health <= 0) {
 			this.remove = true;
@@ -185,7 +208,7 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 
 	@Override
 	public float getCannonDamage() {
-		return 10;
+		return !doubleDamage ? 10 : 20;
 	}
 
 	public boolean isInRangeOfFriendlyCollege()
@@ -193,5 +216,60 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 		College c = CollegeManager.getCollegeWithName(getCollegeName());
 		return positionVec.dst(c.positionVec) < (c.fireDistance / 2);
 	}
+  
+	public void applyPowerup(PowerupType powerup) {
+		switch (powerup){
+			case DAMAGE:
+				doubleDamage = true;
+				break;
+			case FIRERATE:
+				this.reloadTime = 0.5f;
+				break;
+			case INVULNERABILITY:
+				invulnerable = true;
+				break;
+			case RAM:
+				canRam = true;
+				break;
+			case SPEED:
+				speedBoost = true;
+				break;
+		}
+	}
+	
+	public void revokePowerup(PowerupType powerup) {
+		switch (powerup){
+		case DAMAGE:
+			doubleDamage = false;
+			break;
+		case FIRERATE:
+			this.reloadTime = 1f;
+			break;
+		case INVULNERABILITY:
+			invulnerable = false;
+			break;
+		case RAM:
+			canRam = false;
+			break;
+		case SPEED:		
+			speedBoost = false;
+			break;
+		}
+	}
 
+	public void ram(float delta) {
+		if(canRam && getVelocity().len() < (isStorm ? 50 : (speedBoost ? 130 : 100))) {
+			this.setMaxSpeed(500f);
+			System.out.println("Ramming");
+			float angle = getDirection();
+			double rads = Math.toRadians(angle);
+			addVelocity((float) Math.cos(rads) * delta * 10000, (float) Math.sin(rads) * delta * 10000);
+		}
+	}
+	
+	public void onTouchingDamageable(IDamageable obj) {
+		if(!(obj instanceof EntityShip && ((EntityShip) obj).isPlayer)) {
+			obj.damage(250);
+		}
+	}
 }
