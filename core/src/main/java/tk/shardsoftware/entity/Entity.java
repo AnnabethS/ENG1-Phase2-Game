@@ -336,7 +336,6 @@ public abstract class Entity {
 
 	public void setStorm(boolean isStorm)
 	{
-		this.isStorm = isStorm;
 		if(isStorm)
 			setMaxSpeed(50);
 		else
