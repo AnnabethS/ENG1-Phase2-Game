@@ -723,11 +723,15 @@ public class GameScreen implements Screen {
 		if (player.getHealth() <= 0 || gameTime <= 0) {
 			SoundManager.stopMusic();
 			pg.openNewLossScreen();
+			boatWaterMovement.setVolume(soundIdBoatMovement, 0);
+			return;
 		}
 
 		if (worldObj.getRemainingColleges() <= 1) {
 			SoundManager.stopMusic();
 			pg.openNewWinScreen();
+			boatWaterMovement.setVolume(soundIdBoatMovement, 0);
+			return;
 		}
 
 		player.isInRangeOfFriendlyCollege();
@@ -767,7 +771,8 @@ public class GameScreen implements Screen {
 
 		// if the game is muted, skip processing
 		if (SoundManager.gameVolume == 0) return;
-		float vol = (player.getVelocity().len2() / (player.getMaxSpeed() * player.getMaxSpeed()));
+		//float vol = (player.getVelocity().len2() / (player.getMaxSpeed() * player.getMaxSpeed()));
+		float vol = (player.getVelocity().len2() / (100 * 100));
 		boatWaterMovement.setVolume(soundIdBoatMovement, vol * SoundManager.gameVolume * 0.5f);
 	}
 
@@ -894,6 +899,7 @@ public class GameScreen implements Screen {
 	/**
 	 * Reduce the timer of each powerup
 	 * and remove expired ones
+	 * and generate the appropriate text.
 	 * 
 	 * @param the time between this frame and the last
 	 */
@@ -945,4 +951,7 @@ public class GameScreen implements Screen {
 		return player;
 	}
 
+	public Difficulty getDifficulty(){
+		return difficulty;
+	}
 }

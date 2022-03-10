@@ -20,8 +20,10 @@ import tk.shardsoftware.util.ResourceUtil;
  * 
  * @author James Burnell
  * @author Hector Woods
+ * @author Anna Singleton
+ * @author Leif Kemp
  */
-public class MenuScreen implements Screen {
+public class DifficultyScreen implements Screen {
 
 	private SpriteBatch batch;
 	private Music menuMusic = ResourceUtil.getMusic("audio/music/tiki-bar-mixer.mp3");
@@ -34,6 +36,7 @@ public class MenuScreen implements Screen {
 	private PirateGame pirateGameObj;
 
 	private GlyphLayout text;
+	private GlyphLayout detailsText;
 
 	/** Texture for the background */
 	private Texture background = ResourceUtil.getTexture("textures/ui/menu-screen-background.png");
@@ -56,13 +59,17 @@ public class MenuScreen implements Screen {
 	 * 
 	 * @param pg An instance of PirateGame
 	 */
-	public MenuScreen(PirateGame pg) {
+	public DifficultyScreen(PirateGame pg) {
 		this.pirateGameObj = pg;
 		this.width = Gdx.graphics.getWidth();
 		this.height = Gdx.graphics.getHeight();
 		batch = new SpriteBatch();
 		text = new GlyphLayout();
 		text.setText(font, "Press the space key to start your adventure");
+		detailsText = new GlyphLayout();
+		detailsText.setText(font, "Normal:\n"
+				+ "You have 100HP.\n"
+				+ "Normal amount of powerups and obstacles.\n");
 		shardLogo = new Texture("textures/logo/shardlogo.png");
 		//TODO: add some keyboard controls to change difficulty
 		easyButtonTextures[0] = ResourceUtil.getUITexture("easy-deselected");
@@ -111,26 +118,50 @@ public class MenuScreen implements Screen {
 		batch.draw(background, 0, 0, width, height);
 		//font.draw(batch, text, (width - text.width) / 2, 50 + (height - text.height) / 2);
 		font.draw(batch, text, (width - text.width) / 2, 75);
+		font.draw(batch, detailsText, ((width / 2) - detailsText.width / 2), (height / 2) + detailsText.height);
 
 		//batch.draw(shardLogo, 5, 5, 640 / 3, 267 / 3);
 		batch.draw(aButtonTexture, 70, 120, 100, 100);
-		if(selectedDifficulty == Difficulty.EASY)
+		if(selectedDifficulty == Difficulty.EASY) {
+			detailsText.setText(font, "Easy:\n"
+					+ "You have 150HP.\n"
+					+ "AI boats have less health.\n"
+					+ "Powerups are more abundant.\n"
+					+ "Decreased obstacle count.");
 			batch.draw(easyButtonTextures[1], 200, 120, 200, 100);
+		}
 		else
 			batch.draw(easyButtonTextures[0], 200, 120, 200, 100);
 
-		if(selectedDifficulty == Difficulty.NORMAL)
+		if(selectedDifficulty == Difficulty.NORMAL) {
+			detailsText.setText(font, "Normal:\n"
+					+ "You have 100HP.\n"
+					+ "AI boats have normal health.\n"
+					+ "Normal amount of powerups and obstacles.\n");
 			batch.draw(normalButtonTextures[1], 430, 120, 200, 100);
+		}
 		else
 			batch.draw(normalButtonTextures[0], 430, 120, 200, 100);
 
-		if(selectedDifficulty == Difficulty.HARD)
+		if(selectedDifficulty == Difficulty.HARD) {
+			detailsText.setText(font, "Hard:\n"
+					+ "You have 50HP.\n"
+					+ "AI boats have increased health.\n"
+					+ "Decreased amount of powerups.\n"
+					+ "Increased amount of obstacles.");
 			batch.draw(hardButtonTextures[1], 660, 120, 200, 100);
+		}
 		else
 			batch.draw(hardButtonTextures[0], 660, 120, 200, 100);
 
-		if(selectedDifficulty == Difficulty.GAMER)
+		if(selectedDifficulty == Difficulty.GAMER) {
+			detailsText.setText(font, "Gamer:\n"
+					+ "You die in 1 hit.\n"
+					+ "AI boats have double health.\n"
+					+ "Powerups are less abundant, but last longer.\n"
+					+ "Greatly increased obstacle count.");
 			batch.draw(gamerButtonTextures[1], 890, 120, 200, 100);
+		}
 		else
 			batch.draw(gamerButtonTextures[0], 890, 120, 200, 100);
 

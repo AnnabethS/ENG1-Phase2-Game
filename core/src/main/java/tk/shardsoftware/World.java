@@ -259,5 +259,9 @@ public class World {
 	public int getRemainingColleges() {
 		return CollegeManager.collegeList.size() - destroyedColleges;
 	}
+	
+	public Difficulty getDifficulty() {
+		return game.getDifficulty();
+	}
 
 }

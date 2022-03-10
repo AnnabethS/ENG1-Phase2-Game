@@ -42,17 +42,19 @@ public class InstructionOverlay implements Disposable {
 		shapeRenderer.circle(50, Gdx.graphics.getHeight() - 50 - 90, 35); // left
 		shapeRenderer.circle(50 + 90 + 90, Gdx.graphics.getHeight() - 50 - 90, 35); // right
 		shapeRenderer.circle(50 + 90, Gdx.graphics.getHeight() - 50 - 90 - 90, 35); // bottom
+		shapeRenderer.rect(15, Gdx.graphics.getHeight() - 350, 165, 50); // left shift
 
 		// shapeRenderer.circle(50, Gdx.graphics.getHeight() - 420, 35); // fire
-		shapeRenderer.rect(15, Gdx.graphics.getHeight() - 420 - 30, 100, 50);
+		shapeRenderer.rect(15, Gdx.graphics.getHeight() - 490 - 30, 100, 50);
 
-		shapeRenderer.circle(50, Gdx.graphics.getHeight() - 420 - 90, 35); // map
+		shapeRenderer.circle(50, Gdx.graphics.getHeight() - 490 - 90, 35); // map
 
 		shapeRenderer.setColor(Color.BLACK);
 		shapeRenderer.rectLine(50 + 50, Gdx.graphics.getHeight() - 50 - 90, 50 + 40 + 90,
 				Gdx.graphics.getHeight() - 50 - 90, 3);
 		shapeRenderer.rectLine(50 + 90, Gdx.graphics.getHeight() - 50 - 50, 50 + 90,
 				Gdx.graphics.getHeight() - 50 - 90 - 40, 3);
+		
 
 		shapeRenderer.end();
 		batch.end();
@@ -62,14 +64,17 @@ public class InstructionOverlay implements Disposable {
 		font.draw(batch, "S", 50 + 80, Gdx.graphics.getHeight() - 35 - 90 - 90); // bottom
 		font.draw(batch, "A", 40, Gdx.graphics.getHeight() - 35 - 90); // left
 		font.draw(batch, "D", 40 + 90 + 90, Gdx.graphics.getHeight() - 35 - 90); // right
+		
+		font.draw(batch, "Left Shift", 30, Gdx.graphics.getHeight() - 310); // left shift
+		font.draw(batch, "Accelerate or Ram", 195, Gdx.graphics.getHeight() - 310);
 
-		font.draw(batch, "Space", 30, Gdx.graphics.getHeight() - 410); // fire
-		font.draw(batch, "Fire Cannons", 50 + 80, Gdx.graphics.getHeight() - 410);
+		font.draw(batch, "Space", 30, Gdx.graphics.getHeight() - 480); // fire
+		font.draw(batch, "Fire Cannons", 50 + 80, Gdx.graphics.getHeight() - 480);
 
-		font.draw(batch, "M", 40, Gdx.graphics.getHeight() - 410 - 90); // map
-		font.draw(batch, "Toggle Map", 40 + 70, Gdx.graphics.getHeight() - 410 - 90);
+		font.draw(batch, "M", 40, Gdx.graphics.getHeight() - 480 - 90); // map
+		font.draw(batch, "Toggle Map", 40 + 70, Gdx.graphics.getHeight() - 480 - 90);
 
-		font.draw(batch, "Move Controls", 40, Gdx.graphics.getHeight() - 50 - 90 - 90 - 70);
+		font.draw(batch, "Move Controls", 40, Gdx.graphics.getHeight() - 50 - 90 - 90 - 140);
 
 		// Render instructions
 		font.draw(batch, instructions, Gdx.graphics.getWidth() - instructions.width - 50,

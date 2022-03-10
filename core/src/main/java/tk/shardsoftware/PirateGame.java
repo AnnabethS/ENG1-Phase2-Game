@@ -6,7 +6,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import tk.shardsoftware.screens.GameScreen;
 import tk.shardsoftware.screens.LoadScreen;
 import tk.shardsoftware.screens.LossScreen;
-import tk.shardsoftware.screens.MenuScreen;
+import tk.shardsoftware.screens.DifficultyScreen;
 import tk.shardsoftware.screens.VictoryScreen;
 import tk.shardsoftware.util.Difficulty;
 import tk.shardsoftware.util.ResourceUtil;
@@ -52,7 +52,7 @@ public class PirateGame extends Game {
 	}
 
 	public void openNewMenuScreen() {
-		this.setScreen(new MenuScreen(this));
+		this.setScreen(new DifficultyScreen(this));
 	}
 
 	@Override
