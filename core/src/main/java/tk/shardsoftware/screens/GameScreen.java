@@ -570,7 +570,7 @@ public class GameScreen implements Screen {
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		DebugUtil.saveProcessTime("Entity Draw Time", () -> renderEntities());
 
-		if(isStorm) //TODO: replace with real storm check
+		if(isStorm) 
 		{
 			worldObj.worldMap.drawRain(camera, batch, delta);
 		}
