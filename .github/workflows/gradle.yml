@@ -37,9 +37,7 @@ jobs:
       with:
         report_paths: 'tests/build/test-results/test/TEST-*.xml'
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -51,3 +49,8 @@ jobs:
       uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
       with:
         arguments: desktop:build
+    - name: Upload Built File
+      uses: actions/upload-artifact@v3
+      with:
+        name: Game-Release
+        path: desktop/build/libs/*.jar
