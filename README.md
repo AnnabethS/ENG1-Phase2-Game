@@ -1,5 +1,7 @@
 # ENG1-Pirate-Game
 
+![CI Tests](https://github.com/AnnabethS/ENG1-Phase2-Game/actions/workflows/gradle.yml/badge.svg)
+
 ## Description
 
 You are a privateer with allegiance to one College at the University of York. You sail the great Lake of
