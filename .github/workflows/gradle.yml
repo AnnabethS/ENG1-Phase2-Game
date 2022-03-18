@@ -52,5 +52,5 @@ jobs:
     - name: Upload Built File
       uses: actions/upload-artifact@v3
       with:
-        name: Game-Release
+        name: Game_Release.jar
         path: desktop/build/libs/*.jar
