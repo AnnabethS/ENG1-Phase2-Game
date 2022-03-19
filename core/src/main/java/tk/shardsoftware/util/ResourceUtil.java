@@ -75,6 +75,8 @@ public abstract class ResourceUtil {
 		addTexture("textures/ui/sound-enabled.png");
 		addTexture("textures/ui/a-button.png");
 		addTexture("textures/ui/d-button.png");
+		addTexture("textures/ui/w-button.png");
+		addTexture("textures/ui/s-button.png");
 		addTexture("textures/ui/easy-selected.png");
 		addTexture("textures/ui/easy-deselected.png");
 		addTexture("textures/ui/normal-selected.png");
@@ -83,6 +85,24 @@ public abstract class ResourceUtil {
 		addTexture("textures/ui/hard-deselected.png");
 		addTexture("textures/ui/gamer-selected.png");
 		addTexture("textures/ui/gamer-deselected.png");
+		addTexture("textures/ui/howto-selected.png");
+		addTexture("textures/ui/howto-deselected.png");
+		addTexture("textures/ui/controls-selected.png");
+		addTexture("textures/ui/controls-deselected.png");
+		addTexture("textures/ui/powerups-selected.png");
+		addTexture("textures/ui/powerups-deselected.png");
+		addTexture("textures/ui/return-selected.png");
+		addTexture("textures/ui/return-deselected.png");
+		addTexture("textures/ui/play-selected.png");
+		addTexture("textures/ui/play-deselected.png");
+		addTexture("textures/ui/help-selected.png");
+		addTexture("textures/ui/help-deselected.png");
+		addTexture("textures/ui/quit-selected.png");
+		addTexture("textures/ui/quit-deselected.png");
+		addTexture("textures/ui/help-howto.png");
+		addTexture("textures/ui/help-controls.png");
+		addTexture("textures/ui/help-return.png");
+		addTexture("textures/ui/help-powerups.png");
 		
 		//import rain textures
 		for(int i=1; i <= 8; i++)

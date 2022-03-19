@@ -1,13 +1,10 @@
 package tk.shardsoftware;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 
-import tk.shardsoftware.screens.GameScreen;
-import tk.shardsoftware.screens.LoadScreen;
-import tk.shardsoftware.screens.LossScreen;
-import tk.shardsoftware.screens.MenuScreen;
-import tk.shardsoftware.screens.VictoryScreen;
+import tk.shardsoftware.screens.*;
 import tk.shardsoftware.util.Difficulty;
 import tk.shardsoftware.util.ResourceUtil;
 
@@ -43,6 +40,10 @@ public class PirateGame extends Game {
 		this.setScreen(new LossScreen(this));
 	}
 
+	public void openNewLossScreen(String lossText) {
+		this.setScreen(new LossScreen(this, lossText));
+	}
+
 	public void openNewVictoryScreen() {
 		this.setScreen(new VictoryScreen(this));
 	}
@@ -53,6 +54,19 @@ public class PirateGame extends Game {
 
 	public void openNewMenuScreen() {
 		this.setScreen(new MenuScreen(this));
+	}
+
+	public void openNewDifficultyScreen() {
+		this.setScreen(new DifficultyScreen(this));
+	}
+	
+	public void openNewHelpScreen() {
+		this.setScreen(new HelpScreen(this));
+	}
+
+	public void quitGame() {
+		System.out.println("off you must piss");
+		Gdx.app.exit();
 	}
 
 	@Override

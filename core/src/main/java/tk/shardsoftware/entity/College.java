@@ -88,7 +88,7 @@ public class College extends Entity implements IRepairable, ICannonCarrier {
 
 		startPos = new Vector2(startPos.x * WORLD_TILE_SIZE, startPos.y * WORLD_TILE_SIZE);
 
-		EntityAIShip ship = new EntityAIShip(worldObj, player);
+		EntityAIShip ship = new EntityAIShip(worldObj, player, worldObj.getDifficulty());
 		ship.setPosition(startPos);
 		worldObj.addEntity(ship);
 

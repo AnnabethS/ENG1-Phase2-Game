@@ -13,6 +13,7 @@ import tk.shardsoftware.entity.EntityShip;
  * A collection of tools to help in the debugging process.
  * 
  * @author James Burnell
+ * @author Leif Kemp
  */
 public class DebugUtil {
 
@@ -22,6 +23,8 @@ public class DebugUtil {
 
 	/** Controls additional logging and on-screen data */
 	public static boolean DEBUG_MODE = true;
+	/** Controls whether or not the instructions overlay is visible regardless of DEBUG_MODE */
+	public static boolean DEBUG_SHOW_INSTRUCTIONS = true;
 
 	/**
 	 * A list of maps determined to be playable. This is to have a reliable testing

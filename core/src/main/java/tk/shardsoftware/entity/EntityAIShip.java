@@ -26,6 +26,36 @@ public class EntityAIShip extends EntityShip {
 	/** The range in which the boat can attack the player*/
 	private float fireRange = 450f;
 
+	
+	/**
+	 * Constructor for EntityAIShip, based on difficulty.
+	 * 
+	 * @param world the world the Entity is part of
+	 * @param player the ship controlled by the player
+	 * @param d the difficulty of the game
+	 */
+	public EntityAIShip(World world, EntityShip player, Difficulty d) {
+		super(world, Difficulty.NORMAL);
+		this.aiState = AIState.IDLE;
+		this.player = player;
+		switch(d)
+		{
+			case EASY:
+				this.maxHealth = 10f;
+				break;
+			case NORMAL:
+				this.maxHealth = 25f;
+				break;
+			case HARD:
+				this.maxHealth = 37.5f;
+				break;
+			case GAMER:
+				this.maxHealth = 50f;
+				break;
+		}
+		this.health = maxHealth;
+	}
+	
 	/**
 	 * Constructor for EntityAIShip.
 	 * 
