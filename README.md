@@ -1,5 +1,7 @@
 # ENG1-Pirate-Game
 
+![CI Tests](https://github.com/AnnabethS/ENG1-Phase2-Game/actions/workflows/gradle.yml/badge.svg)
+
 ## Description
 
 You are a privateer with allegiance to one College at the University of York. You sail the great Lake of
@@ -30,8 +32,16 @@ Java 11 is a requirement for this game to run. Later versions may work, but it i
 - For Windows, download one of the ``.bat`` files instead
 - Launch the game by running one of the scripts
 
+## Credits (Current Team)
 
-## Credits
+- [Anna Singleton](https://github.com/AnnabethS)
+- [Leif Kemp](https://github.com/leif-kemp)
+- Saj Hoque
+- Joseph Frankland
+- Shi (Lucy) Li
+- Hugo Kwok
+
+## Credits (Original Team)
 
 - [James Burnell](https://github.com/uoy-jb2501)
 - [Hector Woods](https://github.com/HectorJVWoods)

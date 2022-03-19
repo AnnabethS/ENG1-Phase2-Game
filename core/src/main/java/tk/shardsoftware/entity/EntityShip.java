@@ -216,7 +216,7 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 		College c = CollegeManager.getCollegeWithName(getCollegeName());
 		return positionVec.dst(c.positionVec) < (c.fireDistance / 2);
 	}
-	
+  
 	public void applyPowerup(PowerupType powerup) {
 		switch (powerup){
 			case DAMAGE:

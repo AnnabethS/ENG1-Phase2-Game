@@ -10,6 +10,7 @@ import tk.shardsoftware.util.Difficulty;
  * was not a requirement listed in the assessment
  * 
  * @author Hector Woods
+ * @author Anna Singleton
  */
 public class EntityAIShip extends EntityShip {
 	public AIState aiState;
@@ -18,6 +19,12 @@ public class EntityAIShip extends EntityShip {
 	private int chaseDistance = 500;
 	/** The minimum distance the entity tries to maintain from the player */
 	private int minDistance = 100;
+	/** The minimum interval between firing in seconds */
+	private float fireRate = 2f;
+	/** The amount of seconds since the ship last fired*/
+	private float timeSinceLastFire = fireRate;
+	/** The range in which the boat can attack the player*/
+	private float fireRange = 450f;
 
 	
 	/**
@@ -106,6 +113,11 @@ public class EntityAIShip extends EntityShip {
 	public void update(float delta) {
 		super.update(delta);
 
+		// update to tell the ship when it can fire
+		timeSinceLastFire += delta;
+		if(timeSinceLastFire > fireRate)
+			timeSinceLastFire = fireRate;
+
 		Vector2 playerPos = player.getPosition();
 		Vector2 shipPos = this.getPosition();
 		float distToPlayer = shipPos.dst(playerPos);
@@ -124,8 +136,14 @@ public class EntityAIShip extends EntityShip {
 		}
 		if (aiState == AIState.FOLLOW_PLAYER || aiState == AIState.FLEE_PLAYER) {
 			followPlayer(delta);
+			if(timeSinceLastFire >= fireRate && distToPlayer <= minDistance)
+			{
+				timeSinceLastFire = 0;
+				Vector2 diff = player.getCenterPoint();
+				diff = diff.sub(getCenterPoint()).nor();
+				EntityCannonball c = new EntityCannonball(worldObj, getCenterPoint().x, getCenterPoint().y, diff, this);
+				worldObj.addEntityAtEndOfFrame(c);
+			}
 		}
-
 	}
-
 }

@@ -490,6 +490,9 @@ public class GameScreen implements Screen {
 		if (player.isInRangeOfFriendlyCollege() && Gdx.input.isKeyJustPressed(Input.Keys.E))
 			setStorm(false);
 
+		if (player.isInRangeOfFriendlyCollege() && Gdx.input.isKeyJustPressed(Input.Keys.E))
+			setStorm(false);
+
 		if (DEBUG_MODE) {
 			// Instantly halt the player movement
 			if (Gdx.input.isKeyPressed(Input.Keys.K)) {
@@ -510,7 +513,6 @@ public class GameScreen implements Screen {
 			if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
 				setStorm(!isStorm);
 			}
-			
 			if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
 				addPowerup(PowerupType.SPEED);
 			}
@@ -567,7 +569,7 @@ public class GameScreen implements Screen {
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		DebugUtil.saveProcessTime("Entity Draw Time", () -> renderEntities());
 
-		if(isStorm) //TODO: replace with real storm check
+		if(isStorm) 
 		{
 			worldObj.worldMap.drawRain(camera, batch, delta);
 		}
