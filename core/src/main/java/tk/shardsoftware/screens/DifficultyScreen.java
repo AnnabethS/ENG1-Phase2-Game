@@ -37,13 +37,14 @@ public class DifficultyScreen implements Screen {
 
 	private GlyphLayout text;
 	private GlyphLayout detailsText;
+	private GlyphLayout headerText;
 
 	/** Texture for the background */
 	private Texture background = ResourceUtil.getTexture("textures/ui/menu-screen-background.png");
 
 	private Texture shardLogo;
 
-	// textures for menus 
+	// textures for difficulties 
 
 	private Texture[] easyButtonTextures = new Texture[2];
 	private Texture[] normalButtonTextures = new Texture[2];
@@ -70,6 +71,8 @@ public class DifficultyScreen implements Screen {
 		detailsText.setText(font, "Normal:\n"
 				+ "You have 100HP.\n"
 				+ "Normal amount of powerups and obstacles.\n");
+		headerText = new GlyphLayout();
+		headerText.setText(font, "Select a difficulty");
 		shardLogo = new Texture("textures/logo/shardlogo.png");
 		//TODO: add some keyboard controls to change difficulty
 		easyButtonTextures[0] = ResourceUtil.getUITexture("easy-deselected");
@@ -86,7 +89,7 @@ public class DifficultyScreen implements Screen {
 
 	@Override
 	public void show() {
-		System.out.println("Entering the main menu...");
+		System.out.println("Entering the difficulty menu...");
 		// SoundManager.playMusic(menuMusic);
 	}
 
@@ -119,6 +122,7 @@ public class DifficultyScreen implements Screen {
 		//font.draw(batch, text, (width - text.width) / 2, 50 + (height - text.height) / 2);
 		font.draw(batch, text, (width - text.width) / 2, 75);
 		font.draw(batch, detailsText, ((width / 2) - detailsText.width / 2), (height / 2) + detailsText.height);
+		font.draw(batch, headerText, ((width / 2) - headerText.width / 2), (height) - headerText.height);
 
 		//batch.draw(shardLogo, 5, 5, 640 / 3, 267 / 3);
 		batch.draw(aButtonTexture, 70, 120, 100, 100);

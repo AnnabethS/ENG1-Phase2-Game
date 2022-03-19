@@ -273,7 +273,6 @@ public class GameScreen implements Screen {
 	 * @param collegeName the name of the college the player belongs to
 	 */
 	public void setPlayerCollege(String collegeName) {
-		// TODO: Remove mines near player starting position
 		player.setCollegeName(collegeName);
 		setPlayerStartPosition();
 		ObstacleManager.removeNearbyMines(worldObj, 10, player);
@@ -639,7 +638,6 @@ public class GameScreen implements Screen {
 		miniMap.stage.draw();
 		if (instOverlay.shouldDisplay) instOverlay.render();
 		
-		// TODO reduce upgrade times
 		if(activePowerups.size() > 0) {
 			decayPowerups(delta);
 		}
@@ -865,15 +863,19 @@ public class GameScreen implements Screen {
 	 * @param college the destroyed college
 	 */
 	public void onCollegeDestroyed(College college) {
-		collegeDestroyTxtLayout.setText(font, "Victory Over " + college.getName() + " College!");
-		displayCollegeDestroyTxt = true;
-		Timer.schedule(new Task() {
-			public void run() {
-				displayCollegeDestroyTxt = false;
-			}
-		}, 10);
-		plunder += 100;
-		points += 100;
+		if(!college.isFriendly){
+			collegeDestroyTxtLayout.setText(font, "Victory Over " + college.getName() + " College!");
+			displayCollegeDestroyTxt = true;
+			Timer.schedule(new Task() {
+				public void run() {
+					displayCollegeDestroyTxt = false;
+				}
+			}, 10);
+			plunder += 100;
+			points += 100;
+		} else{
+			pg.openNewLossScreen("You just destroyed your own college.\nPress space to restart...");
+		}
 	}
 	
 	/**
