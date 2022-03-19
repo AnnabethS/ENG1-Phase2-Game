@@ -36,8 +36,6 @@ public class HelpScreen implements Screen {
 	/** The PirateGame object used to switch screens */
 	private PirateGame pirateGameObj;
 
-	private GlyphLayout headerText;
-
 	/** Texture for the background */
 	private Texture background = ResourceUtil.getTexture("textures/ui/menu-screen-background.png");
 
@@ -49,6 +47,7 @@ public class HelpScreen implements Screen {
 	private Texture[] controlsButtonTextures = new Texture[2];
 	private Texture[] powerupsButtonTextures = new Texture[2];
 	private Texture[] returnButtonTextures = new Texture[2];
+	private Texture[] helpTextures = new Texture[4];
 	private Texture wButtonTexture;
 	private Texture sButtonTexture;
 
@@ -65,8 +64,6 @@ public class HelpScreen implements Screen {
 		this.width = Gdx.graphics.getWidth();
 		this.height = Gdx.graphics.getHeight();
 		batch = new SpriteBatch();
-		headerText = new GlyphLayout();
-		headerText.setText(font, "Press SPACE to view your selection");
 		shardLogo = new Texture("textures/logo/shardlogo.png");
 		//TODO: add some keyboard controls to change difficulty
 		howtoButtonTextures[0] = ResourceUtil.getUITexture("howto-deselected");
@@ -77,6 +74,10 @@ public class HelpScreen implements Screen {
 		powerupsButtonTextures[1] = ResourceUtil.getUITexture("powerups-selected");
 		returnButtonTextures[0] = ResourceUtil.getUITexture("return-deselected");
 		returnButtonTextures[1] = ResourceUtil.getUITexture("return-selected");
+		helpTextures[0] = ResourceUtil.getUITexture("help-return");
+		helpTextures[1] = ResourceUtil.getUITexture("help-howto");
+		helpTextures[2] = ResourceUtil.getUITexture("help-controls");
+		helpTextures[3] = ResourceUtil.getUITexture("help-powerups");
 		wButtonTexture = ResourceUtil.getUITexture("w-button");
 		sButtonTexture = ResourceUtil.getUITexture("s-button");
 
@@ -128,7 +129,6 @@ public class HelpScreen implements Screen {
 		batch.begin();
 		batch.draw(background, 0, 0, width, height);
 		//font.draw(batch, text, (width - text.width) / 2, 50 + (height - text.height) / 2);
-		font.draw(batch, headerText, ((width / 2) - headerText.width / 2), height - headerText.height);
 
 		//batch.draw(shardLogo, 5, 5, 640 / 3, 267 / 3);
 		batch.draw(wButtonTexture, 35, height - 75, 50, 50);
@@ -136,24 +136,28 @@ public class HelpScreen implements Screen {
 				
 		if(selection == Help.HOWTO) {
 			batch.draw(howtoButtonTextures[1], 35, height - 150, 266, 50);
+			batch.draw(helpTextures[1], (width) - 720 - 35, (height / 2) - 270, 720, 540);
 		}
 		else
 			batch.draw(howtoButtonTextures[0], 35, height - 150, 266, 50);
 		
 		if(selection == Help.CONTROLS) {
 			batch.draw(controlsButtonTextures[1], 35, height - 225, 266, 50);
+			batch.draw(helpTextures[2], (width) - 720 - 35, (height / 2) - 270, 720, 540);
 		}
 		else
 			batch.draw(controlsButtonTextures[0], 35, height - 225, 266, 50);
 		
 		if(selection == Help.POWERUPS) {
 			batch.draw(powerupsButtonTextures[1], 35, height - 300, 266, 50);
+			batch.draw(helpTextures[3], (width) - 720 - 35, (height / 2) - 270, 720, 540);
 		}
 		else
 			batch.draw(powerupsButtonTextures[0], 35, height - 300, 266, 50);
 		
 		if(selection == Help.BACK) {
 			batch.draw(returnButtonTextures[1], 35, height - 375, 266, 50);
+			batch.draw(helpTextures[0], (width) - 720 - 35, (height / 2) - 270, 720, 540);
 		}
 		else
 			batch.draw(returnButtonTextures[0], 35, height - 375, 266, 50);

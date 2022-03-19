@@ -37,7 +37,6 @@ public class MenuScreen implements Screen {
 	private PirateGame pirateGameObj;
 
 	private GlyphLayout text;
-	private GlyphLayout detailsText;
 
 	/** Texture for the background */
 	private Texture background = ResourceUtil.getTexture("textures/ui/menu-screen-background.png");
@@ -67,7 +66,6 @@ public class MenuScreen implements Screen {
 		batch = new SpriteBatch();
 		text = new GlyphLayout();
 		text.setText(font, "Press the space key to make your selection");
-		detailsText = new GlyphLayout();
 		shardLogo = new Texture("textures/logo/shardlogo.png");
 		//TODO: add some keyboard controls to change difficulty
 		playButtonTextures[0] = ResourceUtil.getUITexture("play-deselected");
@@ -139,7 +137,6 @@ public class MenuScreen implements Screen {
 		batch.draw(background, 0, 0, width, height);
 		//font.draw(batch, text, (width - text.width) / 2, 50 + (height - text.height) / 2);
 		font.draw(batch, text, (width - text.width) / 2, 75);
-		font.draw(batch, detailsText, ((width / 2) - detailsText.width / 2), (height / 2) + detailsText.height);
 
 		//batch.draw(shardLogo, 5, 5, 640 / 3, 267 / 3);
 		batch.draw(aButtonTexture, 170, 120, 100, 100);
@@ -172,36 +169,12 @@ public class MenuScreen implements Screen {
 	{
 		if(selectionInt < Menu.values().length - 1) selectionInt++;
 		selection = Menu.fromInteger(selectionInt);
-		switch (selection)
-		{
-			case PLAY:
-				detailsText.setText(font, "Play yo game.");
-				break;
-			case HELP:
-				detailsText.setText(font, "consider therapy.");
-				break;
-			case QUIT:
-				detailsText.setText(font, "go away then");
-				break;
-		}
 	}
 
 	private void decreaseSelection()
 	{
 		if(selectionInt > 0) selectionInt--;
 		selection = Menu.fromInteger(selectionInt);
-		switch (selection)
-		{
-			case PLAY:
-				detailsText.setText(font, "Play yo game.");
-				break;
-			case HELP:
-				detailsText.setText(font, "consider therapy.");
-				break;
-			case QUIT:
-				detailsText.setText(font, "go away then");
-				break;
-		}
 	}
 
 	@Override

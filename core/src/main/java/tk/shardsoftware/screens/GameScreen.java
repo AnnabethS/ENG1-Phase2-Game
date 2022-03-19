@@ -231,7 +231,7 @@ public class GameScreen implements Screen {
 
 		/* Overlay */
 		instOverlay = new InstructionOverlay(hudBatch);
-		instOverlay.shouldDisplay = !DebugUtil.DEBUG_MODE;
+		instOverlay.shouldDisplay = (DebugUtil.DEBUG_SHOW_INSTRUCTIONS || !DebugUtil.DEBUG_MODE);
 		soundButton = new ImageButton(soundEnabledTexture, soundDisabledTexture,
 				soundDisabledTexture);
 		soundButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 5);

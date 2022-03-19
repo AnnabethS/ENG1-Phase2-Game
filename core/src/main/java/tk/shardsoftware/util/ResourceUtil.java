@@ -99,6 +99,10 @@ public abstract class ResourceUtil {
 		addTexture("textures/ui/help-deselected.png");
 		addTexture("textures/ui/quit-selected.png");
 		addTexture("textures/ui/quit-deselected.png");
+		addTexture("textures/ui/help-howto.png");
+		addTexture("textures/ui/help-controls.png");
+		addTexture("textures/ui/help-return.png");
+		addTexture("textures/ui/help-powerups.png");
 		
 		//import rain textures
 		for(int i=1; i <= 8; i++)
