@@ -66,20 +66,20 @@ public class HelpScreen implements Screen {
 		batch = new SpriteBatch();
 		shardLogo = new Texture("textures/logo/shardlogo.png");
 		//TODO: add some keyboard controls to change difficulty
-		howtoButtonTextures[0] = ResourceUtil.getUITexture("howto-deselected");
-		howtoButtonTextures[1] = ResourceUtil.getUITexture("howto-selected");
-		controlsButtonTextures[0] = ResourceUtil.getUITexture("controls-deselected");
-		controlsButtonTextures[1] = ResourceUtil.getUITexture("controls-selected");
-		powerupsButtonTextures[0] = ResourceUtil.getUITexture("powerups-deselected");
-		powerupsButtonTextures[1] = ResourceUtil.getUITexture("powerups-selected");
-		returnButtonTextures[0] = ResourceUtil.getUITexture("return-deselected");
-		returnButtonTextures[1] = ResourceUtil.getUITexture("return-selected");
-		helpTextures[0] = ResourceUtil.getUITexture("help-return");
-		helpTextures[1] = ResourceUtil.getUITexture("help-howto");
-		helpTextures[2] = ResourceUtil.getUITexture("help-controls");
-		helpTextures[3] = ResourceUtil.getUITexture("help-powerups");
-		wButtonTexture = ResourceUtil.getUITexture("w-button");
-		sButtonTexture = ResourceUtil.getUITexture("s-button");
+		howtoButtonTextures[0] = ResourceUtil.getUITexture("help/howto-deselected");
+		howtoButtonTextures[1] = ResourceUtil.getUITexture("help/howto-selected");
+		controlsButtonTextures[0] = ResourceUtil.getUITexture("help/controls-deselected");
+		controlsButtonTextures[1] = ResourceUtil.getUITexture("help/controls-selected");
+		powerupsButtonTextures[0] = ResourceUtil.getUITexture("help/powerups-deselected");
+		powerupsButtonTextures[1] = ResourceUtil.getUITexture("help/powerups-selected");
+		returnButtonTextures[0] = ResourceUtil.getUITexture("help/return-deselected");
+		returnButtonTextures[1] = ResourceUtil.getUITexture("help/return-selected");
+		helpTextures[0] = ResourceUtil.getUITexture("help/help-return");
+		helpTextures[1] = ResourceUtil.getUITexture("help/help-howto");
+		helpTextures[2] = ResourceUtil.getUITexture("help/help-controls");
+		helpTextures[3] = ResourceUtil.getUITexture("help/help-powerups");
+		wButtonTexture = ResourceUtil.getUITexture("keys/w-button");
+		sButtonTexture = ResourceUtil.getUITexture("keys/s-button");
 
 		decreaseSelection();
 	}

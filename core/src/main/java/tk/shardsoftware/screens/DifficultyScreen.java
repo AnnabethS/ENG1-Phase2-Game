@@ -75,16 +75,16 @@ public class DifficultyScreen implements Screen {
 		headerText.setText(font, "Select a difficulty");
 		shardLogo = new Texture("textures/logo/shardlogo.png");
 		//TODO: add some keyboard controls to change difficulty
-		easyButtonTextures[0] = ResourceUtil.getUITexture("easy-deselected");
-		easyButtonTextures[1] = ResourceUtil.getUITexture("easy-selected");
-		normalButtonTextures[0] = ResourceUtil.getUITexture("normal-deselected");
-		normalButtonTextures[1] = ResourceUtil.getUITexture("normal-selected");
-		hardButtonTextures[0] = ResourceUtil.getUITexture("hard-deselected");
-		hardButtonTextures[1] = ResourceUtil.getUITexture("hard-selected");
-		gamerButtonTextures[0] = ResourceUtil.getUITexture("gamer-deselected");
-		gamerButtonTextures[1] = ResourceUtil.getUITexture("gamer-selected");
-		aButtonTexture = ResourceUtil.getUITexture("a-button");
-		dButtonTexture = ResourceUtil.getUITexture("d-button");
+		easyButtonTextures[0] = ResourceUtil.getUITexture("difficulty/easy-deselected");
+		easyButtonTextures[1] = ResourceUtil.getUITexture("difficulty/easy-selected");
+		normalButtonTextures[0] = ResourceUtil.getUITexture("difficulty/normal-deselected");
+		normalButtonTextures[1] = ResourceUtil.getUITexture("difficulty/normal-selected");
+		hardButtonTextures[0] = ResourceUtil.getUITexture("difficulty/hard-deselected");
+		hardButtonTextures[1] = ResourceUtil.getUITexture("difficulty/hard-selected");
+		gamerButtonTextures[0] = ResourceUtil.getUITexture("difficulty/gamer-deselected");
+		gamerButtonTextures[1] = ResourceUtil.getUITexture("difficulty/gamer-selected");
+		aButtonTexture = ResourceUtil.getUITexture("keys/a-button");
+		dButtonTexture = ResourceUtil.getUITexture("keys/d-button");
 	}
 
 	@Override

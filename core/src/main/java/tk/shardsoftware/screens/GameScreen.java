@@ -1,6 +1,7 @@
 package tk.shardsoftware.screens;
 
 import static tk.shardsoftware.util.DebugUtil.DEBUG_MODE;
+import static tk.shardsoftware.util.DebugUtil.DEBUG_SHOW_INSTRUCTIONS;
 import static tk.shardsoftware.util.ResourceUtil.collegeFont;
 import static tk.shardsoftware.util.ResourceUtil.debugFont;
 import static tk.shardsoftware.util.ResourceUtil.font;
@@ -770,10 +771,11 @@ public class GameScreen implements Screen {
 		/* Sound Calculations */
 
 		// if the game is muted, skip processing
-		if (SoundManager.gameVolume == 0) return;
+		//if (SoundManager.gameVolume == 0) return;
 		//float vol = (player.getVelocity().len2() / (player.getMaxSpeed() * player.getMaxSpeed()));
 		float vol = (player.getVelocity().len2() / (100 * 100));
-		boatWaterMovement.setVolume(soundIdBoatMovement, vol * SoundManager.gameVolume * 0.5f);
+		
+		boatWaterMovement.setVolume(soundIdBoatMovement, vol * SoundManager.gameVolume * 0.25f);
 	}
 
 	private void setStorm(boolean storm)

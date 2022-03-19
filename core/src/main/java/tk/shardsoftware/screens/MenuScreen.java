@@ -68,14 +68,14 @@ public class MenuScreen implements Screen {
 		text.setText(font, "Press the space key to make your selection");
 		shardLogo = new Texture("textures/logo/shardlogo.png");
 		//TODO: add some keyboard controls to change difficulty
-		playButtonTextures[0] = ResourceUtil.getUITexture("play-deselected");
-		playButtonTextures[1] = ResourceUtil.getUITexture("play-selected");
-		helpButtonTextures[0] = ResourceUtil.getUITexture("help-deselected");
-		helpButtonTextures[1] = ResourceUtil.getUITexture("help-selected");
-		quitButtonTextures[0] = ResourceUtil.getUITexture("quit-deselected");
-		quitButtonTextures[1] = ResourceUtil.getUITexture("quit-selected");
-		aButtonTexture = ResourceUtil.getUITexture("a-button");
-		dButtonTexture = ResourceUtil.getUITexture("d-button");
+		playButtonTextures[0] = ResourceUtil.getUITexture("mainmenu/play-deselected");
+		playButtonTextures[1] = ResourceUtil.getUITexture("mainmenu/play-selected");
+		helpButtonTextures[0] = ResourceUtil.getUITexture("mainmenu/help-deselected");
+		helpButtonTextures[1] = ResourceUtil.getUITexture("mainmenu/help-selected");
+		quitButtonTextures[0] = ResourceUtil.getUITexture("mainmenu/quit-deselected");
+		quitButtonTextures[1] = ResourceUtil.getUITexture("mainmenu/quit-selected");
+		aButtonTexture = ResourceUtil.getUITexture("keys/a-button");
+		dButtonTexture = ResourceUtil.getUITexture("keys/d-button");
 
 		decreaseSelection();
 	}
