@@ -79,20 +79,81 @@ public class AssetsTest {
 			"menu-screen-background",
 			"college-choice-text",
 			"sound-disabled",
-			"sound-enabled",
-			"a-button",
-			"d-button",
-			"easy-selected",
-			"easy-deselected",
-			"normal-selected",
-			"hard-selected",
-			"hard-deselected",
-			"gamer-selected",
-			"gamer-deselected"};
+			"sound-enabled"
+		};
+		
+		String[] helpFiles = {"controls-deselected",
+				"controls-selected",
+				"help-controls",
+				"help-howto",
+				"help-powerups",
+				"help-return",
+				"howto-deselected",
+				"howto-selected",
+				"powerups-deselected",
+				"powerups-selected",
+				"return-deselected",
+				"return-selected"
+		};
+		
+		String[] difficultyFiles = {
+				"easy-selected",
+				"easy-deselected",
+				"normal-deselected",
+				"normal-selected",
+				"hard-selected",
+				"hard-deselected",
+				"gamer-selected",
+				"gamer-deselected"
+		};
+		
+		String[] mainmenuFiles = {
+				"help-selected",
+				"help-deselected",
+				"play-deselected",
+				"play-selected",
+				"quit-selected",
+				"quit-deselected"
+		};
+		
+		String[] keysFiles = {
+				"a-button",
+				"d-button",
+				"w-button",
+				"s-button"
+		};
 		for (String f : files)
 		{
 			assertTrue("the file " + f + ".png does not exist",
 						Gdx.files.internal("../core/assets/textures/ui/" +
+											f + ".png").exists());
+		}
+		
+		for (String f : helpFiles)
+		{
+			assertTrue("the file " + f + ".png does not exist",
+						Gdx.files.internal("../core/assets/textures/ui/help/" +
+											f + ".png").exists());
+		}
+		
+		for (String f : difficultyFiles)
+		{
+			assertTrue("the file " + f + ".png does not exist",
+						Gdx.files.internal("../core/assets/textures/ui/difficulty/" +
+											f + ".png").exists());
+		}
+		
+		for (String f : mainmenuFiles)
+		{
+			assertTrue("the file " + f + ".png does not exist",
+						Gdx.files.internal("../core/assets/textures/ui/mainmenu/" +
+											f + ".png").exists());
+		}
+		
+		for (String f : keysFiles)
+		{
+			assertTrue("the file " + f + ".png does not exist",
+						Gdx.files.internal("../core/assets/textures/ui/keys/" +
 											f + ".png").exists());
 		}
 	}

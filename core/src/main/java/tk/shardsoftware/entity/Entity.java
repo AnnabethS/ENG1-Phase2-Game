@@ -12,6 +12,7 @@ import tk.shardsoftware.util.ResourceUtil;
  * 
  * @author James Burnell
  * @author Anna Singleton
+ * @author Leif Kemp
  */
 public abstract class Entity {
 
@@ -336,8 +337,9 @@ public abstract class Entity {
 
 	public void setStorm(boolean isStorm)
 	{
-		if(isStorm)
-			setMaxSpeed(50);
+		this.isStorm = isStorm;
+		if(isStorm && !(this instanceof EntityCannonball))
+			setMaxSpeed(80);
 		else
 			setMaxSpeed(250);
 	}

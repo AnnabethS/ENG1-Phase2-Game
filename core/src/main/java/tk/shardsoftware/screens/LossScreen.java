@@ -36,6 +36,9 @@ public class LossScreen implements Screen {
 	/** Font to use */
 	private BitmapFont font = ResourceUtil.font;
 
+	/** Text to use */
+	private String textToDisplay = "You were defeated! Press the space key to restart...";
+
 	/**
 	 * Constructor for LossScreen
 	 * 
@@ -46,6 +49,19 @@ public class LossScreen implements Screen {
 		this.width = Gdx.graphics.getWidth();
 		this.height = Gdx.graphics.getHeight();
 		batch = new SpriteBatch();
+	}
+
+	/**
+	 * Constructor for LossScreen, which creates custom text
+	 * 
+	 * @param pg An instance of PirateGame
+	 */
+	public LossScreen(PirateGame pg, String text) {
+		this.pirateGameObj = pg;
+		this.width = Gdx.graphics.getWidth();
+		this.height = Gdx.graphics.getHeight();
+		batch = new SpriteBatch();
+		textToDisplay = text;
 	}
 
 	@Override
@@ -68,7 +84,7 @@ public class LossScreen implements Screen {
 
 		batch.begin();
 		batch.draw(background, 0, 0, width, height);
-		font.draw(batch, "You were defeated! Press the space key to restart...",
+		font.draw(batch, textToDisplay,
 				(int) (width * 0.25), (int) (height * 0.6));
 		batch.end();
 	}

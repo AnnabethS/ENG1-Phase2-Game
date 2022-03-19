@@ -1,6 +1,7 @@
 package tk.shardsoftware.screens;
 
 import static tk.shardsoftware.util.DebugUtil.DEBUG_MODE;
+import static tk.shardsoftware.util.DebugUtil.DEBUG_SHOW_INSTRUCTIONS;
 import static tk.shardsoftware.util.ResourceUtil.collegeFont;
 import static tk.shardsoftware.util.ResourceUtil.debugFont;
 import static tk.shardsoftware.util.ResourceUtil.font;
@@ -231,7 +232,7 @@ public class GameScreen implements Screen {
 
 		/* Overlay */
 		instOverlay = new InstructionOverlay(hudBatch);
-		instOverlay.shouldDisplay = !DebugUtil.DEBUG_MODE;
+		instOverlay.shouldDisplay = (DebugUtil.DEBUG_SHOW_INSTRUCTIONS || !DebugUtil.DEBUG_MODE);
 		soundButton = new ImageButton(soundEnabledTexture, soundDisabledTexture,
 				soundDisabledTexture);
 		soundButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 5);
@@ -273,7 +274,6 @@ public class GameScreen implements Screen {
 	 * @param collegeName the name of the college the player belongs to
 	 */
 	public void setPlayerCollege(String collegeName) {
-		// TODO: Remove mines near player starting position
 		player.setCollegeName(collegeName);
 		setPlayerStartPosition();
 		ObstacleManager.removeNearbyMines(worldObj, 10, player);
@@ -641,7 +641,6 @@ public class GameScreen implements Screen {
 		miniMap.stage.draw();
 		if (instOverlay.shouldDisplay) instOverlay.render();
 		
-		// TODO reduce upgrade times
 		if(activePowerups.size() > 0) {
 			decayPowerups(delta);
 		}
@@ -725,11 +724,15 @@ public class GameScreen implements Screen {
 		if (player.getHealth() <= 0 || gameTime <= 0) {
 			SoundManager.stopMusic();
 			pg.openNewLossScreen();
+			boatWaterMovement.setVolume(soundIdBoatMovement, 0);
+			return;
 		}
 
 		if (worldObj.getRemainingColleges() <= 1) {
 			SoundManager.stopMusic();
 			pg.openNewWinScreen();
+			boatWaterMovement.setVolume(soundIdBoatMovement, 0);
+			return;
 		}
 
 		player.isInRangeOfFriendlyCollege();
@@ -768,9 +771,11 @@ public class GameScreen implements Screen {
 		/* Sound Calculations */
 
 		// if the game is muted, skip processing
-		if (SoundManager.gameVolume == 0) return;
-		float vol = (player.getVelocity().len2() / (player.getMaxSpeed() * player.getMaxSpeed()));
-		boatWaterMovement.setVolume(soundIdBoatMovement, vol * SoundManager.gameVolume * 0.5f);
+		//if (SoundManager.gameVolume == 0) return;
+		//float vol = (player.getVelocity().len2() / (player.getMaxSpeed() * player.getMaxSpeed()));
+		float vol = (player.getVelocity().len2() / (100 * 100));
+		
+		boatWaterMovement.setVolume(soundIdBoatMovement, vol * SoundManager.gameVolume * 0.25f);
 	}
 
 	private void setStorm(boolean storm)
@@ -862,15 +867,19 @@ public class GameScreen implements Screen {
 	 * @param college the destroyed college
 	 */
 	public void onCollegeDestroyed(College college) {
-		collegeDestroyTxtLayout.setText(font, "Victory Over " + college.getName() + " College!");
-		displayCollegeDestroyTxt = true;
-		Timer.schedule(new Task() {
-			public void run() {
-				displayCollegeDestroyTxt = false;
-			}
-		}, 10);
-		plunder += 100;
-		points += 100;
+		if(!college.isFriendly){
+			collegeDestroyTxtLayout.setText(font, "Victory Over " + college.getName() + " College!");
+			displayCollegeDestroyTxt = true;
+			Timer.schedule(new Task() {
+				public void run() {
+					displayCollegeDestroyTxt = false;
+				}
+			}, 10);
+			plunder += 100;
+			points += 100;
+		} else{
+			pg.openNewLossScreen("You just destroyed your own college.\nPress space to restart...");
+		}
 	}
 	
 	/**
@@ -896,6 +905,7 @@ public class GameScreen implements Screen {
 	/**
 	 * Reduce the timer of each powerup
 	 * and remove expired ones
+	 * and generate the appropriate text.
 	 * 
 	 * @param the time between this frame and the last
 	 */
@@ -947,4 +957,7 @@ public class GameScreen implements Screen {
 		return player;
 	}
 
+	public Difficulty getDifficulty(){
+		return difficulty;
+	}
 }
