@@ -48,4 +48,39 @@ public class EntityShipTest
 		e.setCollegeName(s);
 		assertTrue("College Name is not being set or read correctly", s.equals(e.getCollegeName()));
 	}
+
+	@Test
+	public void testNonFatalDamage()
+	{
+		EntityShip e = new EntityShip(null, Difficulty.NORMAL);
+		float dmg = 50f;
+		e.damage(dmg);
+		assertEquals("incorrect damage applied", e.getMaxHealth() - dmg, e.getHealth(), floatTolerance);
+	}
+
+	@Test
+	public void testFatalDamage()
+	{
+		EntityShip e = new EntityShip(null, Difficulty.NORMAL);
+		e.damage(e.getMaxHealth() + 1);
+		assertTrue("remove flag not properly set on death", e.remove);
+	}
+
+	@Test
+	public void testRepair()
+	{
+		EntityShip e = new EntityShip(null, Difficulty.NORMAL);
+		e.damage(20f);
+		e.repair(15f);
+		assertEquals("incorrect healing applied", (e.getMaxHealth() - 20f) + 15f, e.getHealth(), floatTolerance);
+	}
+
+	@Test
+	public void testMaxHealthRepair()
+	{
+		EntityShip e = new EntityShip(null, Difficulty.NORMAL);
+		e.damage(20f);
+		e.repair(35f);
+		assertEquals("incorrect healing applied", e.getMaxHealth(), e.getHealth(), floatTolerance);
+	}
 }
