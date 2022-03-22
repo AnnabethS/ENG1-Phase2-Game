@@ -4,3 +4,16 @@ as/mario/unittesting/basic/AssetsTest.java
  as.mario.unittesting.basic.AssetsTest
 as/mario/unittesting/basic/TestSetupTest.java
  as.mario.unittesting.basic.TestSetupTest
+as/mario/unittesting/RobotPlayerInput.java
+ as.mario.unittesting.RobotPlayerInput
+as/mario/unittesting/entities/EntityTest.java
+ as.mario.unittesting.entities.EntityTest
+ as.mario.unittesting.entities.EntityTest$1
+ as.mario.unittesting.entities.EntityTest$2
+ as.mario.unittesting.entities.EntityTest$3
+ as.mario.unittesting.entities.EntityTest$4
+ as.mario.unittesting.entities.EntityTest$5
+ as.mario.unittesting.entities.EntityTest$6
+ as.mario.unittesting.entities.EntityTest$7
+ as.mario.unittesting.entities.EntityTest$8
+ as.mario.unittesting.entities.EntityTest$9
