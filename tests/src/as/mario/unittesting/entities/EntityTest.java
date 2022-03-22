@@ -16,6 +16,9 @@ import tk.shardsoftware.World;
 import tk.shardsoftware.util.Difficulty;
 import tk.shardsoftware.util.ResourceUtil;
 
+/*
+  @author Anna Singleton
+ */
 @RunWith (GdxTestRunner.class)
 public class EntityTest
 {

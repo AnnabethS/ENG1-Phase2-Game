@@ -17,3 +17,7 @@ as/mario/unittesting/entities/EntityTest.java
  as.mario.unittesting.entities.EntityTest$7
  as.mario.unittesting.entities.EntityTest$8
  as.mario.unittesting.entities.EntityTest$9
+as/mario/unittesting/powerups/PlayerPowerupTest.java
+ as.mario.unittesting.powerups.PlayerPowerupTest
+as/mario/unittesting/entities/EntityShipTest.java
+ as.mario.unittesting.entities.EntityShipTest
