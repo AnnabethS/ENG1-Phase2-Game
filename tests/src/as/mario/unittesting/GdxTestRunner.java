@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package de.tomgrill.gdxtesting;
+package as.mario.unittesting;
 
 import java.util.HashMap;
 import java.util.Map;

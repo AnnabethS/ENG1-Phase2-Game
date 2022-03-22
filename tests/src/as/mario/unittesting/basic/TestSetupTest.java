@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package de.tomgrill.gdxtesting.examples;
+package as.mario.unittesting.basic;
 
 import static org.junit.Assert.assertEquals;
 
