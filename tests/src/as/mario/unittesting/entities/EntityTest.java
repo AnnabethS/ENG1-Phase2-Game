@@ -17,6 +17,7 @@ import tk.shardsoftware.util.Difficulty;
 import tk.shardsoftware.util.ResourceUtil;
 
 /*
+  @author James Burnell
   @author Anna Singleton
  */
 @RunWith (GdxTestRunner.class)
@@ -127,10 +128,9 @@ public class EntityTest
 		e.update(1);
 		assertEquals(8f, e.getPosition().x, floatTolerance);
 		assertEquals(8, e.getPosition().y, floatTolerance);
-		// update will cause
+		// update will cause the entities to hit eachother, which means they shouldnt move
 		e.update(1);
 		assertEquals(8, e.getPosition().x, floatTolerance);
 		assertEquals(8, e.getPosition().y, floatTolerance);
-		// assertTrue(e.getHitbox().overlaps(e2.getHitbox()));
 	}
 }

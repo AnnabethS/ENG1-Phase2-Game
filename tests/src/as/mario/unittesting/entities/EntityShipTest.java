@@ -11,10 +11,8 @@ import as.mario.unittesting.GdxTestRunner;
 import com.badlogic.gdx.assets.AssetManager;
 
 import tk.shardsoftware.entity.EntityShip;
-import tk.shardsoftware.screens.GameScreen;
 import tk.shardsoftware.util.ResourceUtil;
 import tk.shardsoftware.util.Difficulty;
-import tk.shardsoftware.util.PowerupType;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -27,13 +25,19 @@ public class EntityShipTest
 {
 	private static final float floatTolerance = 0.001f;
 
+	/*
+	  Initialise the global resource utility
+	 */	
 	@BeforeClass
 	public static void entityTestInit()
 	{
 		AssetManager a = new AssetManager();
 		ResourceUtil.init(a);
 	}
-
+	
+	/*
+	  Test that setVelocity works correctly
+	 */
 	@Test
 	public void testSetVelocity() {
 		EntityShip e = new EntityShip(null, Difficulty.NORMAL);
@@ -41,14 +45,20 @@ public class EntityShipTest
 		assertEquals(e.getVelocity(), new Vector2(1,1));
 	}
 
+	/*
+	  Test that the college name setting is correct
+	 */
 	@Test
 	public void testCollegeName(){
 		EntityShip e = new EntityShip(null, Difficulty.NORMAL);
 		String s = "test";
 		e.setCollegeName(s);
-		assertTrue("College Name is not being set or read correctly", s.equals(e.getCollegeName()));
+		assertTrue(s.equals(e.getCollegeName()));
 	}
 
+	/*
+	  Test ships are damaged correctly when the damage is non fatal
+	 */
 	@Test
 	public void testNonFatalDamage()
 	{
@@ -58,6 +68,9 @@ public class EntityShipTest
 		assertEquals("incorrect damage applied", e.getMaxHealth() - dmg, e.getHealth(), floatTolerance);
 	}
 
+	/*
+	 Test ships are damaged correctly when the damage is fatal
+	 */
 	@Test
 	public void testFatalDamage()
 	{
@@ -66,6 +79,9 @@ public class EntityShipTest
 		assertTrue("remove flag not properly set on death", e.remove);
 	}
 
+	/*
+	  Test repair works when not at full health
+	 */
 	@Test
 	public void testRepair()
 	{
@@ -75,6 +91,9 @@ public class EntityShipTest
 		assertEquals("incorrect healing applied", (e.getMaxHealth() - 20f) + 15f, e.getHealth(), floatTolerance);
 	}
 
+	/*
+	  Test that repair does not heal past 100% HP
+	 */
 	@Test
 	public void testMaxHealthRepair()
 	{
