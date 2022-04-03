@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import tk.shardsoftware.PirateGame;
@@ -16,6 +17,7 @@ import tk.shardsoftware.util.SoundManager;
  * The screen that shows up when the player's health reaches 0
  * 
  * @author Hector Woods
+ * @author Leif Kemp
  */
 public class LossScreen implements Screen {
 
@@ -38,6 +40,7 @@ public class LossScreen implements Screen {
 
 	/** Text to use */
 	private String textToDisplay = "You were defeated! Press the space key to restart...";
+	private GlyphLayout displayText;
 
 	/**
 	 * Constructor for LossScreen
@@ -49,6 +52,8 @@ public class LossScreen implements Screen {
 		this.width = Gdx.graphics.getWidth();
 		this.height = Gdx.graphics.getHeight();
 		batch = new SpriteBatch();
+		displayText = new GlyphLayout();
+		displayText.setText(font, textToDisplay);
 	}
 
 	/**
@@ -57,11 +62,8 @@ public class LossScreen implements Screen {
 	 * @param pg An instance of PirateGame
 	 */
 	public LossScreen(PirateGame pg, String text) {
-		this.pirateGameObj = pg;
-		this.width = Gdx.graphics.getWidth();
-		this.height = Gdx.graphics.getHeight();
-		batch = new SpriteBatch();
-		textToDisplay = text;
+		this(pg);
+		displayText.setText(font, text);
 	}
 
 	@Override
@@ -84,8 +86,8 @@ public class LossScreen implements Screen {
 
 		batch.begin();
 		batch.draw(background, 0, 0, width, height);
-		font.draw(batch, textToDisplay,
-				(int) (width * 0.25), (int) (height * 0.6));
+		font.draw(batch, displayText,
+				(int) (width * 0.5) - (displayText.width / 2), (int) (height * 0.5) + (displayText.height / 2));
 		batch.end();
 	}
 

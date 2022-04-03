@@ -25,15 +25,15 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 	/** How much time left until cannons can be fired */
 	public float timeUntilFire = 0f;
 	
-	private boolean doubleDamage = false;
+	public boolean doubleDamage = false;
 
 	protected float maxHealth;
 	protected float health;
-	private boolean invulnerable = false;
+	public boolean invulnerable = false;
 	
 	public boolean canRam = false;
 	public boolean ramming = false;
-	private boolean speedBoost = false;
+	public boolean speedBoost = false;
 
 	protected String collegeName;
 	public boolean isPlayer = false;
@@ -258,7 +258,7 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 	}
 
 	public void ram(float delta) {
-		if(canRam && getVelocity().len() < (isStorm ? 50 : (speedBoost ? 130 : 100))) {
+		if(canRam && getVelocity().len() < (isStorm ? 80 : (speedBoost ? 135 : 100))) {
 			this.setMaxSpeed(500f);
 			System.out.println("Ramming");
 			float angle = getDirection();
