@@ -92,7 +92,7 @@ public class GameScreen implements Screen {
 	/** The overlay to display the game instructions on screen */
 	private InstructionOverlay instOverlay;
 
-	private World worldObj;
+	public World worldObj;
 	private Minimap miniMap;
 
 	/** The ship object that the player will control */
@@ -126,10 +126,8 @@ public class GameScreen implements Screen {
 	public int gameTime = 5 * 60;
 
 	/** Textures for toggle sound button */
-	private Drawable soundEnabledTexture = new TextureRegionDrawable(
-			new TextureRegion(ResourceUtil.getTexture("textures/ui/sound-enabled.png")));
-	private Drawable soundDisabledTexture = new TextureRegionDrawable(
-			new TextureRegion(ResourceUtil.getTexture("textures/ui/sound-disabled.png")));
+	private Drawable soundEnabledTexture;
+	private Drawable soundDisabledTexture;
 
 	/** Toggle sound button */
 	private ImageButton soundButton;
@@ -209,40 +207,49 @@ public class GameScreen implements Screen {
 		activePowerups = new HashMap<PowerupType, Float>();
 
 		// TODO: Implement ambient sounds
-		boatWaterMovement = ResourceUtil.getSound("audio/entity/boat-water-movement.wav");
-		ambientOcean = ResourceUtil.getSound("audio/ambient/ocean.wav");
 
-		/* Render tools */
-		batch = new SpriteBatch();
-		hudBatch = new SpriteBatch();
-		shapeRenderer = new ShapeRenderer();
-		camera = new OrthographicCamera(360 * 16f / 9f, 360);
-		stage = new Stage(new ScreenViewport(), batch);
-		camera.zoom = DEFAULT_CAMERA_ZOOM;
+		if (pg != null) // pg is only null in the case the code is headless
+		{
 
-		/* Glyph Layouts */
-		pointTxtLayout = new GlyphLayout();
-		plunderTxtLayout = new GlyphLayout();
-		remainingCollegeTxtLayout = new GlyphLayout();
-		collegeDestroyTxtLayout = new GlyphLayout();
-		timerTxtLayout = new GlyphLayout();
-		powerupTxtLayout = new GlyphLayout();
-		skipStormTxtLayout = new GlyphLayout();
-		skipStormTxtLayout.setText(font, "Press E to skip the storm");
+			boatWaterMovement = ResourceUtil.getSound("audio/entity/boat-water-movement.wav");
+			ambientOcean = ResourceUtil.getSound("audio/ambient/ocean.wav");
+			/* Render tools */
+			batch = new SpriteBatch();
+			hudBatch = new SpriteBatch();
+			shapeRenderer = new ShapeRenderer();
+			camera = new OrthographicCamera(360 * 16f / 9f, 360);
+			stage = new Stage(new ScreenViewport(), batch);
+			camera.zoom = DEFAULT_CAMERA_ZOOM;
 
-		/* Overlay */
-		instOverlay = new InstructionOverlay(hudBatch);
-		instOverlay.shouldDisplay = (DebugUtil.DEBUG_SHOW_INSTRUCTIONS || !DebugUtil.DEBUG_MODE);
-		soundButton = new ImageButton(soundEnabledTexture, soundDisabledTexture,
-				soundDisabledTexture);
-		soundButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 5);
-		soundButton.setPosition((float) (Gdx.graphics.getWidth() * 0.85), 0);
-		soundButton.addListener(new ClickListener() {
-			public void clicked(InputEvent event, float x, float y) {
-				SoundManager.toggleMute();
-			}
-		});
-		stage.addActor(soundButton);
+			/* Glyph Layouts */
+			pointTxtLayout = new GlyphLayout();
+			plunderTxtLayout = new GlyphLayout();
+			remainingCollegeTxtLayout = new GlyphLayout();
+			collegeDestroyTxtLayout = new GlyphLayout();
+			timerTxtLayout = new GlyphLayout();
+			powerupTxtLayout = new GlyphLayout();
+			skipStormTxtLayout = new GlyphLayout();
+			skipStormTxtLayout.setText(font, "Press E to skip the storm");
+
+			/* Overlay */
+			instOverlay = new InstructionOverlay(hudBatch);
+			instOverlay.shouldDisplay = (DebugUtil.DEBUG_SHOW_INSTRUCTIONS || !DebugUtil.DEBUG_MODE);
+			soundEnabledTexture = new TextureRegionDrawable(
+					new TextureRegion(ResourceUtil.getTexture("textures/ui/sound-enabled.png")));
+			soundDisabledTexture = new TextureRegionDrawable(
+					new TextureRegion(ResourceUtil.getTexture("textures/ui/sound-disabled.png")));
+			soundButton = new ImageButton(soundEnabledTexture, soundDisabledTexture,
+					soundDisabledTexture);
+			soundButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 5);
+			soundButton.setPosition((float) (Gdx.graphics.getWidth() * 0.85), 0);
+			soundButton.addListener(new ClickListener() {
+				public void clicked(InputEvent event, float x, float y) {
+					SoundManager.toggleMute();
+				}
+			});
+			stage.addActor(soundButton);
+		}
+
 
 		/** World Objects */
 		worldObj = new World(difficulty);
@@ -259,11 +266,14 @@ public class GameScreen implements Screen {
 //				.setPosition(new Vector2(player.getPosition().x - 20, player.getPosition().y - 20));
 //		worldObj.addEntity(exampleEnemy);
 
-		/* World Displays */
-		miniMap = new Minimap(worldObj, 25, Gdx.graphics.getHeight() - 150 - 25, 150, 150, hudBatch,
-				stage);
-		cDisplay = new ChooseCollegeDisplay(worldObj, 0, 0, Gdx.graphics.getWidth(),
-				Gdx.graphics.getHeight(), batch, stage, CollegeManager.collegeList, this);
+		if(pg != null)
+		{
+			/* World Displays */
+			miniMap = new Minimap(worldObj, 25, Gdx.graphics.getHeight() - 150 - 25, 150, 150, hudBatch,
+					stage);
+			cDisplay = new ChooseCollegeDisplay(worldObj, 0, 0, Gdx.graphics.getWidth(),
+					Gdx.graphics.getHeight(), batch, stage, CollegeManager.collegeList, this);
+		}
 
 	}
 
@@ -928,7 +938,8 @@ public class GameScreen implements Screen {
 			activePowerups.remove(entry.getKey());
 		}
 		
-		powerupTxtLayout.setText(powerupFont, text);
+		if(pg != null)
+			powerupTxtLayout.setText(powerupFont, text);
 	}
 
 	@Override
