@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import tk.shardsoftware.PirateGame;
 import tk.shardsoftware.util.ResourceUtil;
+import tk.shardsoftware.util.Screens;
 import tk.shardsoftware.util.SoundManager;
 
 /**
@@ -74,7 +75,8 @@ public class LossScreen implements Screen {
 
 	private void closeScreen() {
 		lossMusic.stop();
-		pirateGameObj.openNewMenuScreen();
+		pirateGameObj.openScreen(Screens.Menu, null, null);
+		//pirateGameObj.openNewMenuScreen();
 	}
 
 	@Override
@@ -89,6 +91,10 @@ public class LossScreen implements Screen {
 		font.draw(batch, displayText,
 				(int) (width * 0.5) - (displayText.width / 2), (int) (height * 0.5) + (displayText.height / 2));
 		batch.end();
+	}
+	
+	public void setText(String text) {
+		displayText.setText(font, text);
 	}
 
 	@Override

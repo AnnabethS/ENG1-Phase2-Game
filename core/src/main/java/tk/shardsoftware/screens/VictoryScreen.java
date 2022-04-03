@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import tk.shardsoftware.PirateGame;
 import tk.shardsoftware.util.ResourceUtil;
+import tk.shardsoftware.util.Screens;
 import tk.shardsoftware.util.SoundManager;
 
 /**
@@ -49,7 +50,8 @@ public class VictoryScreen implements Screen {
 
 	private void closeScreen() {
 		victoryMusic.stop();
-		pirateGameObj.openNewMenuScreen();
+		pirateGameObj.openScreen(Screens.Menu, null, null);
+		//pirateGameObj.openNewMenuScreen();
 	}
 
 	@Override

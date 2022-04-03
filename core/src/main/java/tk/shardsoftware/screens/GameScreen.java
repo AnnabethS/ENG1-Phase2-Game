@@ -60,6 +60,7 @@ import tk.shardsoftware.util.Minimap;
 import tk.shardsoftware.util.ObstacleManager;
 import tk.shardsoftware.util.PowerupManager;
 import tk.shardsoftware.util.ResourceUtil;
+import tk.shardsoftware.util.Screens;
 import tk.shardsoftware.util.SoundManager;
 import tk.shardsoftware.util.PowerupType;
 
@@ -733,14 +734,16 @@ public class GameScreen implements Screen {
 		// Check if the player has lost the game, and if so open a loss screen
 		if (player.getHealth() <= 0 || gameTime <= 0) {
 			SoundManager.stopMusic();
-			pg.openNewLossScreen();
+			pg.openScreen(Screens.Loss, null, null);
+			//pg.openNewLossScreen();
 			boatWaterMovement.setVolume(soundIdBoatMovement, 0);
 			return;
 		}
 
 		if (worldObj.getRemainingColleges() <= 1) {
 			SoundManager.stopMusic();
-			pg.openNewWinScreen();
+			pg.openScreen(Screens.Victory, null, null);
+			//pg.openNewWinScreen();
 			boatWaterMovement.setVolume(soundIdBoatMovement, 0);
 			return;
 		}
@@ -888,7 +891,8 @@ public class GameScreen implements Screen {
 			plunder += 100;
 			points += 100;
 		} else{
-			pg.openNewLossScreen("You just destroyed your own college.\nPress space to restart...");
+			pg.openScreen(Screens.Loss, null, "You just destroyed your own college.\nPress space to restart...");
+			//pg.openNewLossScreen("You just destroyed your own college.\nPress space to restart...");
 		}
 	}
 	

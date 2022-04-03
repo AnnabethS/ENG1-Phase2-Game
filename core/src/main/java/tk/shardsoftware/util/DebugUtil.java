@@ -22,7 +22,7 @@ public class DebugUtil {
 	}
 
 	/** Controls additional logging and on-screen data */
-	public static boolean DEBUG_MODE = true;
+	public static boolean DEBUG_MODE = false;
 	/** Controls whether or not the instructions overlay is visible regardless of DEBUG_MODE */
 	public static boolean DEBUG_SHOW_INSTRUCTIONS = true;
 

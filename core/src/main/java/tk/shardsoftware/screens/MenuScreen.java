@@ -15,6 +15,7 @@ import tk.shardsoftware.PirateGame;
 import tk.shardsoftware.util.Help;
 import tk.shardsoftware.util.Menu;
 import tk.shardsoftware.util.ResourceUtil;
+import tk.shardsoftware.util.Screens;
 
 /**
  * The menu screen
@@ -91,11 +92,12 @@ public class MenuScreen implements Screen {
 		switch (selection)
 		{
 			case PLAY:
-				pirateGameObj.openNewDifficultyScreen();
+				pirateGameObj.openScreen(Screens.Difficulty, null, null);
+				//pirateGameObj.openNewDifficultyScreen();
 				break;
 			case HELP:
-				// TODO: Help me
-				pirateGameObj.openNewHelpScreen();;
+				pirateGameObj.openScreen(Screens.Help, null, null);
+				//pirateGameObj.openNewHelpScreen();;
 				break;
 			case QUIT:
 				break;

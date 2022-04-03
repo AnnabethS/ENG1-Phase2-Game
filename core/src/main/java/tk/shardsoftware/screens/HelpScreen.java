@@ -15,6 +15,7 @@ import tk.shardsoftware.PirateGame;
 import tk.shardsoftware.util.Help;
 import tk.shardsoftware.util.Menu;
 import tk.shardsoftware.util.ResourceUtil;
+import tk.shardsoftware.util.Screens;
 
 /**
  * The menu screen
@@ -92,7 +93,8 @@ public class HelpScreen implements Screen {
 
 	private void closeScreen() {
 		menuMusic.stop();
-		pirateGameObj.openNewMenuScreen();
+		pirateGameObj.openScreen(Screens.Menu, null, null);
+		//pirateGameObj.openNewMenuScreen();
 	}
 
 	@Override

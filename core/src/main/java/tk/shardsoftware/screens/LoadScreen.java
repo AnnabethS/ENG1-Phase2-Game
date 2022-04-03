@@ -22,6 +22,7 @@ import com.badlogic.gdx.video.VideoPlayerCreator;
 import tk.shardsoftware.PirateGame;
 import tk.shardsoftware.util.Bar;
 import tk.shardsoftware.util.ResourceUtil;
+import tk.shardsoftware.util.Screens;
 
 /** @author James Burnell */
 public class LoadScreen implements Screen {
@@ -108,7 +109,9 @@ public class LoadScreen implements Screen {
 					logo.setAlpha(logoAlpha -= (delta / LOGO_FADE_TIME));
 				} else {
 					// Enter different state once faded
-					pirateGameObj.openNewMenuScreen();
+					pirateGameObj.initialiseScreens();
+					pirateGameObj.openScreen(Screens.Menu, null, null);
+					//pirateGameObj.openNewMenuScreen();
 				}
 			}
 			logo.draw(batch);
