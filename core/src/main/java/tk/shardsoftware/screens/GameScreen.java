@@ -126,10 +126,8 @@ public class GameScreen implements Screen {
 	public int gameTime = 5 * 60;
 
 	/** Textures for toggle sound button */
-	private Drawable soundEnabledTexture = new TextureRegionDrawable(
-			new TextureRegion(ResourceUtil.getTexture("textures/ui/sound-enabled.png")));
-	private Drawable soundDisabledTexture = new TextureRegionDrawable(
-			new TextureRegion(ResourceUtil.getTexture("textures/ui/sound-disabled.png")));
+	private Drawable soundEnabledTexture;
+	private Drawable soundDisabledTexture;
 
 	/** Toggle sound button */
 	private ImageButton soundButton;
@@ -235,6 +233,10 @@ public class GameScreen implements Screen {
 			/* Overlay */
 			instOverlay = new InstructionOverlay(hudBatch);
 			instOverlay.shouldDisplay = (DebugUtil.DEBUG_SHOW_INSTRUCTIONS || !DebugUtil.DEBUG_MODE);
+			soundEnabledTexture = new TextureRegionDrawable(
+					new TextureRegion(ResourceUtil.getTexture("textures/ui/sound-enabled.png")));
+			soundDisabledTexture = new TextureRegionDrawable(
+					new TextureRegion(ResourceUtil.getTexture("textures/ui/sound-disabled.png")));
 			soundButton = new ImageButton(soundEnabledTexture, soundDisabledTexture,
 					soundDisabledTexture);
 			soundButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 5);
