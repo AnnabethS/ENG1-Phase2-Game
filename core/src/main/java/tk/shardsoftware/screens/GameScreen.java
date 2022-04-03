@@ -207,11 +207,12 @@ public class GameScreen implements Screen {
 		activePowerups = new HashMap<PowerupType, Float>();
 
 		// TODO: Implement ambient sounds
-		boatWaterMovement = ResourceUtil.getSound("audio/entity/boat-water-movement.wav");
-		ambientOcean = ResourceUtil.getSound("audio/ambient/ocean.wav");
 
 		if (pg != null) // pg is only null in the case the code is headless
 		{
+
+			boatWaterMovement = ResourceUtil.getSound("audio/entity/boat-water-movement.wav");
+			ambientOcean = ResourceUtil.getSound("audio/ambient/ocean.wav");
 			/* Render tools */
 			batch = new SpriteBatch();
 			hudBatch = new SpriteBatch();
