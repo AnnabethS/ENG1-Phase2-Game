@@ -53,24 +53,6 @@ public class EntityShipTest
 	}
 	
 	/*
-	  Test that powerups apply correctly.
-	 */
-	@Test
-	public void testPowerups() {
-		EntityShip e = new EntityShip(null, Difficulty.EASY);
-		e.applyPowerup(PowerupType.DAMAGE);
-		e.applyPowerup(PowerupType.FIRERATE);
-		e.applyPowerup(PowerupType.INVULNERABILITY);
-		e.applyPowerup(PowerupType.RAM);
-		e.applyPowerup(PowerupType.SPEED);
-		assertEquals("firerate not applied", e.getReloadTime(), 0.5f, floatTolerance);
-		assertEquals("speed not applied", e.speedBoost, true);
-		assertEquals("damage not applied", e.doubleDamage, true);
-		assertEquals("invulnerability not applied", e.invulnerable, true);
-		assertEquals("ramming not applied", e.canRam, true);
-	}
-	
-	/*
 	  Test that setVelocity works correctly
 	 */
 	@Test
