@@ -117,3 +117,5 @@ Thumbs.db
 
 ## Repo Specific
 *.kra~
+
+tests/build/*
