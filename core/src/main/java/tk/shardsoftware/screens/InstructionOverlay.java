@@ -48,6 +48,8 @@ public class InstructionOverlay implements Disposable {
 		shapeRenderer.rect(15, Gdx.graphics.getHeight() - 490 - 30, 100, 50);
 
 		shapeRenderer.circle(50, Gdx.graphics.getHeight() - 490 - 90, 35); // map
+		
+		shapeRenderer.circle(50, Gdx.graphics.getHeight() - 490 - 180, 35); // shop
 
 		shapeRenderer.setColor(Color.BLACK);
 		shapeRenderer.rectLine(50 + 50, Gdx.graphics.getHeight() - 50 - 90, 50 + 40 + 90,
@@ -73,6 +75,9 @@ public class InstructionOverlay implements Disposable {
 
 		font.draw(batch, "M", 40, Gdx.graphics.getHeight() - 480 - 90); // map
 		font.draw(batch, "Toggle Map", 40 + 70, Gdx.graphics.getHeight() - 480 - 90);
+		
+		font.draw(batch, "N", 40, Gdx.graphics.getHeight() - 480 - 180); // map
+		font.draw(batch, "Open Shop", 40 + 70, Gdx.graphics.getHeight() - 480 - 180);
 
 		font.draw(batch, "Move Controls", 40, Gdx.graphics.getHeight() - 50 - 90 - 90 - 140);
 

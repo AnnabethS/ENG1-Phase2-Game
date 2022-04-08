@@ -91,6 +91,10 @@ public abstract class ResourceUtil {
 		addTexture("textures/ui/help/controls-deselected.png");
 		addTexture("textures/ui/help/powerups-selected.png");
 		addTexture("textures/ui/help/powerups-deselected.png");
+		addTexture("textures/ui/help/badweather-selected.png");
+		addTexture("textures/ui/help/badweather-deselected.png");
+		addTexture("textures/ui/help/shop-selected.png");
+		addTexture("textures/ui/help/shop-deselected.png");
 		addTexture("textures/ui/help/return-selected.png");
 		addTexture("textures/ui/help/return-deselected.png");
 		addTexture("textures/ui/mainmenu/play-selected.png");
@@ -103,6 +107,8 @@ public abstract class ResourceUtil {
 		addTexture("textures/ui/help/help-controls.png");
 		addTexture("textures/ui/help/help-return.png");
 		addTexture("textures/ui/help/help-powerups.png");
+		addTexture("textures/ui/help/help-badweather.png");
+		addTexture("textures/ui/help/help-shop.png");
 		addTexture("textures/ui/shop/heal-selected.png");
 		addTexture("textures/ui/shop/heal-deselected.png");
 		addTexture("textures/ui/shop/storm-selected.png");
@@ -119,6 +125,12 @@ public abstract class ResourceUtil {
 		addTexture("textures/ui/shop/maxhealth-selected.png");
 		addTexture("textures/ui/shop/maxhealth-deselected.png");
 		addTexture("textures/ui/shop/maxhealth-purchased.png");
+		addTexture("textures/ui/shop/regen-selected.png");
+		addTexture("textures/ui/shop/regen-deselected.png");
+		addTexture("textures/ui/shop/regen-purchased.png");
+		addTexture("textures/ui/shop/timer-selected.png");
+		addTexture("textures/ui/shop/timer-deselected.png");
+		addTexture("textures/ui/shop/timer-purchased.png");
 		addTexture("textures/ui/shop/shop-heal.png");
 		addTexture("textures/ui/shop/shop-storm-valid.png");
 		addTexture("textures/ui/shop/shop-storm-invalid.png");
@@ -126,6 +138,8 @@ public abstract class ResourceUtil {
 		addTexture("textures/ui/shop/shop-reload.png");
 		addTexture("textures/ui/shop/shop-speed.png");
 		addTexture("textures/ui/shop/shop-maxhealth.png");
+		addTexture("textures/ui/shop/shop-regen.png");
+		addTexture("textures/ui/shop/shop-timer.png");
 		
 		//import rain textures
 		for(int i=1; i <= 8; i++)

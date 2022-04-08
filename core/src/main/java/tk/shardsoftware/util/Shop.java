@@ -1,7 +1,7 @@
 package tk.shardsoftware.util;
 
 public enum Shop {
-    HEAL, STORM, DAMAGE, RELOAD, SPEED, MAXHEALTH, BACK;
+    HEAL, STORM, DAMAGE, RELOAD, SPEED, MAXHEALTH, REGEN, TIMER, BACK;
 
     /**
 	 * Takes an integer and returns it as the corresponding Menu
@@ -23,6 +23,10 @@ public enum Shop {
 				return SPEED;
 			case 5:
 				return MAXHEALTH;
+			case 6:
+				return REGEN;
+			case 7:
+				return TIMER;
 		}
 		return BACK;
 	}

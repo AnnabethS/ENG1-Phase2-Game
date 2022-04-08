@@ -56,8 +56,10 @@ public class ShopScreen implements Screen {
 	private Texture[] reloadButtonTextures = new Texture[3];
 	private Texture[] speedButtonTextures = new Texture[3];
 	private Texture[] maxhealthButtonTextures = new Texture[3];
+	private Texture[] regenButtonTextures = new Texture[3];
+	private Texture[] timerButtonTextures = new Texture[2];
 	private Texture[] returnButtonTextures = new Texture[2];
-	private Texture[] shopTextures = new Texture[8];
+	private Texture[] shopTextures = new Texture[10];
 	private Texture wButtonTexture;
 	private Texture sButtonTexture;
 	
@@ -95,6 +97,11 @@ public class ShopScreen implements Screen {
 		maxhealthButtonTextures[0] = ResourceUtil.getUITexture("shop/maxhealth-deselected");
 		maxhealthButtonTextures[1] = ResourceUtil.getUITexture("shop/maxhealth-selected");
 		maxhealthButtonTextures[2] = ResourceUtil.getUITexture("shop/maxhealth-purchased");
+		regenButtonTextures[0] = ResourceUtil.getUITexture("shop/regen-deselected");
+		regenButtonTextures[1] = ResourceUtil.getUITexture("shop/regen-selected");
+		regenButtonTextures[2] = ResourceUtil.getUITexture("shop/regen-purchased");
+		timerButtonTextures[0] = ResourceUtil.getUITexture("shop/timer-deselected");
+		timerButtonTextures[1] = ResourceUtil.getUITexture("shop/timer-selected");
 		returnButtonTextures[0] = ResourceUtil.getUITexture("help/return-deselected");
 		returnButtonTextures[1] = ResourceUtil.getUITexture("help/return-selected");
 		shopTextures[0] = ResourceUtil.getUITexture("help/help-return");
@@ -105,6 +112,8 @@ public class ShopScreen implements Screen {
 		shopTextures[5] = ResourceUtil.getUITexture("shop/shop-reload");
 		shopTextures[6] = ResourceUtil.getUITexture("shop/shop-speed");
 		shopTextures[7] = ResourceUtil.getUITexture("shop/shop-maxhealth");
+		shopTextures[8] = ResourceUtil.getUITexture("shop/shop-regen");
+		shopTextures[9] = ResourceUtil.getUITexture("shop/shop-timer");
 		wButtonTexture = ResourceUtil.getUITexture("keys/w-button");
 		sButtonTexture = ResourceUtil.getUITexture("keys/s-button");
 		
@@ -215,12 +224,27 @@ public class ShopScreen implements Screen {
 			batch.draw(!purchasedPowerups.contains(5) ? maxhealthButtonTextures[0] : maxhealthButtonTextures[2],
 					35, height - 380, 213, 40);
 		
+		if(selection == Shop.REGEN && !purchasedPowerups.contains(6)) {
+			batch.draw(regenButtonTextures[1], 35, height - 430, 213, 40);
+			batch.draw(shopTextures[8], (width) - 720 - 35, (height / 2) - 270, 720, 540);
+		}
+		else
+			batch.draw(!purchasedPowerups.contains(6) ? regenButtonTextures[0] : regenButtonTextures[2],
+					35, height - 430, 213, 40);
+		
+		if(selection == Shop.TIMER) {
+			batch.draw(timerButtonTextures[1], 35, height - 480, 213, 40);
+			batch.draw(shopTextures[9], (width) - 720 - 35, (height / 2) - 270, 720, 540);
+		}
+		else
+			batch.draw(timerButtonTextures[0], 35, height - 480, 213, 40);
+		
 		if(selection == Shop.BACK) {
-			batch.draw(returnButtonTextures[1], 35, 75, 213, 40);
+			batch.draw(returnButtonTextures[1], 35, 80, 213, 40);
 			batch.draw(shopTextures[0], (width) - 720 - 35, (height / 2) - 270, 720, 540);
 		}
 		else
-			batch.draw(returnButtonTextures[0], 35, 75, 213, 40);
+			batch.draw(returnButtonTextures[0], 35, 80, 213, 40);
 
 		batch.end();
 	}
@@ -277,6 +301,22 @@ public class ShopScreen implements Screen {
 					gameObj.addPurchase(selection);
 					purchasedPowerups.add(5);
 					decreaseSelection();
+				}
+				break;
+			case REGEN:
+				if(gameObj.getPlunder() >= 125) {
+					gameObj.addPlunder(-125);
+					
+					gameObj.addPurchase(selection);
+					purchasedPowerups.add(6);
+					decreaseSelection();
+				}
+				break;
+			case TIMER:
+				if(gameObj.getPlunder() >= 100) {
+					gameObj.addPlunder(-100);
+					
+					gameObj.addPurchase(selection);
 				}
 				break;
 			default:

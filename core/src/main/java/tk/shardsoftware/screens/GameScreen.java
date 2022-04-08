@@ -148,6 +148,9 @@ public class GameScreen implements Screen {
 	private float currentStormChance = minStormChance;
 	private final float stormTime = 90f; // time a storm should last in seconds
 	private float currentStormTime = 0;
+	
+	// health regen
+	private boolean healthRegen = false;
 
 	public void addPlunder(int p) {
 		plunder = plunder + p;
@@ -607,6 +610,10 @@ public class GameScreen implements Screen {
 		{
 			worldObj.worldMap.drawRain(camera, batch, delta);
 		}
+		
+		if(healthRegen) {
+			player.repair(delta * 2);
+		}
 
 		// call rain draw here
 
@@ -967,6 +974,12 @@ public class GameScreen implements Screen {
 				break;
 			case MAXHEALTH:
 				player.applyPurchase(purchase);
+				break;
+			case REGEN:
+				healthRegen = true;
+				break;
+			case TIMER:
+				gameTime += 30;
 				break;
 			default:
 				break;

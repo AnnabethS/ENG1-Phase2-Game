@@ -88,7 +88,7 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 		timeUntilFire -= delta;
 		timeUntilFire = timeUntilFire <= 0 ? 0 : timeUntilFire;
 		
-		if(getVelocity().len() < (isStorm ? 50 : (speedBoost ? 135 : 100) * speedMultiplier)) {
+		if(getVelocity().len() < (isStorm ? 50 : ((speedBoost ? 135 : 100) * speedMultiplier))) {
 			ramming = false;
 			drag = speedBoost ? (speedMultiplier <= 1 ? 0.995f : 0.9975f) : 
 								(speedMultiplier <= 1 ? 0.99f : 0.995f);
