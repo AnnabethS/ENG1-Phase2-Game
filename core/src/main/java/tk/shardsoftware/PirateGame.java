@@ -111,18 +111,30 @@ public class PirateGame extends Game {
 				break;
 			case Loss:
 				lossScreen.setText(lossText);
+				this.setScreen(lossScreen);
 				
 				// If we're loading the loss screen, destroy the currentGame screen and currentShop screen
 				currentGame.dispose();
-				currentShop.dispose();
+				currentGame = null;
 				
-				this.setScreen(lossScreen);
+				if(currentShop != null) currentShop.dispose();
+				currentShop = null;
+				
+				
 				break;
 			case Menu:
 				this.setScreen(menuScreen);
 				break;
 			case Victory:
 				this.setScreen(victoryScreen);
+				// If we're loading the victory screen, destroy the currentGame screen and currentShop screen
+				currentGame.dispose();
+				currentGame = null;
+				
+				if(currentShop != null) currentShop.dispose();
+				currentShop = null;
+				
+				
 				break;
 			default:
 				break;

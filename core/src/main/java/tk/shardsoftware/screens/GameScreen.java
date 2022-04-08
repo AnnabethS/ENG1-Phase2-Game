@@ -763,17 +763,20 @@ public class GameScreen implements Screen {
 		// Check if the player has lost the game, and if so open a loss screen
 		if (player.getHealth() <= 0 || gameTime <= 0) {
 			SoundManager.stopMusic();
-			pg.openScreen(Screens.Loss, null, null);
+			
 			//pg.openNewLossScreen();
 			boatWaterMovement.setVolume(soundIdBoatMovement, 0);
+			pg.openScreen(Screens.Loss, null, null);
+			//pg.openScreen(Screens.Loss, difficulty, null);
 			return;
 		}
 
 		if (worldObj.getRemainingColleges() <= 1) {
 			SoundManager.stopMusic();
-			pg.openScreen(Screens.Victory, null, null);
+			
 			//pg.openNewWinScreen();
 			boatWaterMovement.setVolume(soundIdBoatMovement, 0);
+			pg.openScreen(Screens.Victory, null, null);
 			return;
 		}
 
@@ -1032,10 +1035,10 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		batch.dispose();
-		hudBatch.dispose();
-		shapeRenderer.dispose();
-		miniMap.dispose();
+		//batch.dispose();
+		//hudBatch.dispose();
+		//shapeRenderer.dispose();
+		//miniMap.dispose();
 	}
 	
 	public EntityShip getPlayer() {
