@@ -21,6 +21,9 @@ public class PirateGame extends Game {
 	public LossScreen lossScreen;
 	public VictoryScreen victoryScreen;
 
+	public GameScreen currentGame = null;
+	public ShopScreen currentShop = null;
+	
 	@Override
 	public void create() {
 		assets = new AssetManager();
@@ -86,13 +89,33 @@ public class PirateGame extends Game {
 				break;
 			case Game:
 				// Iniitliase a new game screen each time, so we don't have to faff with restarting existing games
-				this.setScreen(new GameScreen(this, difficulty));
+				if(currentGame == null) {
+					currentGame = new GameScreen(this, difficulty);
+					this.setScreen(currentGame);
+				} else {
+					this.setScreen(currentGame);
+				}
+				break;
+			case Shop:
+				// Iniitliase a new shop screen each time, allows resetting upgrades and less risk communicating with now deleted games
+				// if we were to retain it.
+				if(currentShop == null) {
+					currentShop = new ShopScreen(this, currentGame);
+					this.setScreen(currentShop);
+				} else {
+					this.setScreen(currentShop);
+				}
 				break;
 			case Help:
 				this.setScreen(helpScreen);
 				break;
 			case Loss:
 				lossScreen.setText(lossText);
+				
+				// If we're loading the loss screen, destroy the currentGame screen and currentShop screen
+				currentGame.dispose();
+				currentShop.dispose();
+				
 				this.setScreen(lossScreen);
 				break;
 			case Menu:

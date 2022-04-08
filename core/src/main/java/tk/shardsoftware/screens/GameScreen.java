@@ -61,6 +61,7 @@ import tk.shardsoftware.util.ObstacleManager;
 import tk.shardsoftware.util.PowerupManager;
 import tk.shardsoftware.util.ResourceUtil;
 import tk.shardsoftware.util.Screens;
+import tk.shardsoftware.util.Shop;
 import tk.shardsoftware.util.SoundManager;
 import tk.shardsoftware.util.PowerupType;
 
@@ -81,10 +82,12 @@ public class GameScreen implements Screen {
 	private long soundIdBoatMovement;
 
 	private PirateGame pg;
-
+	private boolean gameStarted = false;
+	
 	private SpriteBatch batch, hudBatch;
 	private ShapeRenderer shapeRenderer;
 	private OrthographicCamera camera;
+	private boolean resetCamera = false;
 
 	public ChooseCollegeDisplay cDisplay;
 	public Stage stage;
@@ -293,35 +296,42 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-		soundIdBoatMovement = boatWaterMovement.loop(0);
-		ambientOcean.loop(SoundManager.gameVolume);
+		// Ensure that certain events don't happen more than once, as we flick between this screen and back.
+		if(!gameStarted) {
+			soundIdBoatMovement = boatWaterMovement.loop(0);
+			ambientOcean.loop(SoundManager.gameVolume);
+			
+			SoundManager.playRandomMusic();
+			
+			// Increase the points by 1 every second and check whether college cannons
+			// should fire
+			Timer.schedule(new Task() {
+				public void run() {
+					// If the instructions are being displayed, don't process
+					if (instOverlay.shouldDisplay) return;
 
-		// Increase the points by 1 every second and check whether college cannons
-		// should fire
-		Timer.schedule(new Task() {
-			public void run() {
-				// If the instructions are being displayed, don't process
-				if (instOverlay.shouldDisplay) return;
-
-				if (--gameTime < 30) {
-					font.setColor(Color.MAROON);
+					if (--gameTime < 30) {
+						font.setColor(Color.MAROON);
+					}
+					timerTxtLayout.setText(font, "Time Left: " + gameTime);
+					font.setColor(Color.WHITE);
+					if(isStorm)
+						points += 2;
+					else
+						points++;
+					pointTxtLayout.setText(font, "Points: " + points);
+					plunderTxtLayout.setText(font, "Plunder: " + plunder);
+									
+					for (College c : CollegeManager.collegeList) {
+						c.fireCannons();
+						c.spawnShip();
+					}
 				}
-				timerTxtLayout.setText(font, "Time Left: " + gameTime);
-				font.setColor(Color.WHITE);
-				if(isStorm)
-					points += 2;
-				else
-					points++;
-				pointTxtLayout.setText(font, "Points: " + points);
-				plunderTxtLayout.setText(font, "Plunder: " + plunder);
-								
-				for (College c : CollegeManager.collegeList) {
-					c.fireCannons();
-					c.spawnShip();
-				}
-			}
-		}, 1, 1);
-		SoundManager.playRandomMusic();
+			}, 1, 1);
+		} else {
+			resetCamera = true;
+		}
+		gameStarted = true;
 	}
 
 	/**
@@ -495,6 +505,9 @@ public class GameScreen implements Screen {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
 			miniMap.onToggleKeyJustPressed();
 		}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.N)) {
+			pg.openScreen(Screens.Shop, difficulty, null);
+		}
 		if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)) {
 			player.ram(delta);
 		}
@@ -519,8 +532,11 @@ public class GameScreen implements Screen {
 			if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
 				Restart();
 			}
-			if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
+			if (Gdx.input.isKeyJustPressed(Input.Keys.B)) {
 				DebugUtil.damageAllEntities(worldObj, 5); // cause 5 damage to all entities
+			}
+			if (Gdx.input.isKeyJustPressed(Input.Keys.V)) {
+				addPlunder(1000);
 			}
 			if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
 				setStorm(!isStorm);
@@ -565,7 +581,13 @@ public class GameScreen implements Screen {
 		DebugUtil.saveProcessTime("Logic Time", () -> {
 			controls(delta);
 			if (!instOverlay.shouldDisplay) logic(delta);
+			
+			
 			lerpCamera(player.getCenterPoint(), 0.04f, delta);
+			if(resetCamera) {
+				lerpCamera(player.getCenterPoint(), 1f, delta);
+				resetCamera = false;
+			}
 		});
 
 		ScreenUtils.clear(0, 0, 0, 1); // clears the buffer
@@ -822,8 +844,13 @@ public class GameScreen implements Screen {
 		delta *= 60; // standardize for 60fps
 		Vector3 camPos = camera.position;
 
-		camPos.x = camera.position.x + (target.x - camera.position.x) * speed * delta;
-		camPos.y = camera.position.y + (target.y - camera.position.y) * speed * delta;
+		if(speed < 1) {
+			camPos.x = camera.position.x + (target.x - camera.position.x) * speed * delta;
+			camPos.y = camera.position.y + (target.y - camera.position.y) * speed * delta;
+		} else { // If the movement is instantaneous, remove delta from the mix entirely.
+			camPos.x = target.x;
+			camPos.y = target.y;
+		}
 
 		/* Confine the camera to the bounds of the map */
 
@@ -917,6 +944,36 @@ public class GameScreen implements Screen {
 	}
 	
 	/**
+	 * Applies the relevant purchase
+	 * 
+	 * @param the type of purchase
+	 */
+	public void addPurchase(Shop purchase) {
+		switch(purchase) {
+			case DAMAGE:
+				player.applyPurchase(purchase);
+				break;
+			case HEAL:
+				player.applyPurchase(purchase);
+				break;
+			case STORM:
+				setStorm(false);
+				break;
+			case RELOAD:
+				player.applyPurchase(purchase);
+				break;
+			case SPEED:
+				player.applyPurchase(purchase);
+				break;
+			case MAXHEALTH:
+				player.applyPurchase(purchase);
+				break;
+			default:
+				break;
+		}
+	}
+	
+	/**
 	 * Reduce the timer of each powerup
 	 * and remove expired ones
 	 * and generate the appropriate text.
@@ -974,5 +1031,13 @@ public class GameScreen implements Screen {
 
 	public Difficulty getDifficulty(){
 		return difficulty;
+	}
+	
+	public int getPlunder() {
+		return plunder;
+	}
+	
+	public boolean getStorm() {
+		return isStorm;
 	}
 }

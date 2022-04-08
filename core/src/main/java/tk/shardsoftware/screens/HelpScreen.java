@@ -28,7 +28,6 @@ public class HelpScreen implements Screen {
 	// TODO textures and also options/help screen
 
 	private SpriteBatch batch;
-	private Music menuMusic = ResourceUtil.getMusic("audio/music/tiki-bar-mixer.mp3");
 	/** Width of the display */
 	private int width;
 	/** Height of the display */
@@ -92,26 +91,20 @@ public class HelpScreen implements Screen {
 	}
 
 	private void closeScreen() {
-		menuMusic.stop();
 		pirateGameObj.openScreen(Screens.Menu, null, null);
 		//pirateGameObj.openNewMenuScreen();
 	}
 
 	@Override
 	public void render(float delta) {
-		// Restart the game when a key is pressed
+		// Return to menu if the SPACE key is pressed while selecting the Return option
 		if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 			switch (selection)
 			{
 				case BACK:
 					closeScreen();
 					break;
-				case HOWTO:
-					// TODO: Help me
-					break;
-				case CONTROLS:
-					break;
-				case POWERUPS:
+				default:
 					break;
 			}
 		}
