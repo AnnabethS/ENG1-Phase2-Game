@@ -26,7 +26,7 @@ public class EntityTest
 	private static final float floatTolerance = 0.001f;
 
 	@BeforeClass
-	public static void entityTestInit()
+	public static void init()
 	{
 		AssetManager a = new AssetManager();
 		ResourceUtil.init(a);

@@ -31,7 +31,7 @@ public class EntityShipTest
 	  Initialise the global resource utility
 	 */	
 	@BeforeClass
-	public static void entityTestInit()
+	public static void init()
 	{
 		AssetManager a = new AssetManager();
 		ResourceUtil.init(a);

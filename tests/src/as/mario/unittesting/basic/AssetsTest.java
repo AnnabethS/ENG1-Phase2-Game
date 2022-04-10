@@ -43,7 +43,7 @@ public class AssetsTest {
 	@Test
 	public void entityTexturesExist()
 	{
-		String[] files = {"playership", "cannonball", "college"};
+		String[] files = {"playership", "cannonball", "college", "mine"};
 		for (String f : files)
 		{
 			assertTrue("the file " + f + ".png does not exist",

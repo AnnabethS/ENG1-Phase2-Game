@@ -21,7 +21,7 @@ import com.badlogic.gdx.assets.AssetManager;
 public class PowerupManagerTest
 {
 	@BeforeClass
-	public static void entityTestInit()
+	public static void init()
 	{
 		AssetManager a = new AssetManager();
 		ResourceUtil.init(a);

@@ -53,6 +53,7 @@ public abstract class ResourceUtil {
 		addTexture("textures/entity/playership.png");
 		addTexture("textures/entity/cannonball.png");
 		addTexture("textures/entity/college.png");
+		addTexture("textures/entity/mine.png");
 		/* Powerups */
 		addTexture("textures/powerups/speed.png");
 		addTexture("textures/powerups/damage.png");
