@@ -24,7 +24,7 @@ public class Mine extends Entity {
 	public boolean isFriendly = false;
     
     // FIXME create custom mine texture
-	public String mineTexturePath = "textures/entity/cannonball.png";
+	public String mineTexturePath = "textures/entity/mine.png";
 	public Sound mineSFX = ResourceUtil.getSound("audio/entity/cannon.mp3");
 	public float damage = 25f;
 
