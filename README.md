@@ -13,24 +13,9 @@ objective.
 ## Running The Game
 Please note that this game was designed for 1280x720 gameplay so playing in fullscreen may have bugs.
 
-Download [Version 1.0.0](https://github.com/uoy-jb2501/ENG1-Pirate-Game/releases/tag/1.0.0)
-### With Pre-Bundled JRE
-These versions come with the correct Java Runtime Environment so you **shouldn't need to install Java separately**.
-#### Windows
-1. Download the ``_win64.zip`` file
-2. Extract the contents
-3. Launch the game using the executable ``.exe`` file
-#### Linux
-1. Download the ``_linux64.zip`` file
-2. Extract the contents
-3. Launch the game using the executable file
+Download the most recent build in the releases section.
 
-### Alternative
-Java 11 is a requirement for this game to run. Later versions may work, but it is not guaranteed.
-- Download the game jar file
-- For Linux, download the ``launch.sh`` file to run the game in a window or ``launch-fs.sh`` to run in fullscreen
-- For Windows, download one of the ``.bat`` files instead
-- Launch the game by running one of the scripts
+Run with `java -jar desktop-1.0.jar` on linux, or double click on windows
 
 ## Credits (Current Team)
 
@@ -52,9 +37,8 @@ Java 11 is a requirement for this game to run. Later versions may work, but it i
 
 ## Links
 
-- Website: http://www.shardsoftware.tk/
-- Java Documentation: https://www.shardsoftware.tk/doc
+- [Website](https://annabeths.github.io/ENG1-Phase2-Website/)
 
 ## License
 
-[MIT License](https://github.com/uoy-jb2501/ENG1-Pirate-Game/blob/master/LICENSE)
+found in the `LICENSE` file
