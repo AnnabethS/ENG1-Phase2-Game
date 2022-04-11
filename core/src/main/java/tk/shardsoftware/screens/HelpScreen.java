@@ -15,6 +15,7 @@ import tk.shardsoftware.PirateGame;
 import tk.shardsoftware.util.Help;
 import tk.shardsoftware.util.Menu;
 import tk.shardsoftware.util.ResourceUtil;
+import tk.shardsoftware.util.Screens;
 
 /**
  * The menu screen
@@ -27,7 +28,6 @@ public class HelpScreen implements Screen {
 	// TODO textures and also options/help screen
 
 	private SpriteBatch batch;
-	private Music menuMusic = ResourceUtil.getMusic("audio/music/tiki-bar-mixer.mp3");
 	/** Width of the display */
 	private int width;
 	/** Height of the display */
@@ -46,8 +46,10 @@ public class HelpScreen implements Screen {
 	private Texture[] howtoButtonTextures = new Texture[2];
 	private Texture[] controlsButtonTextures = new Texture[2];
 	private Texture[] powerupsButtonTextures = new Texture[2];
+	private Texture[] badweatherButtonTextures = new Texture[2];
+	private Texture[] shopButtonTextures = new Texture[2];
 	private Texture[] returnButtonTextures = new Texture[2];
-	private Texture[] helpTextures = new Texture[4];
+	private Texture[] helpTextures = new Texture[6];
 	private Texture wButtonTexture;
 	private Texture sButtonTexture;
 
@@ -72,12 +74,18 @@ public class HelpScreen implements Screen {
 		controlsButtonTextures[1] = ResourceUtil.getUITexture("help/controls-selected");
 		powerupsButtonTextures[0] = ResourceUtil.getUITexture("help/powerups-deselected");
 		powerupsButtonTextures[1] = ResourceUtil.getUITexture("help/powerups-selected");
+		badweatherButtonTextures[0] = ResourceUtil.getUITexture("help/badweather-deselected");
+		badweatherButtonTextures[1] = ResourceUtil.getUITexture("help/badweather-selected");
+		shopButtonTextures[0] = ResourceUtil.getUITexture("help/shop-deselected");
+		shopButtonTextures[1] = ResourceUtil.getUITexture("help/shop-selected");
 		returnButtonTextures[0] = ResourceUtil.getUITexture("help/return-deselected");
 		returnButtonTextures[1] = ResourceUtil.getUITexture("help/return-selected");
 		helpTextures[0] = ResourceUtil.getUITexture("help/help-return");
 		helpTextures[1] = ResourceUtil.getUITexture("help/help-howto");
 		helpTextures[2] = ResourceUtil.getUITexture("help/help-controls");
 		helpTextures[3] = ResourceUtil.getUITexture("help/help-powerups");
+		helpTextures[4] = ResourceUtil.getUITexture("help/help-badweather");
+		helpTextures[5] = ResourceUtil.getUITexture("help/help-shop");
 		wButtonTexture = ResourceUtil.getUITexture("keys/w-button");
 		sButtonTexture = ResourceUtil.getUITexture("keys/s-button");
 
@@ -91,25 +99,20 @@ public class HelpScreen implements Screen {
 	}
 
 	private void closeScreen() {
-		menuMusic.stop();
-		pirateGameObj.openNewMenuScreen();
+		pirateGameObj.openScreen(Screens.Menu, null, null);
+		//pirateGameObj.openNewMenuScreen();
 	}
 
 	@Override
 	public void render(float delta) {
-		// Restart the game when a key is pressed
+		// Return to menu if the SPACE key is pressed while selecting the Return option
 		if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 			switch (selection)
 			{
 				case BACK:
 					closeScreen();
 					break;
-				case HOWTO:
-					// TODO: Help me
-					break;
-				case CONTROLS:
-					break;
-				case POWERUPS:
+				default:
 					break;
 			}
 		}
@@ -155,12 +158,26 @@ public class HelpScreen implements Screen {
 		else
 			batch.draw(powerupsButtonTextures[0], 35, height - 300, 266, 50);
 		
+		if(selection == Help.BADWEATHER) {
+			batch.draw(badweatherButtonTextures[1], 35, height - 375, 266, 50);
+			batch.draw(helpTextures[4], (width) - 720 - 35, (height / 2) - 270, 720, 540);
+		}
+		else
+			batch.draw(badweatherButtonTextures[0], 35, height - 375, 266, 50);
+		
+		if(selection == Help.SHOP) {
+			batch.draw(shopButtonTextures[1], 35, height - 450, 266, 50);
+			batch.draw(helpTextures[5], (width) - 720 - 35, (height / 2) - 270, 720, 540);
+		}
+		else
+			batch.draw(shopButtonTextures[0], 35, height - 450, 266, 50);
+		
 		if(selection == Help.BACK) {
-			batch.draw(returnButtonTextures[1], 35, height - 375, 266, 50);
+			batch.draw(returnButtonTextures[1], 35, 100, 266, 50);
 			batch.draw(helpTextures[0], (width) - 720 - 35, (height / 2) - 270, 720, 540);
 		}
 		else
-			batch.draw(returnButtonTextures[0], 35, height - 375, 266, 50);
+			batch.draw(returnButtonTextures[0], 35, 100, 266, 50);
 
 		batch.end();
 	}

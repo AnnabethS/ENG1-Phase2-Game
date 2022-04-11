@@ -8,6 +8,7 @@ import tk.shardsoftware.World;
 import tk.shardsoftware.util.CollegeManager;
 import tk.shardsoftware.util.Difficulty;
 import tk.shardsoftware.util.ResourceUtil;
+import tk.shardsoftware.util.Shop;
 import tk.shardsoftware.util.SoundManager;
 import tk.shardsoftware.util.PowerupType;
 
@@ -37,6 +38,11 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 
 	protected String collegeName;
 	public boolean isPlayer = false;
+	
+	/** Shop Upgrades*/
+	private float damageMultiplier = 1f;
+	private float reloadTimeMultiplier = 1f;
+	private float speedMultiplier = 1f;
 
 	private Sound cannonSfx = ResourceUtil.getSound("audio/entity/cannon.mp3");
 
@@ -82,10 +88,12 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 		timeUntilFire -= delta;
 		timeUntilFire = timeUntilFire <= 0 ? 0 : timeUntilFire;
 		
-		if(getVelocity().len() < (isStorm ? 50 : (speedBoost ? 135 : 100))) {
+		if(getVelocity().len() < (isStorm ? 50 : ((speedBoost ? 135 : 100) * speedMultiplier))) {
 			ramming = false;
-			drag = speedBoost ? 0.995f : 0.99f;
-			setMaxSpeed((isStorm ? 50 : (speedBoost ? 130 : 100)));
+			drag = speedBoost ? (speedMultiplier <= 1 ? 0.995f : 0.9975f) : 
+								(speedMultiplier <= 1 ? 0.99f : 0.995f);
+			
+			setMaxSpeed((isStorm ? 50 : (speedBoost ? 130 * speedMultiplier : 100 * speedMultiplier)));
 			this.setIgnoreEntityCollision(false);
 		} else {
 			ramming = true;
@@ -147,7 +155,7 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 		fireCannonball(true);
 		fireCannonball(false);
 		// Reload
-		timeUntilFire += reloadTime;
+		timeUntilFire += (reloadTime / reloadTimeMultiplier);
 		// Play sfx
 		SoundManager.playSound(cannonSfx, 8);
 		return true;
@@ -180,6 +188,10 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 	public float getReloadProgress() {
 		return timeUntilFire;
 	}
+	
+	public void setMaxHealth(float maxHealth) {
+		this.maxHealth = maxHealth;
+	}
 
 	@Override
 	public float getMaxHealth() {
@@ -208,7 +220,7 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 
 	@Override
 	public float getCannonDamage() {
-		return !doubleDamage ? 10 : 20;
+		return !doubleDamage ? 10f * damageMultiplier : 20f * damageMultiplier;
 	}
 
 	public boolean isInRangeOfFriendlyCollege()
@@ -256,9 +268,32 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 			break;
 		}
 	}
+	
+	public void applyPurchase(Shop purchase) {
+		switch(purchase) {
+			case DAMAGE:
+				damageMultiplier = 1.2f;
+				break;
+			case HEAL:
+				repair(getMaxHealth());
+				break;
+			case RELOAD:
+				reloadTimeMultiplier = 1.2f;
+				break;
+			case SPEED:
+				speedMultiplier = 1.2f;
+				break;
+			case MAXHEALTH:
+				setMaxHealth(getMaxHealth() * 1.25f);
+				repair(getMaxHealth());
+				break;
+			default:
+				break;
+		}
+	}
 
 	public void ram(float delta) {
-		if(canRam && getVelocity().len() < (isStorm ? 80 : (speedBoost ? 135 : 100))) {
+		if(canRam && getVelocity().len() < (isStorm ? 80 : (speedBoost ? 135 : 100) * speedMultiplier)) {
 			this.setMaxSpeed(500f);
 			System.out.println("Ramming");
 			float angle = getDirection();

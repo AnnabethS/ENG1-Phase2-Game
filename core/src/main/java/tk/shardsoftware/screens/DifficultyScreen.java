@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import tk.shardsoftware.PirateGame;
 import tk.shardsoftware.util.Difficulty;
+import tk.shardsoftware.util.Screens;
 import tk.shardsoftware.util.ResourceUtil;
 
 /**
@@ -95,7 +96,8 @@ public class DifficultyScreen implements Screen {
 
 	private void closeScreen() {
 		menuMusic.stop();
-		pirateGameObj.openNewGameScreen(selectedDifficulty);
+		pirateGameObj.openScreen(Screens.Game, selectedDifficulty, null);
+		//pirateGameObj.openNewGameScreen(selectedDifficulty);
 	}
 
 	@Override

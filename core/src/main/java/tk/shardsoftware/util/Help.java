@@ -1,7 +1,7 @@
 package tk.shardsoftware.util;
 
 public enum Help {
-    HOWTO, CONTROLS, POWERUPS, BACK;
+    HOWTO, CONTROLS, POWERUPS, BADWEATHER, SHOP, BACK;
 
     /**
 	 * Takes an integer and returns it as the corresponding Menu
@@ -17,6 +17,10 @@ public enum Help {
 				return CONTROLS;
 			case 2:
 				return POWERUPS;
+			case 3:
+				return BADWEATHER;
+			case 4:
+				return SHOP;
 		}
 		return BACK;
 	}
