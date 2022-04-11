@@ -82,38 +82,27 @@ public class AssetsTest {
 			"sound-enabled"
 		};
 		
-		String[] helpFiles = {"controls-deselected",
-				"controls-selected",
+		String[] helpFiles = {"controls-deselected", "controls-selected",
 				"help-controls",
 				"help-howto",
 				"help-powerups",
 				"help-return",
-				"howto-deselected",
-				"howto-selected",
-				"powerups-deselected",
-				"powerups-selected",
-				"return-deselected",
-				"return-selected"
+				"howto-deselected", "howto-selected",
+				"powerups-deselected", "powerups-selected",
+				"return-deselected", "return-selected"
 		};
 		
 		String[] difficultyFiles = {
-				"easy-selected",
-				"easy-deselected",
-				"normal-deselected",
-				"normal-selected",
-				"hard-selected",
-				"hard-deselected",
-				"gamer-selected",
-				"gamer-deselected"
+				"easy-selected", "easy-deselected",
+				"normal-deselected", "normal-selected",
+				"hard-selected", "hard-deselected",
+				"gamer-selected", "gamer-deselected"
 		};
 		
 		String[] mainmenuFiles = {
-				"help-selected",
-				"help-deselected",
-				"play-deselected",
-				"play-selected",
-				"quit-selected",
-				"quit-deselected"
+				"help-selected", "help-deselected",
+				"play-deselected", "play-selected",
+				"quit-selected", "quit-deselected"
 		};
 		
 		String[] keysFiles = {
@@ -121,6 +110,20 @@ public class AssetsTest {
 				"d-button",
 				"w-button",
 				"s-button"
+		};
+		
+		String[] shopFiles = {
+				"damage-deselected", "damage-selected", "damage-purchased",
+				"maxhealth-deselected", "maxhealth-selected", "maxhealth-purchased",
+				"regen-deselected", "regen-selected", "regen-purchased",
+				"reload-deselected", "reload-selected", "reload-purchased",
+				"speed-deselected", "speed-selected", "speed-purchased",
+				"heal-deselected", "heal-selected",
+				"storm-deselected", "storm-selected",
+				"timer-deselected", "timer-selected",
+				"shop-damage", "shop-heal", "shop-maxhealth", "shop-regen", "shop-reload", 
+				"shop-storm-invalid", "shop-storm-valid",
+				"shop-timer"
 		};
 		for (String f : files)
 		{
@@ -154,6 +157,13 @@ public class AssetsTest {
 		{
 			assertTrue("the file " + f + ".png does not exist",
 						Gdx.files.internal("../core/assets/textures/ui/keys/" +
+											f + ".png").exists());
+		}
+		
+		for (String f : shopFiles)
+		{
+			assertTrue("the file " + f + ".png does not exist",
+						Gdx.files.internal("../core/assets/textures/ui/shop/" +
 											f + ".png").exists());
 		}
 	}

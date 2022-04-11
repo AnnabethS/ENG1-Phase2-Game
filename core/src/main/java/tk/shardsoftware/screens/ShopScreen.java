@@ -78,49 +78,52 @@ public class ShopScreen implements Screen {
 		this.gameObj = game;
 		this.width = Gdx.graphics.getWidth();
 		this.height = Gdx.graphics.getHeight();
-		batch = new SpriteBatch();
-		shardLogo = new Texture("textures/logo/shardlogo.png");
-		//TODO: add some keyboard controls to change difficulty
-		healButtonTextures[0] = ResourceUtil.getUITexture("shop/heal-deselected");
-		healButtonTextures[1] = ResourceUtil.getUITexture("shop/heal-selected");
-		stormButtonTextures[0] = ResourceUtil.getUITexture("shop/storm-deselected");
-		stormButtonTextures[1] = ResourceUtil.getUITexture("shop/storm-selected");
-		damageButtonTextures[0] = ResourceUtil.getUITexture("shop/damage-deselected");
-		damageButtonTextures[1] = ResourceUtil.getUITexture("shop/damage-selected");
-		damageButtonTextures[2] = ResourceUtil.getUITexture("shop/damage-purchased");
-		reloadButtonTextures[0] = ResourceUtil.getUITexture("shop/reload-deselected");
-		reloadButtonTextures[1] = ResourceUtil.getUITexture("shop/reload-selected");
-		reloadButtonTextures[2] = ResourceUtil.getUITexture("shop/reload-purchased");
-		speedButtonTextures[0] = ResourceUtil.getUITexture("shop/speed-deselected");
-		speedButtonTextures[1] = ResourceUtil.getUITexture("shop/speed-selected");
-		speedButtonTextures[2] = ResourceUtil.getUITexture("shop/speed-purchased");
-		maxhealthButtonTextures[0] = ResourceUtil.getUITexture("shop/maxhealth-deselected");
-		maxhealthButtonTextures[1] = ResourceUtil.getUITexture("shop/maxhealth-selected");
-		maxhealthButtonTextures[2] = ResourceUtil.getUITexture("shop/maxhealth-purchased");
-		regenButtonTextures[0] = ResourceUtil.getUITexture("shop/regen-deselected");
-		regenButtonTextures[1] = ResourceUtil.getUITexture("shop/regen-selected");
-		regenButtonTextures[2] = ResourceUtil.getUITexture("shop/regen-purchased");
-		timerButtonTextures[0] = ResourceUtil.getUITexture("shop/timer-deselected");
-		timerButtonTextures[1] = ResourceUtil.getUITexture("shop/timer-selected");
-		returnButtonTextures[0] = ResourceUtil.getUITexture("help/return-deselected");
-		returnButtonTextures[1] = ResourceUtil.getUITexture("help/return-selected");
-		shopTextures[0] = ResourceUtil.getUITexture("help/help-return");
-		shopTextures[1] = ResourceUtil.getUITexture("shop/shop-heal");
-		shopTextures[2] = ResourceUtil.getUITexture("shop/shop-storm-valid");
-		shopTextures[3] = ResourceUtil.getUITexture("shop/shop-storm-invalid");
-		shopTextures[4] = ResourceUtil.getUITexture("shop/shop-damage");
-		shopTextures[5] = ResourceUtil.getUITexture("shop/shop-reload");
-		shopTextures[6] = ResourceUtil.getUITexture("shop/shop-speed");
-		shopTextures[7] = ResourceUtil.getUITexture("shop/shop-maxhealth");
-		shopTextures[8] = ResourceUtil.getUITexture("shop/shop-regen");
-		shopTextures[9] = ResourceUtil.getUITexture("shop/shop-timer");
-		wButtonTexture = ResourceUtil.getUITexture("keys/w-button");
-		sButtonTexture = ResourceUtil.getUITexture("keys/s-button");
+		
+		if(pg != null) {
+			batch = new SpriteBatch();
+			shardLogo = new Texture("textures/logo/shardlogo.png");
+			//TODO: add some keyboard controls to change difficulty
+			healButtonTextures[0] = ResourceUtil.getUITexture("shop/heal-deselected");
+			healButtonTextures[1] = ResourceUtil.getUITexture("shop/heal-selected");
+			stormButtonTextures[0] = ResourceUtil.getUITexture("shop/storm-deselected");
+			stormButtonTextures[1] = ResourceUtil.getUITexture("shop/storm-selected");
+			damageButtonTextures[0] = ResourceUtil.getUITexture("shop/damage-deselected");
+			damageButtonTextures[1] = ResourceUtil.getUITexture("shop/damage-selected");
+			damageButtonTextures[2] = ResourceUtil.getUITexture("shop/damage-purchased");
+			reloadButtonTextures[0] = ResourceUtil.getUITexture("shop/reload-deselected");
+			reloadButtonTextures[1] = ResourceUtil.getUITexture("shop/reload-selected");
+			reloadButtonTextures[2] = ResourceUtil.getUITexture("shop/reload-purchased");
+			speedButtonTextures[0] = ResourceUtil.getUITexture("shop/speed-deselected");
+			speedButtonTextures[1] = ResourceUtil.getUITexture("shop/speed-selected");
+			speedButtonTextures[2] = ResourceUtil.getUITexture("shop/speed-purchased");
+			maxhealthButtonTextures[0] = ResourceUtil.getUITexture("shop/maxhealth-deselected");
+			maxhealthButtonTextures[1] = ResourceUtil.getUITexture("shop/maxhealth-selected");
+			maxhealthButtonTextures[2] = ResourceUtil.getUITexture("shop/maxhealth-purchased");
+			regenButtonTextures[0] = ResourceUtil.getUITexture("shop/regen-deselected");
+			regenButtonTextures[1] = ResourceUtil.getUITexture("shop/regen-selected");
+			regenButtonTextures[2] = ResourceUtil.getUITexture("shop/regen-purchased");
+			timerButtonTextures[0] = ResourceUtil.getUITexture("shop/timer-deselected");
+			timerButtonTextures[1] = ResourceUtil.getUITexture("shop/timer-selected");
+			returnButtonTextures[0] = ResourceUtil.getUITexture("help/return-deselected");
+			returnButtonTextures[1] = ResourceUtil.getUITexture("help/return-selected");
+			shopTextures[0] = ResourceUtil.getUITexture("help/help-return");
+			shopTextures[1] = ResourceUtil.getUITexture("shop/shop-heal");
+			shopTextures[2] = ResourceUtil.getUITexture("shop/shop-storm-valid");
+			shopTextures[3] = ResourceUtil.getUITexture("shop/shop-storm-invalid");
+			shopTextures[4] = ResourceUtil.getUITexture("shop/shop-damage");
+			shopTextures[5] = ResourceUtil.getUITexture("shop/shop-reload");
+			shopTextures[6] = ResourceUtil.getUITexture("shop/shop-speed");
+			shopTextures[7] = ResourceUtil.getUITexture("shop/shop-maxhealth");
+			shopTextures[8] = ResourceUtil.getUITexture("shop/shop-regen");
+			shopTextures[9] = ResourceUtil.getUITexture("shop/shop-timer");
+			wButtonTexture = ResourceUtil.getUITexture("keys/w-button");
+			sButtonTexture = ResourceUtil.getUITexture("keys/s-button");
+		}
 		
 		purchasedPowerups = new ArrayList<Integer>();
 		
 		text = new GlyphLayout();
-		text.setText(font, "Your plunder here. " + gameObj.getPlunder());
+		text.setText(font, "Your plunder here. " + getGameObj().getPlunder());
 
 		decreaseSelection();
 	}
@@ -167,7 +170,7 @@ public class ShopScreen implements Screen {
 		batch.begin();
 		batch.draw(background, 0, 0, width, height);
 		
-		text.setText(font, "Yer Plunder is " + gameObj.getPlunder());
+		text.setText(font, "Yer Plunder is " + getGameObj().getPlunder());
 		font.draw(batch, text, (width - text.width) / 2, height - (text.height / 2));
 		
 		//font.draw(batch, text, (width - text.width) / 2, 50 + (height - text.height) / 2);
@@ -186,7 +189,7 @@ public class ShopScreen implements Screen {
 		if(selection == Shop.STORM) {
 			batch.draw(stormButtonTextures[1], 35, height - 180, 213, 40);
 			batch.draw(
-					gameObj.getStorm() ? shopTextures[2] : shopTextures[3], 
+					getGameObj().getStorm() ? shopTextures[2] : shopTextures[3], 
 					(width) - 720 - 35, (height / 2) - 270, 720, 540);
 		}
 		else
@@ -249,136 +252,133 @@ public class ShopScreen implements Screen {
 		batch.end();
 	}
 
-	private void buyPowerup() {
+	/*
+	 * Performs relevant checks for buying and applying a purchase.
+	 * 
+	 * @return true/false depending on if the action carried out successfully or not.
+	 */
+	public boolean buyPowerup() {
 		switch(selection) {
 			case BACK:
-				break;
+				return true;
 			case DAMAGE:
-				if(gameObj.getPlunder() >= 75) {
-					gameObj.addPlunder(-75);
+				if(getGameObj().getPlunder() >= 75 && !purchasedPowerups.contains(2)) {
+					getGameObj().addPlunder(-75);
 					
 					purchasedPowerups.add(2);
-					gameObj.addPurchase(selection);
+					getGameObj().addPurchase(selection);
 					decreaseSelection();
-				}
+					
+					return true;
+				} 
 				break;
 			case HEAL:
-				if(gameObj.getPlunder() >= 10) {
-					gameObj.addPlunder(-10);
+				if(getGameObj().getPlunder() >= 10) {
+					getGameObj().addPlunder(-10);
 					
-					gameObj.addPurchase(selection);
+					getGameObj().addPurchase(selection);
+					
+					return true;
 				}
 				break;
 			case STORM:
-				if(gameObj.getPlunder() >= 20 && gameObj.getStorm()) {
-					gameObj.addPlunder(-20);
+				if(getGameObj().getPlunder() >= 20 && getGameObj().getStorm()) {
+					getGameObj().addPlunder(-20);
 					
-					gameObj.addPurchase(selection);
+					getGameObj().addPurchase(selection);
+					
+					return true;
 				}
 				break;
 			case RELOAD:
-				if(gameObj.getPlunder() >= 50) {
-					gameObj.addPlunder(-50);
+				if(getGameObj().getPlunder() >= 50 && !purchasedPowerups.contains(3)) {
+					getGameObj().addPlunder(-50);
 					
-					gameObj.addPurchase(selection);
+					getGameObj().addPurchase(selection);
 					purchasedPowerups.add(3);
 					decreaseSelection();
+					
+					return true;
 				}
 				break;
 			case SPEED:
-				if(gameObj.getPlunder() >= 50) {
-					gameObj.addPlunder(-50);
+				if(getGameObj().getPlunder() >= 50 && !purchasedPowerups.contains(4)) {
+					getGameObj().addPlunder(-50);
 					
-					gameObj.addPurchase(selection);
+					getGameObj().addPurchase(selection);
 					purchasedPowerups.add(4);
 					decreaseSelection();
-				}
+					
+					return true;
+				} 
 				break;
 			case MAXHEALTH:
-				if(gameObj.getPlunder() >= 100) {
-					gameObj.addPlunder(-100);
+				if(getGameObj().getPlunder() >= 100 && !purchasedPowerups.contains(5)) {
+					getGameObj().addPlunder(-100);
 					
-					gameObj.addPurchase(selection);
+					getGameObj().addPurchase(selection);
 					purchasedPowerups.add(5);
 					decreaseSelection();
-				}
+					
+					return true;
+				} 
 				break;
 			case REGEN:
-				if(gameObj.getPlunder() >= 125) {
-					gameObj.addPlunder(-125);
+				if(getGameObj().getPlunder() >= 125 && !purchasedPowerups.contains(6)) {
+					getGameObj().addPlunder(-125);
 					
-					gameObj.addPurchase(selection);
+					getGameObj().addPurchase(selection);
 					purchasedPowerups.add(6);
 					decreaseSelection();
-				}
+					
+					return true;
+				} 
 				break;
 			case TIMER:
-				if(gameObj.getPlunder() >= 100) {
-					gameObj.addPlunder(-100);
+				if(getGameObj().getPlunder() >= 100) {
+					getGameObj().addPlunder(-100);
 					
-					gameObj.addPurchase(selection);
-				}
+					getGameObj().addPurchase(selection);
+					
+					return true;
+				} 
 				break;
 			default:
 				break;
 		}
+		return false;
 	}
 	
-	private void increaseSelection()
+	public void increaseSelection()
 	{
-		int oldSelection = selectionInt;
-		if(selectionInt < Shop.values().length - 1) selectionInt++;
+		int oldSelection = getSelection();
+		if(getSelection() < Shop.values().length - 1) selectionInt = getSelection() + 1;
 		
 		// Avoid selecting one-off purchases by skipping ahead, or returning to the start if we go too far.
-		while(purchasedPowerups.contains(selectionInt)) {
-			selectionInt++;
-			if(selectionInt > Shop.values().length - 1) {
+		while(purchasedPowerups.contains(getSelection())) {
+			selectionInt = getSelection() + 1;
+			/*if(getSelection() > Shop.values().length - 1) {
 				selectionInt = oldSelection;
-			}
+			}*/
 		}
 				
-		selection = Shop.fromInteger(selectionInt);
-		/*switch (selection)
-		{
-			case HOWTO:
-				detailsText.setText(font, "Play yo game.");
-				break;
-			case HELP:
-				detailsText.setText(font, "consider therapy.");
-				break;
-			case QUIT:
-				detailsText.setText(font, "go away then");
-				break;
-		}*/
+		selection = Shop.fromInteger(getSelection());
 	}
 
-	private void decreaseSelection()
+	public void decreaseSelection()
 	{
-		int oldSelection = selectionInt;
-		if(selectionInt > 0) selectionInt--;
+		int oldSelection = getSelection();
+		if(getSelection() > 0) selectionInt = getSelection() - 1;
 		
 		// Avoid selecting one-off purchases by skipping ahead, or returning to the start if we go too far.
-		while(purchasedPowerups.contains(selectionInt)) {
-			selectionInt--;
-			if(selectionInt < 0) {
+		while(purchasedPowerups.contains(getSelection())) {
+			selectionInt = getSelection() - 1;
+			/*if(getSelection() < 0) {
 				selectionInt = oldSelection;
-			}
+			}*/
 		}
 		
-		selection = Shop.fromInteger(selectionInt);
-		
-		/*switch (selection)
-		{
-			case PLAY:
-				detailsText.setText(font, "Play yo game.");
-				break;
-			case HELP:
-				detailsText.setText(font, "consider therapy.");
-				break;
-			case QUIT:
-				detailsText.setText(font, "go away then");
-				break;
-		}*/
+		selection = Shop.fromInteger(getSelection());
 	}
 
 	@Override
@@ -405,6 +405,19 @@ public class ShopScreen implements Screen {
 	public void dispose() {
 		batch.dispose();
 		shardLogo.dispose();
+	}
+
+	public GameScreen getGameObj() {
+		return gameObj;
+	}
+
+	public int getSelection() {
+		return selectionInt;
+	}
+	
+	public void setSelection(int selection) {
+		selectionInt = selection;
+		this.selection = Shop.fromInteger(getSelection());
 	}
 
 }

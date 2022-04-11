@@ -74,4 +74,8 @@ public class Powerup extends Entity {
 		worldObj.onPowerupObtained(powerupType);
 		this.remove = true;
 	}
+	
+	public PowerupType getType() {
+		return powerupType;
+	}
 }

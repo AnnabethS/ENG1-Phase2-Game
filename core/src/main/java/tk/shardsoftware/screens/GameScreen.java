@@ -150,10 +150,10 @@ public class GameScreen implements Screen {
 	private float currentStormTime = 0;
 	
 	// health regen
-	private boolean healthRegen = false;
+	public boolean healthRegen = false;
 
 	public void addPlunder(int p) {
-		plunder = plunder + p;
+		setPlunder(plunder + p);
 	}
 
 	/**
@@ -925,7 +925,7 @@ public class GameScreen implements Screen {
 					displayCollegeDestroyTxt = false;
 				}
 			}, 10);
-			plunder += 100;
+			setPlunder(plunder + 100);
 			points += 100;
 		} else{
 			pg.openScreen(Screens.Loss, null, "You just destroyed your own college.\nPress space to restart...");
@@ -1055,5 +1055,9 @@ public class GameScreen implements Screen {
 	
 	public boolean getStorm() {
 		return isStorm;
+	}
+
+	public void setPlunder(int plunder) {
+		this.plunder = plunder;
 	}
 }

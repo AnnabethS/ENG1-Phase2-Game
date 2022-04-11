@@ -88,12 +88,12 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 		timeUntilFire -= delta;
 		timeUntilFire = timeUntilFire <= 0 ? 0 : timeUntilFire;
 		
-		if(getVelocity().len() < (isStorm ? 50 : ((speedBoost ? 135 : 100) * speedMultiplier))) {
+		if(getVelocity().len() < (isStorm ? 50 : ((speedBoost ? 135 : 100) * getSpeedMultiplier()))) {
 			ramming = false;
-			drag = speedBoost ? (speedMultiplier <= 1 ? 0.995f : 0.9975f) : 
-								(speedMultiplier <= 1 ? 0.99f : 0.995f);
+			drag = speedBoost ? (getSpeedMultiplier() <= 1 ? 0.995f : 0.9975f) : 
+								(getSpeedMultiplier() <= 1 ? 0.99f : 0.995f);
 			
-			setMaxSpeed((isStorm ? 50 : (speedBoost ? 130 * speedMultiplier : 100 * speedMultiplier)));
+			setMaxSpeed((isStorm ? 50 : (speedBoost ? 130 * getSpeedMultiplier() : 100 * getSpeedMultiplier())));
 			this.setIgnoreEntityCollision(false);
 		} else {
 			ramming = true;
@@ -155,7 +155,7 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 		fireCannonball(true);
 		fireCannonball(false);
 		// Reload
-		timeUntilFire += (reloadTime / reloadTimeMultiplier);
+		timeUntilFire += (reloadTime / getReloadTimeMultiplier());
 		// Play sfx
 		SoundManager.playSound(cannonSfx, 8);
 		return true;
@@ -220,7 +220,7 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 
 	@Override
 	public float getCannonDamage() {
-		return !doubleDamage ? 10f * damageMultiplier : 20f * damageMultiplier;
+		return !doubleDamage ? 10f * getDamageMultiplier() : 20f * getDamageMultiplier();
 	}
 
 	public boolean isInRangeOfFriendlyCollege()
@@ -293,7 +293,7 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 	}
 
 	public void ram(float delta) {
-		if(canRam && getVelocity().len() < (isStorm ? 80 : (speedBoost ? 135 : 100) * speedMultiplier)) {
+		if(canRam && getVelocity().len() < (isStorm ? 80 : (speedBoost ? 135 : 100) * getSpeedMultiplier())) {
 			this.setMaxSpeed(500f);
 			System.out.println("Ramming");
 			float angle = getDirection();
@@ -306,5 +306,17 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 		if(!(obj instanceof EntityShip && ((EntityShip) obj).isPlayer)) {
 			obj.damage(250);
 		}
+	}
+
+	public float getDamageMultiplier() {
+		return damageMultiplier;
+	}
+
+	public float getSpeedMultiplier() {
+		return speedMultiplier;
+	}
+
+	public float getReloadTimeMultiplier() {
+		return reloadTimeMultiplier;
 	}
 }
