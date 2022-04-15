@@ -23,11 +23,16 @@ import com.badlogic.gdx.assets.AssetManager;
 @RunWith (GdxTestRunner.class)
 public class PlayerPowerupTest
 {
+	static GameScreen g;
+	static EntityShip e;
 	@BeforeClass
 	public static void init()
 	{
 		AssetManager a = new AssetManager();
 		ResourceUtil.init(a);
+		
+		g = new GameScreen(null, Difficulty.TEST);
+		e = g.getPlayer();
 	}
 
 	/*
@@ -36,8 +41,6 @@ public class PlayerPowerupTest
 	@Test
 	public void testPowerupFalloff()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
-		EntityShip e = g.getPlayer();
 		g.worldObj.addEntity(e);
 		g.addPowerup(PowerupType.RAM);
 		assertTrue("Powerup not applied correctly", e.canRam);
@@ -52,8 +55,6 @@ public class PlayerPowerupTest
 	@Test
 	public void testPowerupGetFull()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.GAMER);
-		EntityShip e = g.getPlayer();
 		Powerup p = new Powerup(g.worldObj, e.getHitbox().x,
 		                        e.getHitbox().y, 10, 10,
 		                        e, 1);
@@ -70,7 +71,6 @@ public class PlayerPowerupTest
 	 */
 	@Test
 	public void testPowerupApplication() {
-		EntityShip e = new EntityShip(null, Difficulty.EASY);
 		e.applyPowerup(PowerupType.DAMAGE);
 		e.applyPowerup(PowerupType.FIRERATE);
 		e.applyPowerup(PowerupType.INVULNERABILITY);

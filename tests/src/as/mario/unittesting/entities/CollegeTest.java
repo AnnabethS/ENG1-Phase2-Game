@@ -34,11 +34,13 @@ public class CollegeTest{
 	/*
 	  Initialise the global resource utility
 	 */	
+	static GameScreen g;
 	@BeforeClass
 	public static void init()
 	{
 		AssetManager a = new AssetManager();
 		ResourceUtil.init(a);
+		g = new GameScreen(null, Difficulty.TEST);
 	}
 
 	/*
@@ -72,7 +74,7 @@ public class CollegeTest{
 	@Test
 	public void testSpawnShipSuccessful()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
+		//GameScreen g = new GameScreen(null, Difficulty.TEST);
 		College c = CollegeManager.collegeList.get(0);
 		c.maxShipsToSpawn++;
 		assertTrue("could not spawn ship", c.spawnShip());
@@ -84,7 +86,7 @@ public class CollegeTest{
 	@Test
 	public void testSpawnShipTooSoon()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
+		g = new GameScreen(null, Difficulty.TEST);
 		College c = CollegeManager.collegeList.get(0);
 		c.maxShipsToSpawn += 2;
 		assertTrue("could not initial ship", c.spawnShip());
@@ -97,7 +99,7 @@ public class CollegeTest{
 	@Test
 	public void testSpawnShipTooMany()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
+		g = new GameScreen(null, Difficulty.TEST);
 		College c = CollegeManager.collegeList.get(0);
 		c.maxShipsToSpawn = c.shipsSpawned + 1;
 		assertTrue("could not initial ship", c.spawnShip());
@@ -108,7 +110,7 @@ public class CollegeTest{
 	@Test
 	public void testFireCannonsSuccessful()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
+		//GameScreen g = new GameScreen(null, Difficulty.TEST);
 		College c = CollegeManager.collegeList.get(0);
 		c.fireDistance = 50000f; // the college could be anywhere, make it
 		// so that the player is still in range no matter where it is
@@ -120,7 +122,7 @@ public class CollegeTest{
 	@Test
 	public void testFireCannonsUnsuccessfulFriendly()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
+		//GameScreen g = new GameScreen(null, Difficulty.TEST);
 		College c = CollegeManager.collegeList.get(0);
 		c.fireDistance = 50000f; // the college could be anywhere, make it
 		// so that the player is still in range no matter where it is
@@ -131,7 +133,7 @@ public class CollegeTest{
 	@Test
 	public void testFireCannonsUnsuccessfulDistance()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
+		//GameScreen g = new GameScreen(null, Difficulty.TEST);
 		College c = CollegeManager.collegeList.get(0);
 		c.fireDistance = 0.0001f;
 		c.isFriendly = false;
@@ -141,7 +143,7 @@ public class CollegeTest{
 	@Test
 	public void testFireCannonsUnsuccessfulFireRate()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
+		//GameScreen g = new GameScreen(null, Difficulty.TEST);
 		College c = CollegeManager.collegeList.get(0);
 		c.fireDistance = 50000f;
 		c.isFriendly = false;

@@ -446,6 +446,9 @@ public class GameScreen implements Screen {
 			case GAMER:
 				mines = 500;
 				break;
+			case TEST:
+				mines = 20;
+				break;
 		}
 		ObstacleManager.generateObstacles(worldObj, mines, 5, 25, CollegeManager.collegeList, player);
 
@@ -471,6 +474,9 @@ public class GameScreen implements Screen {
 				powerups = 25;
 				break;
 			case GAMER:
+				powerups = 10;
+				break;
+			case TEST:
 				powerups = 10;
 				break;
 		}

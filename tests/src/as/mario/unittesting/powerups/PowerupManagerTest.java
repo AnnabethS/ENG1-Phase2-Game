@@ -24,17 +24,19 @@ import com.badlogic.gdx.assets.AssetManager;
 @RunWith (GdxTestRunner.class)
 public class PowerupManagerTest
 {
+	static GameScreen g;
+	
 	@BeforeClass
 	public static void init()
 	{
 		AssetManager a = new AssetManager();
 		ResourceUtil.init(a);
+		g = new GameScreen(null, Difficulty.NORMAL);
 	}
 
 	@Test
 	public void testGeneratePowerups()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
 		assertEquals("Generated number of powerups is incorrect", PowerupManager.powerupList.size(), 50);
 		
 		ArrayList<Powerup> powerupList = PowerupManager.powerupList;

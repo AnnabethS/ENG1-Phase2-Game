@@ -1,5 +1,5 @@
 package tk.shardsoftware.util;
 
 public enum Difficulty {
-    EASY, NORMAL, HARD, GAMER
+    EASY, NORMAL, HARD, GAMER, TEST
 }

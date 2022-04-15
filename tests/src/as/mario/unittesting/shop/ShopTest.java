@@ -22,26 +22,28 @@ import com.badlogic.gdx.assets.AssetManager;
 
 @RunWith (GdxTestRunner.class)
 public class ShopTest {
+	static GameScreen g;
+	static ShopScreen s;
 	@BeforeClass
 	public static void init()
 	{
 		AssetManager a = new AssetManager();
 		ResourceUtil.init(a);
+		
+		g = new GameScreen(null, Difficulty.TEST);
+		s = new ShopScreen(null, g);
 	}
 
 	@Test
 	public void testGameVariable()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
-		ShopScreen s = new ShopScreen(null, g);
 		assertNotEquals("Shop has some variable set", s.getGameObj(), null);
 	}
 	
 	@Test
 	public void testSelectionChanges()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
-		ShopScreen s = new ShopScreen(null, g);
+		s.setSelection(0);
 		assertEquals("Shop selection is not currently at 0.", s.getSelection(), 0);
 		s.increaseSelection();
 		assertEquals("Shop selection is not currently at 1 after incrementing.", s.getSelection(), 1);
@@ -54,8 +56,10 @@ public class ShopTest {
 	
 	@Test
 	public void testPurchaseNormal() {
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
-		ShopScreen s = new ShopScreen(null, g);
+		s = new ShopScreen(null, g);
+		
+		s.setSelection(0);
+		g.setPlunder(0);
 		assertEquals("Can purchase despite not enough plunder.", s.buyPowerup(), false);
 		g.setPlunder(100);
 		assertEquals("Cannot purchase despite enough plunder.", s.buyPowerup(), true);
@@ -64,8 +68,6 @@ public class ShopTest {
 	
 	@Test
 	public void testPurchaseStorm() {
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
-		ShopScreen s = new ShopScreen(null, g);
 		g.setPlunder(100);
 		s.setSelection(1);
 
@@ -79,8 +81,6 @@ public class ShopTest {
 	
 	@Test
 	public void testPurchaseOneOff() {
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
-		ShopScreen s = new ShopScreen(null, g);
 		g.setPlunder(500);
 		s.setSelection(2);
 
@@ -93,9 +93,8 @@ public class ShopTest {
 	
 	@Test
 	public void testApplyPurchases() {
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
-		ShopScreen s = new ShopScreen(null, g);
 		EntityShip player = g.getPlayer();
+		s.setSelection(0);
 		player.repair(-20);
 		g.setPlunder(50000);
 		s.buyPowerup();
@@ -110,8 +109,6 @@ public class ShopTest {
 	
 	@Test
 	public synchronized void testApplyOneoffs() throws InterruptedException {
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
-		ShopScreen s = new ShopScreen(null, g);
 		EntityShip player = g.getPlayer();
 		g.setPlunder(50000);
 		s.setSelection(2);

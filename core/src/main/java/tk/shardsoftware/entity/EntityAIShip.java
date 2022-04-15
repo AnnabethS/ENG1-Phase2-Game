@@ -52,6 +52,9 @@ public class EntityAIShip extends EntityShip {
 			case GAMER:
 				this.maxHealth = 50f;
 				break;
+			default:
+				maxHealth = 25f;
+				break;
 		}
 		this.health = maxHealth;
 	}

@@ -66,6 +66,9 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 			case GAMER:
 				maxHealth = 1f;
 				break;
+			default:
+				maxHealth = 100f;
+				break;
 		}
 		health = maxHealth;
 	}

@@ -22,6 +22,7 @@ import tk.shardsoftware.util.ResourceUtil;
 @RunWith(GdxTestRunner.class)
 public class CollegeManagerTest
 {
+	static GameScreen g;
 	/*
 	  Initialise the global resource utility
 	 */	
@@ -30,12 +31,13 @@ public class CollegeManagerTest
 	{
 		AssetManager a = new AssetManager();
 		ResourceUtil.init(a);
+		g = new GameScreen(null, Difficulty.TEST);
 	}
 
 	@Test
 	public void testGenerateColleges()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
+		//GameScreen g = new GameScreen(null, Difficulty.TEST);
 		// 5 colleges is a magic number in the code
 		assertEquals("incorrect number of colleges generated",
 		             CollegeManager.collegeList.size(), 5);
@@ -44,7 +46,7 @@ public class CollegeManagerTest
 	@Test
 	public void testGetCollegeWithNameSuccessful()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
+		//GameScreen g = new GameScreen(null, Difficulty.TEST);
 		College c = CollegeManager.collegeList.get(0);
 		assertEquals("Incorrect College Returned", c, CollegeManager.getCollegeWithName(c.getName()));
 	}
@@ -52,7 +54,7 @@ public class CollegeManagerTest
 	@Test
 	public void testGetCollegeWithNameUnsuccessful()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
+		g = new GameScreen(null, Difficulty.TEST);
 		String s = CollegeManager.availableCollegeNames.get(0);
 		assertEquals("Did not return null", null, CollegeManager.getCollegeWithName(s));
 	}
@@ -60,7 +62,7 @@ public class CollegeManagerTest
 	@Test
 	public void testGetRandomCollegeNameSuccessful()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
+		g = new GameScreen(null, Difficulty.TEST);
 		ArrayList<String> names = new ArrayList<>(
 			Arrays.asList("James", "Constantine", "Alcuin", "Anne Lister",
 			              "David Kato", "Derwent", "Goodricke", "Halifax",
@@ -81,7 +83,7 @@ public class CollegeManagerTest
 	@Test
 	public void testGetRandomCollegeNameUnsuccessful()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
+		//GameScreen g = new GameScreen(null, Difficulty.TEST);
 		while(CollegeManager.availableCollegeNames.size() > 0)
 			CollegeManager.getRandomCollegeName();
 		assertEquals("ERROR_NO_AVAILABLE_COLLEGE_NAMES", CollegeManager.getRandomCollegeName());
@@ -90,7 +92,7 @@ public class CollegeManagerTest
 	@Test
 	public void testSetFriendlyCollege()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.NORMAL);
+		//GameScreen g = new GameScreen(null, Difficulty.TEST);
 		College c = CollegeManager.collegeList.get(0);
 		CollegeManager.setFriendlyCollege("");
 		CollegeManager.setFriendlyCollege(c.getName());
