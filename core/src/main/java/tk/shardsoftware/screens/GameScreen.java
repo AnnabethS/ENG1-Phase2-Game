@@ -33,6 +33,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -135,6 +136,9 @@ public class GameScreen implements Screen {
 
 	/** Toggle sound button */
 	private ImageButton soundButton;
+
+	// save game button
+	private ImageButton saveGameButton;
 
 	// difficulty
 	private Difficulty difficulty;
@@ -255,6 +259,17 @@ public class GameScreen implements Screen {
 				}
 			});
 			stage.addActor(soundButton);
+
+			saveGameButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(
+							ResourceUtil.getTexture("textures/ui/save-game.png"))));
+			saveGameButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 10);
+			saveGameButton.setPosition(soundButton.getX() - saveGameButton.getWidth(), 0);
+			saveGameButton.addListener(new ClickListener(){
+					public void clicked(InputEvent event, float x, float y) {
+						System.out.println("click");
+						}
+			});
+			stage.addActor(saveGameButton);
 		}
 
 

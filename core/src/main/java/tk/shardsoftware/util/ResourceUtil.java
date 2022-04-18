@@ -141,6 +141,7 @@ public abstract class ResourceUtil {
 		addTexture("textures/ui/shop/shop-maxhealth.png");
 		addTexture("textures/ui/shop/shop-regen.png");
 		addTexture("textures/ui/shop/shop-timer.png");
+		addTexture("textures/ui/save-game.png");
 		
 		//import rain textures
 		for(int i=1; i <= 8; i++)
