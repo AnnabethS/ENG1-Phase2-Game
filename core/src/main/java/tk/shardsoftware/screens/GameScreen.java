@@ -17,8 +17,10 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -1080,5 +1082,47 @@ public class GameScreen implements Screen {
 
 	public void setPlunder(int plunder) {
 		this.plunder = plunder;
+	}
+
+	public void loadGame()
+	{
+
+	}
+	
+	public void saveGame()
+	{
+		/*
+		  map seed X
+		  college state (names, destroyed) X
+		  difficulty X
+		  shop upgrades X
+		  score X
+		  plunder X
+		  time remaining X
+		 */
+		Preferences prefs = Gdx.app.getPreferences("SaveGame");
+		prefs.putLong("mapseed", worldObj.worldMap.mapSeed);
+		prefs.putInteger("difficulty",
+		                 Difficulty.toInteger(worldObj.getDifficulty()));
+		prefs.putInteger("points", points);
+		prefs.putInteger("plunder", getPlunder());
+		prefs.putFloat("time_remaining", gameTime);
+		ShopScreen cs = pg.currentShop;
+		prefs.putBoolean("shop_damage", cs.purchasedPowerups.contains(2));
+		prefs.putBoolean("shop_reload", cs.purchasedPowerups.contains(3));
+		prefs.putBoolean("shop_speed", cs.purchasedPowerups.contains(4));
+		prefs.putBoolean("shop_maxhealth", cs.purchasedPowerups.contains(5));
+		prefs.putBoolean("shop_regen", cs.purchasedPowerups.contains(6));
+
+		for(int i=0; i < 5; i++)
+		{
+			if(CollegeManager.collegeList.size() >= i)
+				break;
+			prefs.putString("college_" + i + "_name", CollegeManager.collegeList.get(i).getName());
+			prefs.putFloat("college_" + i + "_x", CollegeManager.collegeList.get(i).getX());
+			prefs.putFloat("college_" + i + "_y", CollegeManager.collegeList.get(i).getY());
+			prefs.putBoolean("college_" + i + "_friendly", CollegeManager.collegeList.get(i).isFriendly);
+		}
+		prefs.flush();
 	}
 }

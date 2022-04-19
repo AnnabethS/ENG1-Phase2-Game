@@ -63,7 +63,7 @@ public class ShopScreen implements Screen {
 	private Texture wButtonTexture;
 	private Texture sButtonTexture;
 	
-	private ArrayList<Integer> purchasedPowerups;
+	public ArrayList<Integer> purchasedPowerups;
 
 	private Shop selection = Shop.HEAL;
 	private int selectionInt = 0;
