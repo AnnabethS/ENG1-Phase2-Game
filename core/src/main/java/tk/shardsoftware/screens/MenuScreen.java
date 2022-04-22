@@ -95,6 +95,9 @@ public class MenuScreen implements Screen {
 				pirateGameObj.openScreen(Screens.Difficulty, null, null);
 				//pirateGameObj.openNewDifficultyScreen();
 				break;
+			case LOAD:
+				pirateGameObj.loadSavedGame();
+				break;
 			case HELP:
 				pirateGameObj.openScreen(Screens.Help, null, null);
 				//pirateGameObj.openNewHelpScreen();;
@@ -111,6 +114,9 @@ public class MenuScreen implements Screen {
 			switch (selection)
 			{
 				case PLAY:
+					closeScreen();
+					break;
+				case LOAD:
 					closeScreen();
 					break;
 				case HELP:

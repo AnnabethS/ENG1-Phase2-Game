@@ -41,6 +41,8 @@ public class College extends Entity implements IRepairable, ICannonCarrier {
 	/** The maximum number of ships the college should spawn */
 	public int maxShipsToSpawn = 1;
 
+	public boolean dead = false;
+
 	/** The search function for the spawn point of the ships */
 	private Function<Vector2, Boolean> shipPosConds = vector2 -> {
 		TileType tile = worldObj.worldMap.getTile((int) vector2.x, (int) vector2.y);

@@ -25,12 +25,6 @@ import tk.shardsoftware.util.ResourceUtil;
 @RunWith (GdxTestRunner.class)
 public class CollegeTest{
 	
-	/* TODO
-	   test repair over full
-	   test repair under full
-	   test repair at full
-	 */
-
 	/*
 	  Initialise the global resource utility
 	 */	
@@ -40,7 +34,7 @@ public class CollegeTest{
 	{
 		AssetManager a = new AssetManager();
 		ResourceUtil.init(a);
-		g = new GameScreen(null, Difficulty.TEST);
+		g = new GameScreen(null, Difficulty.TEST, false);
 	}
 
 	/*
@@ -86,7 +80,7 @@ public class CollegeTest{
 	@Test
 	public void testSpawnShipTooSoon()
 	{
-		g = new GameScreen(null, Difficulty.TEST);
+		g = new GameScreen(null, Difficulty.TEST, false);
 		College c = CollegeManager.collegeList.get(0);
 		c.maxShipsToSpawn += 2;
 		assertTrue("could not initial ship", c.spawnShip());
@@ -99,7 +93,7 @@ public class CollegeTest{
 	@Test
 	public void testSpawnShipTooMany()
 	{
-		g = new GameScreen(null, Difficulty.TEST);
+		g = new GameScreen(null, Difficulty.TEST, false);
 		College c = CollegeManager.collegeList.get(0);
 		c.maxShipsToSpawn = c.shipsSpawned + 1;
 		assertTrue("could not initial ship", c.spawnShip());
