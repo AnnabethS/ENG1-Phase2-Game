@@ -104,9 +104,9 @@ public class ShopScreen implements Screen {
 			regenButtonTextures[2] = ResourceUtil.getUITexture("shop/regen-purchased");
 			timerButtonTextures[0] = ResourceUtil.getUITexture("shop/timer-deselected");
 			timerButtonTextures[1] = ResourceUtil.getUITexture("shop/timer-selected");
-			returnButtonTextures[0] = ResourceUtil.getUITexture("help/return-deselected");
-			returnButtonTextures[1] = ResourceUtil.getUITexture("help/return-selected");
-			shopTextures[0] = ResourceUtil.getUITexture("help/help-return");
+			returnButtonTextures[0] = ResourceUtil.getUITexture("shop/return-deselected");
+			returnButtonTextures[1] = ResourceUtil.getUITexture("shop/return-selected");
+			shopTextures[0] = ResourceUtil.getUITexture("shop/shop-return");
 			shopTextures[1] = ResourceUtil.getUITexture("shop/shop-heal");
 			shopTextures[2] = ResourceUtil.getUITexture("shop/shop-storm-valid");
 			shopTextures[3] = ResourceUtil.getUITexture("shop/shop-storm-invalid");
