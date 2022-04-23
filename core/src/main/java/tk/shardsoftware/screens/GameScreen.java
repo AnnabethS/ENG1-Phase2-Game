@@ -355,32 +355,30 @@ public class GameScreen implements Screen {
 			plunder = prefs.getInteger("plunder");
 			gameTime = prefs.getInteger("time_remaining");
 
-			ShopScreen cs = new ShopScreen(pg, this);
-			pg.currentShop = cs;
-			if(prefs.getBoolean("shop_damage"))
+			if(pg != null)
 			{
-				cs.purchasedPowerups.add(2);
-				addPurchase(Shop.DAMAGE);
-			}
-			if(prefs.getBoolean("shop_reload"))
-			{
-				cs.purchasedPowerups.add(3);
-				addPurchase(Shop.RELOAD);
-			}
-			if(prefs.getBoolean("shop_speed"))
-			{
-				cs.purchasedPowerups.add(4);
-				addPurchase(Shop.SPEED);
-			}
-			if(prefs.getBoolean("shop_maxhealth"))
-			{
-				cs.purchasedPowerups.add(5);
-				addPurchase(Shop.MAXHEALTH);
-			}
-			if(prefs.getBoolean("shop_regen"))
-			{
-				cs.purchasedPowerups.add(6);
-				addPurchase(Shop.REGEN);
+				ShopScreen cs = new ShopScreen(pg, this);
+				pg.currentShop = cs;
+				if (prefs.getBoolean("shop_damage")) {
+					cs.purchasedPowerups.add(2);
+					addPurchase(Shop.DAMAGE);
+				}
+				if (prefs.getBoolean("shop_reload")) {
+					cs.purchasedPowerups.add(3);
+					addPurchase(Shop.RELOAD);
+				}
+				if (prefs.getBoolean("shop_speed")) {
+					cs.purchasedPowerups.add(4);
+					addPurchase(Shop.SPEED);
+				}
+				if (prefs.getBoolean("shop_maxhealth")) {
+					cs.purchasedPowerups.add(5);
+					addPurchase(Shop.MAXHEALTH);
+				}
+				if (prefs.getBoolean("shop_regen")) {
+					cs.purchasedPowerups.add(6);
+					addPurchase(Shop.REGEN);
+				}
 			}
 			prefs.clear();
 			prefs.flush();
@@ -1169,11 +1167,6 @@ public class GameScreen implements Screen {
 	public void setPlunder(int plunder) {
 		this.plunder = plunder;
 	}
-
-	public void loadGame()
-	{
-
-	}
 	
 	public void saveGame()
 	{
@@ -1193,22 +1186,22 @@ public class GameScreen implements Screen {
 		prefs.putInteger("points", points);
 		prefs.putInteger("plunder", getPlunder());
 		prefs.putInteger("time_remaining", gameTime);
-		ShopScreen cs = pg.currentShop;
-		if(cs == null)
+		if(pg != null)
 		{
-			prefs.putBoolean("shop_damage", false);
-			prefs.putBoolean("shop_reload", false);
-			prefs.putBoolean("shop_speed", false);
-			prefs.putBoolean("shop_maxhealth", false);
-			prefs.putBoolean("shop_regen", false);
-		}
-		else
-		{
-			prefs.putBoolean("shop_damage", cs.purchasedPowerups.contains(2));
-			prefs.putBoolean("shop_reload", cs.purchasedPowerups.contains(3));
-			prefs.putBoolean("shop_speed", cs.purchasedPowerups.contains(4));
-			prefs.putBoolean("shop_maxhealth", cs.purchasedPowerups.contains(5));
-			prefs.putBoolean("shop_regen", cs.purchasedPowerups.contains(6));
+			ShopScreen cs = pg.currentShop;
+			if (cs == null) {
+				prefs.putBoolean("shop_damage", false);
+				prefs.putBoolean("shop_reload", false);
+				prefs.putBoolean("shop_speed", false);
+				prefs.putBoolean("shop_maxhealth", false);
+				prefs.putBoolean("shop_regen", false);
+			} else {
+				prefs.putBoolean("shop_damage", cs.purchasedPowerups.contains(2));
+				prefs.putBoolean("shop_reload", cs.purchasedPowerups.contains(3));
+				prefs.putBoolean("shop_speed", cs.purchasedPowerups.contains(4));
+				prefs.putBoolean("shop_maxhealth", cs.purchasedPowerups.contains(5));
+				prefs.putBoolean("shop_regen", cs.purchasedPowerups.contains(6));
+			}
 		}
 
 		System.out.println(CollegeManager.collegeList.size());
@@ -1231,4 +1224,7 @@ public class GameScreen implements Screen {
 		}
 		prefs.flush();
 	}
+
+	public int getPoints() {return points;}
+	public void setPoints(int points) {this.points = points;}
 }
