@@ -10,7 +10,12 @@ import as.mario.unittesting.GdxTestRunner;
 
 import com.badlogic.gdx.assets.AssetManager;
 
+import tk.shardsoftware.World;
+import tk.shardsoftware.entity.EntityAIShip;
 import tk.shardsoftware.entity.EntityCannonball;
+import tk.shardsoftware.entity.EntityShip;
+import tk.shardsoftware.screens.GameScreen;
+import tk.shardsoftware.util.Difficulty;
 import tk.shardsoftware.util.ResourceUtil;
 
 import com.badlogic.gdx.math.Vector2;
@@ -24,6 +29,8 @@ import com.badlogic.gdx.math.Vector2;
 public class EntityCannonballTest
 {
 	private static final float floatTolerance = 0.001f;
+	private static World w;
+	private static GameScreen g;
 
 	/*
 	  Initialise the global resource utility
@@ -33,6 +40,9 @@ public class EntityCannonballTest
 	{
 		AssetManager a = new AssetManager();
 		ResourceUtil.init(a);
+		w = new World(Difficulty.TEST);
+		g = new GameScreen(null, Difficulty.TEST);
+		w.setGameScreen(g);
 	}
 	
 	/*
@@ -68,6 +78,32 @@ public class EntityCannonballTest
 		
 		e.update(0.01f);
 		assertTrue("cannonball has not set itself for removal", e.remove);
+	}
+	
+	/*
+	  Test that cannonballs damage the appropriate entities based on their parent.
+	 */
+	@Test
+	public void testDamage() {
+		EntityShip e1 = new EntityShip(w, Difficulty.TEST);
+		EntityAIShip e2 = new EntityAIShip(w, e1, Difficulty.TEST);
+		EntityCannonball c1 = new EntityCannonball(w, 5, 5, e1); // friendly cannonball
+		EntityCannonball c2 = new EntityCannonball(w, 5, 5, e2); // enemy cannonball
+		
+		c1.onTouchingDamageable(e2);
+		c1.onTouchingDamageable(e1);
+		
+		assertEquals("player cannonball doesn't damages AI", e2.getMaxHealth() - e1.getCannonDamage() , e2.getHealth(), 3f);
+		assertEquals("player cannonball damages player", e1.getMaxHealth(), e1.getHealth(), 3f);
+		
+		e1.repair(e1.getMaxHealth());
+		e2.repair(e2.getMaxHealth());
+		
+		c2.onTouchingDamageable(e2);
+		c2.onTouchingDamageable(e1);
+		
+		assertEquals("enemy cannonball damages AI", e2.getMaxHealth() , e2.getHealth(), 3f);
+		assertEquals("enemy cannonball doesn't damage player", e1.getMaxHealth() - e2.getCannonDamage(), e1.getHealth(), 3f);
 	}
 	
 }

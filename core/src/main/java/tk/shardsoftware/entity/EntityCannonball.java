@@ -96,6 +96,12 @@ public class EntityCannonball extends Entity {
 				&& obj instanceof College && ((College) obj).isFriendly == true) {
 			return false;
 		}
+		
+		// make sure the parentObj can't damage themselves
+		if (parentObj == obj) {
+			return false;
+		}
+		
 		return true;
 	}
 

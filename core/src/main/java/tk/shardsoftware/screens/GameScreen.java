@@ -1047,6 +1047,10 @@ public class GameScreen implements Screen {
 		//miniMap.dispose();
 	}
 	
+	public void setPlayer(EntityShip player) {
+		this.player = player;
+	}
+	
 	public EntityShip getPlayer() {
 		return player;
 	}

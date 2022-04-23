@@ -130,7 +130,7 @@ public class ShopScreen implements Screen {
 
 	@Override
 	public void show() {
-		System.out.println("Entering the help screen...");
+		System.out.println("Entering the shop screen...");
 		// SoundManager.playMusic(menuMusic);
 	}
 
