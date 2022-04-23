@@ -216,7 +216,7 @@ public class GameScreen implements Screen {
 	public GameScreen(PirateGame pg, Difficulty difficulty, boolean loadLevel) {
 		Preferences prefs = null;
 		if(loadLevel) // if we are trying to load a savegame, load it into prefs
-			prefs = Gdx.app.getPreferences("SaveGame");
+			prefs = Gdx.app.getPreferences("mario.eng1.savegame");
 
 		this.pg = pg;
 		if(loadLevel)
@@ -355,15 +355,35 @@ public class GameScreen implements Screen {
 			plunder = prefs.getInteger("plunder");
 			gameTime = prefs.getInteger("time_remaining");
 
-			ShopScreen cs = pg.currentShop;
+			ShopScreen cs = new ShopScreen(pg, this);
+			pg.currentShop = cs;
 			if(prefs.getBoolean("shop_damage"))
+			{
 				cs.purchasedPowerups.add(2);
+				addPurchase(Shop.DAMAGE);
+			}
 			if(prefs.getBoolean("shop_reload"))
+			{
 				cs.purchasedPowerups.add(3);
+				addPurchase(Shop.RELOAD);
+			}
+			if(prefs.getBoolean("shop_speed"))
+			{
+				cs.purchasedPowerups.add(4);
+				addPurchase(Shop.SPEED);
+			}
 			if(prefs.getBoolean("shop_maxhealth"))
+			{
 				cs.purchasedPowerups.add(5);
+				addPurchase(Shop.MAXHEALTH);
+			}
 			if(prefs.getBoolean("shop_regen"))
+			{
 				cs.purchasedPowerups.add(6);
+				addPurchase(Shop.REGEN);
+			}
+			prefs.clear();
+			prefs.flush();
 		}
 	}
 
@@ -1166,7 +1186,7 @@ public class GameScreen implements Screen {
 		  plunder X
 		  time remaining X
 		 */
-		Preferences prefs = Gdx.app.getPreferences("SaveGame");
+		Preferences prefs = Gdx.app.getPreferences("mario.eng1.savegame");
 		prefs.putLong("mapseed", worldObj.worldMap.mapSeed);
 		prefs.putInteger("difficulty",
 		                 Difficulty.toInteger(worldObj.getDifficulty()));

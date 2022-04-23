@@ -4,6 +4,7 @@ import static tk.shardsoftware.util.ResourceUtil.font;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
@@ -47,6 +48,7 @@ public class MenuScreen implements Screen {
 	// textures for menus 
 
 	private Texture[] playButtonTextures = new Texture[2];
+	private Texture[] loadButtonTextures = new Texture[3];
 	private Texture[] helpButtonTextures = new Texture[2];
 	private Texture[] quitButtonTextures = new Texture[2];
 	private Texture aButtonTexture;
@@ -54,6 +56,7 @@ public class MenuScreen implements Screen {
 
 	private Menu selection = Menu.PLAY;
 	private int selectionInt = 0;
+	private boolean canLoadLevel = true;
 
 	/**
 	 * Constructor for LossScreen
@@ -68,9 +71,11 @@ public class MenuScreen implements Screen {
 		text = new GlyphLayout();
 		text.setText(font, "Press the space key to make your selection");
 		shardLogo = new Texture("textures/logo/shardlogo.png");
-		//TODO: add some keyboard controls to change difficulty
 		playButtonTextures[0] = ResourceUtil.getUITexture("mainmenu/play-deselected");
 		playButtonTextures[1] = ResourceUtil.getUITexture("mainmenu/play-selected");
+		loadButtonTextures[0] = ResourceUtil.getUITexture("mainmenu/load-game-selected");
+		loadButtonTextures[1] = ResourceUtil.getUITexture("mainmenu/load-game-deselected");
+		loadButtonTextures[2] = ResourceUtil.getUITexture("mainmenu/load-game-locked");
 		helpButtonTextures[0] = ResourceUtil.getUITexture("mainmenu/help-deselected");
 		helpButtonTextures[1] = ResourceUtil.getUITexture("mainmenu/help-selected");
 		quitButtonTextures[0] = ResourceUtil.getUITexture("mainmenu/quit-deselected");
@@ -84,6 +89,9 @@ public class MenuScreen implements Screen {
 	@Override
 	public void show() {
 		System.out.println("Entering the main menu...");
+		Preferences prefs = Gdx.app.getPreferences("mario.eng1.savegame");
+		canLoadLevel = !(prefs.getLong("mapseed", -1) == -1);
+
 		// SoundManager.playMusic(menuMusic);
 	}
 
@@ -147,26 +155,44 @@ public class MenuScreen implements Screen {
 		font.draw(batch, text, (width - text.width) / 2, 75);
 
 		//batch.draw(shardLogo, 5, 5, 640 / 3, 267 / 3);
-		batch.draw(aButtonTexture, 170, 120, 100, 100);
+
+		/*
+		  load = middle - buttonwidth - 20
+		  play = middle - buttonwidth*2 - 20*
+		*/
+		
+		batch.draw(aButtonTexture, 70, 120, 100, 100);
 		if(selection == Menu.PLAY) {
-			batch.draw(playButtonTextures[1], (width / 2) - 100 - 220, 120, 200, 100);
+			batch.draw(playButtonTextures[1], 200, 120, 200, 100);
 		}
 		else
-			batch.draw(playButtonTextures[0], (width / 2) - 100 - 220, 120, 200, 100);
+			batch.draw(playButtonTextures[0], 200, 120, 200, 100);
+
+		if(canLoadLevel)
+		{
+			if(selection == Menu.LOAD)
+				batch.draw(loadButtonTextures[0], 430, 120, 200, 100);
+			else
+				batch.draw(loadButtonTextures[1], 430, 120, 200, 100);
+		}
+		else
+		{
+			batch.draw(loadButtonTextures[2], 430, 120, 200, 100);
+		}
 
 		if(selection == Menu.HELP) {
-			batch.draw(helpButtonTextures[1], (width / 2) - 100, 120, 200, 100);
+			batch.draw(helpButtonTextures[1], 660, 120, 200, 100);
 		}
 		else
-			batch.draw(helpButtonTextures[0], (width / 2) - 100, 120, 200, 100);
+			batch.draw(helpButtonTextures[0], 660, 120, 200, 100);
 
 		if(selection == Menu.QUIT) {
-			batch.draw(quitButtonTextures[1], (width / 2) - 100 + 220, 120, 200, 100);
+			batch.draw(quitButtonTextures[1], 890, 120, 200, 100);
 		}
 		else
-			batch.draw(quitButtonTextures[0], (width / 2) - 100 + 220, 120, 200, 100);
+			batch.draw(quitButtonTextures[0], 890, 120, 200, 100);
 
-		batch.draw(dButtonTexture, 1020, 120, 100, 100);
+		batch.draw(dButtonTexture, 1120, 120, 100, 100);
 
 
 
@@ -176,12 +202,16 @@ public class MenuScreen implements Screen {
 	private void increaseSelection()
 	{
 		if(selectionInt < Menu.values().length - 1) selectionInt++;
+		if(selectionInt == 1 && (!canLoadLevel))
+			selectionInt++;
 		selection = Menu.fromInteger(selectionInt);
 	}
 
 	private void decreaseSelection()
 	{
 		if(selectionInt > 0) selectionInt--;
+		if(selectionInt == 1 && (!canLoadLevel))
+			selectionInt--;
 		selection = Menu.fromInteger(selectionInt);
 	}
 
