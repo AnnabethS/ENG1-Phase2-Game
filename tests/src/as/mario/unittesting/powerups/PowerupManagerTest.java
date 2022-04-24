@@ -31,7 +31,7 @@ public class PowerupManagerTest
 	{
 		AssetManager a = new AssetManager();
 		ResourceUtil.init(a);
-		g = new GameScreen(null, Difficulty.NORMAL);
+		g = new GameScreen(null, Difficulty.NORMAL, false);
 	}
 
 	@Test

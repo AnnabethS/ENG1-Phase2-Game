@@ -104,6 +104,9 @@ public abstract class ResourceUtil {
 		addTexture("textures/ui/mainmenu/help-deselected.png");
 		addTexture("textures/ui/mainmenu/quit-selected.png");
 		addTexture("textures/ui/mainmenu/quit-deselected.png");
+		addTexture("textures/ui/mainmenu/load-game-selected.png");
+		addTexture("textures/ui/mainmenu/load-game-deselected.png");
+		addTexture("textures/ui/mainmenu/load-game-locked.png");
 		addTexture("textures/ui/help/help-howto.png");
 		addTexture("textures/ui/help/help-controls.png");
 		addTexture("textures/ui/help/help-return.png");
@@ -141,6 +144,7 @@ public abstract class ResourceUtil {
 		addTexture("textures/ui/shop/shop-maxhealth.png");
 		addTexture("textures/ui/shop/shop-regen.png");
 		addTexture("textures/ui/shop/shop-timer.png");
+		addTexture("textures/ui/save-game.png");
 		
 		//import rain textures
 		for(int i=1; i <= 8; i++)
@@ -150,7 +154,6 @@ public abstract class ResourceUtil {
 
 		/* Sound */
 		addSound("audio/entity/boat-water-movement.wav");
-		addSound("audio/ambient/ocean.wav");
 		addSound("audio/entity/cannon.mp3");
 		addSound("audio/entity/college-hit.mp3");
 

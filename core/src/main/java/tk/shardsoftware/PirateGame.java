@@ -90,7 +90,7 @@ public class PirateGame extends Game {
 			case Game:
 				// Iniitliase a new game screen each time, so we don't have to faff with restarting existing games
 				if(currentGame == null) {
-					currentGame = new GameScreen(this, difficulty);
+					currentGame = new GameScreen(this, difficulty, false);
 					this.setScreen(currentGame);
 				} else {
 					this.setScreen(currentGame);
@@ -123,6 +123,18 @@ public class PirateGame extends Game {
 				
 				break;
 			case Menu:
+				if(currentGame != null)
+				{
+					currentGame.dispose();
+					currentGame = null;
+				}
+
+				if(currentShop != null)
+				{
+					currentShop.dispose();
+					currentShop = null;
+				}
+
 				this.setScreen(menuScreen);
 				break;
 			case Victory:
@@ -139,6 +151,13 @@ public class PirateGame extends Game {
 			default:
 				break;
 		}
+	}
+
+	public void loadSavedGame()
+	{
+		System.out.println("loading saved game...");
+		currentGame = new GameScreen(this, null, true);
+		this.setScreen(currentGame);
 	}
 	
 	public void initialiseScreens() {
