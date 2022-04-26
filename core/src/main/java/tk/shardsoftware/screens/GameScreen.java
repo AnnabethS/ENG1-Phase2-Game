@@ -283,6 +283,10 @@ public class GameScreen implements Screen {
 		}
 
 	}
+	
+	public GameScreen(PirateGame pg, Difficulty difficulty, boolean loadedGame) {
+		this(pg, difficulty);
+	}
 
 	/**
 	 * Starts a timer that increments points, starts playing music and ambient
