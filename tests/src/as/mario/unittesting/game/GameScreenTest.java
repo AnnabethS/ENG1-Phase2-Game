@@ -43,7 +43,7 @@ public class GameScreenTest {
 		ResourceUtil.init(a);
 		
 		w = new World(Difficulty.TEST);
-		g = new GameScreen(null, Difficulty.TEST);
+		g = new GameScreen(null, Difficulty.TEST, false);
 		w.setGameScreen(g);
 		g.worldObj = w;
 	}

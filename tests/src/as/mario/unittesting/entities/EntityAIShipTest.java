@@ -32,7 +32,7 @@ public class EntityAIShipTest
 	{
 		AssetManager a = new AssetManager();
 		ResourceUtil.init(a);
-		g = new GameScreen(null, Difficulty.TEST);
+		g = new GameScreen(null, Difficulty.TEST, false);
 	}
 	
 	/*

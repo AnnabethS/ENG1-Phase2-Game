@@ -38,7 +38,7 @@ public class WorldTest {
 		AssetManager a = new AssetManager();
 		ResourceUtil.init(a);
 		w = new World(Difficulty.TEST);
-		g = new GameScreen(null, Difficulty.TEST);
+		g = new GameScreen(null, Difficulty.TEST, false);
 		w.setGameScreen(g);
 	}
 	
