@@ -829,7 +829,7 @@ public class GameScreen implements Screen {
 		boatWaterMovement.setVolume(soundIdBoatMovement, vol * SoundManager.gameVolume * 0.25f);
 	}
 
-	private void setStorm(boolean storm)
+	public void setStorm(boolean storm)
 	{
 		if(storm)
 		{

@@ -1,4 +1,4 @@
-package as.mario.unittesting.basic;
+package as.mario.unittesting.world;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -11,9 +11,6 @@ import as.mario.unittesting.GdxTestRunner;
 import com.badlogic.gdx.assets.AssetManager;
 
 import tk.shardsoftware.World;
-import tk.shardsoftware.entity.College;
-import tk.shardsoftware.entity.Entity;
-import tk.shardsoftware.entity.EntityAIShip;
 import tk.shardsoftware.entity.EntityCannonball;
 import tk.shardsoftware.entity.EntityShip;
 import tk.shardsoftware.entity.Mine;
@@ -22,8 +19,6 @@ import tk.shardsoftware.screens.GameScreen;
 import tk.shardsoftware.util.Difficulty;
 import tk.shardsoftware.util.ResourceUtil;
 
-import com.badlogic.gdx.math.Vector2;
-
 /*
 @author Anna Singleton
 @author Leif Kemp
@@ -31,7 +26,6 @@ import com.badlogic.gdx.math.Vector2;
 
 @RunWith (GdxTestRunner.class)
 public class WorldTest {
-	private static final float floatTolerance = 0.001f;
 	private static World w;
 	private static GameScreen g;
 	

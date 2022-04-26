@@ -96,7 +96,7 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 			setDrag(speedBoost ? (getSpeedMultiplier() <= 1 ? 0.995f : 0.9975f) : 
 								(getSpeedMultiplier() <= 1 ? 0.99f : 0.995f));
 			
-			setMaxSpeed((isStorm ? 50 : (speedBoost ? 130 * getSpeedMultiplier() : 100 * getSpeedMultiplier())));
+			setMaxSpeed((isStorm ? 80 : (speedBoost ? 130 * getSpeedMultiplier() : 100 * getSpeedMultiplier())));
 			this.setIgnoreEntityCollision(false);
 		} else {
 			ramming = true;
