@@ -29,7 +29,7 @@ public class MineTest
 	@Test
 	public void testMineCollision()
 	{
-		GameScreen g = new GameScreen(null, Difficulty.TEST);
+		GameScreen g = new GameScreen(null, Difficulty.TEST, false);
 		EntityShip e = g.getPlayer();
 		Mine p = new Mine(g.worldObj, e.getHitbox().x,
 		                        e.getHitbox().y, 10, 10,
