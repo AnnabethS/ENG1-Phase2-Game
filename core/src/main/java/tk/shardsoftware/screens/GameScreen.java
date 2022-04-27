@@ -384,10 +384,6 @@ public class GameScreen implements Screen {
 			prefs.flush();
 		}
 	}
-	
-	public GameScreen(PirateGame pg, Difficulty difficulty, boolean loadedGame) {
-		this(pg, difficulty);
-	}
 
 	/**
 	 * Starts a timer that increments points, starts playing music and ambient
