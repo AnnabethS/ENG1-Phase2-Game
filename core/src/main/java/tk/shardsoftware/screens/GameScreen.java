@@ -17,8 +17,10 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -33,6 +35,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -136,6 +139,9 @@ public class GameScreen implements Screen {
 	/** Toggle sound button */
 	private ImageButton soundButton;
 
+	// save game button
+	private ImageButton saveGameButton;
+
 	// difficulty
 	private Difficulty difficulty;
 
@@ -207,17 +213,26 @@ public class GameScreen implements Screen {
 	 * 
 	 * @param pg the {@link PirateGame} object
 	 */
-	public GameScreen(PirateGame pg, Difficulty difficulty) {
+	public GameScreen(PirateGame pg, Difficulty difficulty, boolean loadLevel) {
+		Preferences prefs = null;
+		if(loadLevel) // if we are trying to load a savegame, load it into prefs
+			prefs = Gdx.app.getPreferences("mario.eng1.savegame");
+
 		this.pg = pg;
-		this.difficulty = difficulty;
-		
+		if(loadLevel)
+		{
+			this.difficulty = Difficulty.fromInteger(prefs.getInteger("difficulty"));
+			difficulty = this.difficulty;
+		}
+		else
+			this.difficulty = difficulty;
+
 		activePowerups = new HashMap<PowerupType, Float>();
 
 		// TODO: Implement ambient sounds
 
 		if (pg != null) // pg is only null in the case the code is headless
 		{
-
 			boatWaterMovement = ResourceUtil.getSound("audio/entity/boat-water-movement.wav");
 			ambientOcean = ResourceUtil.getSound("audio/ambient/ocean.wav");
 			/* Render tools */
@@ -255,20 +270,71 @@ public class GameScreen implements Screen {
 				}
 			});
 			stage.addActor(soundButton);
+
+			saveGameButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(
+							ResourceUtil.getTexture("textures/ui/save-game.png"))));
+			saveGameButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 10);
+			saveGameButton.setPosition(soundButton.getX() - saveGameButton.getWidth(), 0);
+			saveGameButton.addListener(new ClickListener(){
+					public void clicked(InputEvent event, float x, float y) {
+						saveGame();
+						pg.openScreen(Screens.Menu, null, null);
+						}
+			});
+			stage.addActor(saveGameButton);
 		}
 
 
 		/** World Objects */
-		worldObj = new World(difficulty);
+		if(loadLevel)
+			worldObj = new World(difficulty, prefs.getLong("mapseed"));
+		else
+			worldObj = new World(difficulty);
 		worldObj.setGameScreen(this);
 		player = new EntityShip(worldObj, difficulty);
 		player.isPlayer = true;
 //		EntityAIShip exampleEnemy = new EntityAIShip(worldObj, player, 750, 75);
 
 		worldObj.addEntity(player);
-		placeColleges();
+		College ally = null;
+		if(loadLevel)
+		{
+			worldObj.destroyedColleges = 0;
+			CollegeManager.collegeList = new ArrayList<College>(5);
+			for(int i=0; i < 5; i++)
+			{
+				if (prefs.getBoolean("college_" + i + "_dead", false))
+					continue;
+				College c = new College(worldObj,
+					            prefs.getString("college_" + i + "_name"),
+					            prefs.getFloat("college_" + i + "_x"),
+					            prefs.getFloat("college_" + i + "_y"),
+					            worldObj.worldMap.tile_size*6,
+					            worldObj.worldMap.tile_size*6,
+					            player);
+				c.rotate(270);
+				System.out.println("found college");
+				worldObj.addEntity(c);
+				CollegeManager.collegeList.add(c);
+				if(prefs.getBoolean("college_" + i + "_friendly"))
+				{
+					c.isFriendly = true;
+					ally = c;
+				}
+			}
+		}
+		else
+			placeColleges();
 		placeObstacles();
 		placePowerups();
+		if(loadLevel)
+		{
+			if(ally != null)
+				setPlayerCollege(ally.getName());
+			else
+				System.out.println("ally is null");
+			
+		}
 //		exampleEnemy
 //				.setPosition(new Vector2(player.getPosition().x - 20, player.getPosition().y - 20));
 //		worldObj.addEntity(exampleEnemy);
@@ -278,10 +344,45 @@ public class GameScreen implements Screen {
 			/* World Displays */
 			miniMap = new Minimap(worldObj, 25, Gdx.graphics.getHeight() - 150 - 25, 150, 150, hudBatch,
 					stage);
-			cDisplay = new ChooseCollegeDisplay(worldObj, 0, 0, Gdx.graphics.getWidth(),
-					Gdx.graphics.getHeight(), batch, stage, CollegeManager.collegeList, this);
+			if(!loadLevel)
+				cDisplay = new ChooseCollegeDisplay(worldObj, 0, 0, Gdx.graphics.getWidth(),
+						Gdx.graphics.getHeight(), batch, stage, CollegeManager.collegeList, this);
 		}
 
+		if(loadLevel)
+		{
+			points = prefs.getInteger("points");
+			plunder = prefs.getInteger("plunder");
+			gameTime = prefs.getInteger("time_remaining");
+
+			if(pg != null)
+			{
+				ShopScreen cs = new ShopScreen(pg, this);
+				pg.currentShop = cs;
+				if (prefs.getBoolean("shop_damage")) {
+					cs.purchasedPowerups.add(2);
+					addPurchase(Shop.DAMAGE);
+				}
+				if (prefs.getBoolean("shop_reload")) {
+					cs.purchasedPowerups.add(3);
+					addPurchase(Shop.RELOAD);
+				}
+				if (prefs.getBoolean("shop_speed")) {
+					cs.purchasedPowerups.add(4);
+					addPurchase(Shop.SPEED);
+				}
+				if (prefs.getBoolean("shop_maxhealth")) {
+					cs.purchasedPowerups.add(5);
+					addPurchase(Shop.MAXHEALTH);
+				}
+				if (prefs.getBoolean("shop_regen")) {
+					cs.purchasedPowerups.add(6);
+					addPurchase(Shop.REGEN);
+				}
+			}
+			prefs.clear();
+			prefs.flush();
+		}
 	}
 	
 	public GameScreen(PirateGame pg, Difficulty difficulty, boolean loadedGame) {
@@ -1074,4 +1175,64 @@ public class GameScreen implements Screen {
 	public void setPlunder(int plunder) {
 		this.plunder = plunder;
 	}
+	
+	public void saveGame()
+	{
+		/*
+		  map seed X
+		  college state (names, destroyed) X
+		  difficulty X
+		  shop upgrades X
+		  score X
+		  plunder X
+		  time remaining X
+		 */
+		Preferences prefs = Gdx.app.getPreferences("mario.eng1.savegame");
+		prefs.putLong("mapseed", worldObj.worldMap.mapSeed);
+		prefs.putInteger("difficulty",
+		                 Difficulty.toInteger(worldObj.getDifficulty()));
+		prefs.putInteger("points", points);
+		prefs.putInteger("plunder", getPlunder());
+		prefs.putInteger("time_remaining", gameTime);
+		if(pg != null)
+		{
+			ShopScreen cs = pg.currentShop;
+			if (cs == null) {
+				prefs.putBoolean("shop_damage", false);
+				prefs.putBoolean("shop_reload", false);
+				prefs.putBoolean("shop_speed", false);
+				prefs.putBoolean("shop_maxhealth", false);
+				prefs.putBoolean("shop_regen", false);
+			} else {
+				prefs.putBoolean("shop_damage", cs.purchasedPowerups.contains(2));
+				prefs.putBoolean("shop_reload", cs.purchasedPowerups.contains(3));
+				prefs.putBoolean("shop_speed", cs.purchasedPowerups.contains(4));
+				prefs.putBoolean("shop_maxhealth", cs.purchasedPowerups.contains(5));
+				prefs.putBoolean("shop_regen", cs.purchasedPowerups.contains(6));
+			}
+		}
+
+		System.out.println(CollegeManager.collegeList.size());
+		for(int i=0; i < CollegeManager.collegeList.size(); i++)
+		{
+			if(CollegeManager.collegeList.get(i).dead)
+			{
+				prefs.putBoolean("college_" + i + "_dead", true);
+				System.out.println("dead");
+			}
+			else
+			{
+				System.out.println("live");
+				prefs.putBoolean("college_" + i + "_dead", false);
+				prefs.putString("college_" + i + "_name", CollegeManager.collegeList.get(i).getName());
+				prefs.putFloat("college_" + i + "_x", CollegeManager.collegeList.get(i).getX());
+				prefs.putFloat("college_" + i + "_y", CollegeManager.collegeList.get(i).getY());
+				prefs.putBoolean("college_" + i + "_friendly", CollegeManager.collegeList.get(i).isFriendly);
+			}
+		}
+		prefs.flush();
+	}
+
+	public int getPoints() {return points;}
+	public void setPoints(int points) {this.points = points;}
 }

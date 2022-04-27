@@ -1,7 +1,7 @@
 package tk.shardsoftware.util;
 
 public enum Menu {
-    PLAY, HELP, QUIT;
+	PLAY, LOAD, HELP, QUIT;
 
     /**
 	 * Takes an integer and returns it as the corresponding Menu
@@ -14,8 +14,10 @@ public enum Menu {
 		case 0:
 			return PLAY;
 		case 1:
-			return HELP;
+			return LOAD;
 		case 2:
+			return HELP;
+		case 3:
 			return QUIT;
 		}
 		return null;

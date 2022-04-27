@@ -60,7 +60,8 @@ public class World {
 	/** The {@link GameScreen} object that the world can use to call functions */
 	private GameScreen game;
 
-	public World(Difficulty difficulty) {
+	public World(Difficulty difficulty, long seed)
+	{
 		entities = new ArrayList<Entity>();
 		damagableObjs = new ArrayList<IDamageable>();
 		cannonballs = new ArrayList<EntityCannonball>();
@@ -70,9 +71,13 @@ public class World {
 
 		this.worldMap = new WorldMap(WORLD_TILE_SIZE, WORLD_WIDTH, WORLD_HEIGHT);
 		// worldMap.setSeed(MathUtils.random.nextLong());
-		worldMap.setSeed(DEBUG_MAP_LIST[MathUtils.random.nextInt(DEBUG_MAP_LIST.length)]);
+		worldMap.setSeed(seed);
 		System.out.println("Building World");
 		worldMap.buildWorld();
+	}
+
+	public World(Difficulty difficulty) {
+		this(difficulty, DEBUG_MAP_LIST[MathUtils.random.nextInt(DEBUG_MAP_LIST.length)]);
 	}
 
 	/**
@@ -292,6 +297,7 @@ public class World {
 	 */
 	public void onCollegeDestroyed(College college) {
 		destroyedColleges++;
+		college.dead = true;
 		if (game != null) game.onCollegeDestroyed(college);
 	}
 	

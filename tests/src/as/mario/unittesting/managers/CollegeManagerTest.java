@@ -31,7 +31,7 @@ public class CollegeManagerTest
 	{
 		AssetManager a = new AssetManager();
 		ResourceUtil.init(a);
-		g = new GameScreen(null, Difficulty.TEST);
+		g = new GameScreen(null, Difficulty.TEST, false);
 	}
 
 	@Test
@@ -54,7 +54,7 @@ public class CollegeManagerTest
 	@Test
 	public void testGetCollegeWithNameUnsuccessful()
 	{
-		g = new GameScreen(null, Difficulty.TEST);
+		g = new GameScreen(null, Difficulty.TEST, false);
 		String s = CollegeManager.availableCollegeNames.get(0);
 		assertEquals("Did not return null", null, CollegeManager.getCollegeWithName(s));
 	}
@@ -62,7 +62,7 @@ public class CollegeManagerTest
 	@Test
 	public void testGetRandomCollegeNameSuccessful()
 	{
-		g = new GameScreen(null, Difficulty.TEST);
+		g = new GameScreen(null, Difficulty.TEST, false);
 		ArrayList<String> names = new ArrayList<>(
 			Arrays.asList("James", "Constantine", "Alcuin", "Anne Lister",
 			              "David Kato", "Derwent", "Goodricke", "Halifax",
