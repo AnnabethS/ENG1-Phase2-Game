@@ -87,20 +87,20 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 		velocityVec.setAngleDeg(direction);
 
 		// TODO: Write water drag system
-		velocityVec.scl(drag);
+		velocityVec.scl(getDrag());
 		timeUntilFire -= delta;
 		timeUntilFire = timeUntilFire <= 0 ? 0 : timeUntilFire;
 		
 		if(getVelocity().len() < (isStorm ? 50 : ((speedBoost ? 135 : 100) * getSpeedMultiplier()))) {
 			ramming = false;
-			drag = speedBoost ? (getSpeedMultiplier() <= 1 ? 0.995f : 0.9975f) : 
-								(getSpeedMultiplier() <= 1 ? 0.99f : 0.995f);
+			setDrag(speedBoost ? (getSpeedMultiplier() <= 1 ? 0.995f : 0.9975f) : 
+								(getSpeedMultiplier() <= 1 ? 0.99f : 0.995f));
 			
-			setMaxSpeed((isStorm ? 50 : (speedBoost ? 130 * getSpeedMultiplier() : 100 * getSpeedMultiplier())));
+			setMaxSpeed((isStorm ? 80 : (speedBoost ? 130 * getSpeedMultiplier() : 100 * getSpeedMultiplier())));
 			this.setIgnoreEntityCollision(false);
 		} else {
 			ramming = true;
-			drag = speedBoost ? 0.96f : 0.97f;
+			setDrag(speedBoost ? 0.96f : 0.97f);
 			setMaxSpeed(500f);
 			this.setIgnoreEntityCollision(true);
 		}

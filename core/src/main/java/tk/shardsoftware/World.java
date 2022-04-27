@@ -215,6 +215,26 @@ public class World {
 	public List<Entity> getEntities() {
 		return entities;
 	}
+	
+	/**
+	 * These functions return entities of specific types:
+	 * Cannonballs
+	 * Mines
+	 * Powerups
+	 * 
+	 * @return The list of related entities in the world
+	 */
+	public List<EntityCannonball> getCannonballs() {
+		return cannonballs;
+	}
+	
+	public List<Mine> getObstacles() {
+		return obstacles;
+	}
+	
+	public List<Powerup> getPowerups() {
+		return powerups;
+	}
 
 	/**
 	 * The list of all damageable entities within the world. This should NEVER be

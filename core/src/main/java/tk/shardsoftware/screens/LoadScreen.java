@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -23,6 +24,7 @@ import tk.shardsoftware.PirateGame;
 import tk.shardsoftware.util.Bar;
 import tk.shardsoftware.util.ResourceUtil;
 import tk.shardsoftware.util.Screens;
+import tk.shardsoftware.util.SoundManager;
 
 /** @author James Burnell */
 public class LoadScreen implements Screen {
@@ -59,19 +61,36 @@ public class LoadScreen implements Screen {
 
 	private Vector2 progBarStart = new Vector2(25, Gdx.graphics.getHeight() - 25);
 	private Vector2 progBarEnd = new Vector2(175, Gdx.graphics.getHeight() - 25);
+	
+	private Sound ding = ResourceUtil.getSound("audio/splash/ding.mp3");
+	private Sound burp = ResourceUtil.getSound("audio/splash/burp.wav");
 
 	public LoadScreen(AssetManager assets, PirateGame pg) {
 		this.assets = assets;
 		this.pirateGameObj = pg;
 		this.sp = new ShapeRenderer();
-		logo = new Sprite(new Texture("textures/logo/shardlogo-fs.png"));
+		logo = new Sprite(new Texture("textures/logo/shardlogo-mario-fs2.png"));
 		logo.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch = new SpriteBatch();
 		// logoSound = Gdx.audio
 		// .newSound(Gdx.files.internal("audio/logo/intro.mp3"));
 		vPlayer = VideoPlayerCreator.createVideoPlayer();
 		try {
-			vPlayer.play(Gdx.files.internal("textures/logo/shardlogo.webm"));
+			vPlayer.play(Gdx.files.internal("textures/logo/shardlogo_mario.webm"));
+			//vPlayer.play(Gdx.files.internal("textures/logo/shardlogo.webm"));
+			Timer.schedule(new Task(){
+			    @Override
+			    public void run() {
+			    	SoundManager.playSound(ding);
+			    }
+			}, 5.4f);
+			
+			Timer.schedule(new Task(){
+			    @Override
+			    public void run() {
+			    	SoundManager.playSound(burp);
+			    }
+			}, 6.9f);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

@@ -1,6 +1,7 @@
 package as.mario.unittesting.entities;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.badlogic.gdx.assets.AssetManager;
 
@@ -10,6 +11,8 @@ import org.junit.runner.RunWith;
 
 import as.mario.unittesting.GdxTestRunner;
 import tk.shardsoftware.entity.EntityAIShip;
+import tk.shardsoftware.entity.EntityShip;
+import tk.shardsoftware.screens.GameScreen;
 import tk.shardsoftware.util.Difficulty;
 import tk.shardsoftware.util.Difficulty;
 import as.mario.unittesting.GdxTestRunner;
@@ -19,7 +22,8 @@ import tk.shardsoftware.util.ResourceUtil;
 public class EntityAIShipTest
 {
 	private static final float floatTolerance = 0.001f;
-
+	private static GameScreen g;
+	
 	/*
 	  Initialise the global resource utility
 	 */	
@@ -28,6 +32,7 @@ public class EntityAIShipTest
 	{
 		AssetManager a = new AssetManager();
 		ResourceUtil.init(a);
+		g = new GameScreen(null, Difficulty.TEST, false);
 	}
 	
 	/*
@@ -43,6 +48,5 @@ public class EntityAIShipTest
 		assertEquals("Normal health is not set correctly", e2.getMaxHealth(), 25f, 0.001f);
 		assertEquals("Hard health is not set correctly", e3.getMaxHealth(), 37.5f, 0.001f);
 		assertEquals("Gamer health is not set correctly", e4.getMaxHealth(), 50f, 0.001f);
-	}
-	
+	}	
 }
