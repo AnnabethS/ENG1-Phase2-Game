@@ -38,21 +38,25 @@ public class World {
 	private List<Entity> entities;
 	/** The collection of cannonballs within the world. */
 	private List<EntityCannonball> cannonballs;
+	// NEW FOR ASSESSMENT 2
 	/** The collection of mines within the world. */
 	private List<Mine> obstacles;
 	/** The collection of powerups within the world. */
 	private List<Powerup> powerups;
+	// END NEW FOR ASSESSMENT 2
 	/**
 	 * The collection of damageable objects that are in the world. This includes
 	 * entities and non-entities such as college buildings.
 	 */
 	private List<IDamageable> damagableObjs;
 
+	// NEW FOR ASSESSMENT 2
 	/** 
 	 * List of entities to be added at the end of the frame (to avoid concurrent
 	 * modification of the other lists)
 	 */
 	private List<Entity> addAtEndOfFrame;
+	// END NEW FOR ASSESSMENT 2
 
 	/** The map of the world */
 	public WorldMap worldMap;
@@ -65,9 +69,11 @@ public class World {
 		entities = new ArrayList<Entity>();
 		damagableObjs = new ArrayList<IDamageable>();
 		cannonballs = new ArrayList<EntityCannonball>();
+	// NEW FOR ASSESSMENT 2
 		obstacles = new ArrayList<Mine>();
 		powerups = new ArrayList<Powerup>();
 		addAtEndOfFrame = new ArrayList<Entity>();
+	// END NEW FOR ASSESSMENT 2
 
 		this.worldMap = new WorldMap(WORLD_TILE_SIZE, WORLD_WIDTH, WORLD_HEIGHT);
 		// worldMap.setSeed(MathUtils.random.nextLong());
@@ -76,9 +82,11 @@ public class World {
 		worldMap.buildWorld();
 	}
 
+	// NEW FOR ASSESSMENT 2
 	public World(Difficulty difficulty) {
 		this(difficulty, DEBUG_MAP_LIST[MathUtils.random.nextInt(DEBUG_MAP_LIST.length)]);
 	}
+	// END NEW FOR ASSESSMENT 2
 
 	/**
 	 * Set the {@link GameScreen} object for the World
@@ -95,9 +103,12 @@ public class World {
 	 * @param delta the time between the previous update and this one
 	 */
 	public void update(float delta) {
+	// NEW FOR ASSESSMENT 2
 		addAtEndOfFrame.removeAll(addAtEndOfFrame);
+	// END NEW FOR ASSESSMENT 2
 		updateEntities(delta);
 		updateCannonballs();
+		// NEW FOR ASSESSMENT 2
 		updateObstacles();
 		updatePowerups();
 		updatePlayer();
@@ -105,6 +116,7 @@ public class World {
 		{
 			addEntity(e);
 		}
+		// END NEW FOR ASSESSMENT 2
 	}
 
 	/**
@@ -126,6 +138,7 @@ public class World {
 		}
 	}
 
+	// NEW FOR ASSESSMENT 2
 	/**
 	 * Find intersections between mines and damageable objects. If such an
 	 * intersection is found, it will call
@@ -154,6 +167,7 @@ public class World {
 			}
 		}
 	}
+	// END NEW FOR ASSESSMENT 2
 
 	/**
 	 * Progress the logical step for each entity. Also remove them from the world if
@@ -174,12 +188,16 @@ public class World {
 			entities.remove(e);
 			if (e instanceof IDamageable) damagableObjs.remove((IDamageable) e);
 			if (e instanceof EntityCannonball) cannonballs.remove((EntityCannonball) e);
+			// NEW FOR ASSESSMENT 2
 			if (e instanceof Mine) obstacles.remove((Mine) e);
 			if (e instanceof Powerup) powerups.remove((Powerup) e);
+			// NEW FOR ASSESSMENT 2
 			e.onRemove();
 			if (game != null) game.onEntityRemoved(e);
 		});
 	}
+
+	// NEW FOR ASSESSMENT 2
 	
 	/**
 	 * Used to check collisions between the player and other
@@ -198,6 +216,7 @@ public class World {
 			}
 		}
 	}
+	// END NEW FOR ASSESSMENT 2
 
 	/** Removes all entities from the world */
 	public void clearEntities() {
@@ -215,7 +234,8 @@ public class World {
 	public List<Entity> getEntities() {
 		return entities;
 	}
-	
+
+	// NEW FOR ASSESSMENT 2
 	/**
 	 * These functions return entities of specific types:
 	 * Cannonballs
@@ -235,6 +255,7 @@ public class World {
 	public List<Powerup> getPowerups() {
 		return powerups;
 	}
+	// END NEW FOR ASSESSMENT 2
 
 	/**
 	 * The list of all damageable entities within the world. This should NEVER be
@@ -260,6 +281,7 @@ public class World {
 			cannonballs.add((EntityCannonball) e);
 		}
 
+		// NEW FOR ASSESSMENT 2
 		if (e instanceof Mine) {
 			obstacles.add((Mine) e);
 		}
@@ -267,8 +289,10 @@ public class World {
 		if (e instanceof Powerup) {
 			powerups.add((Powerup) e);
 		}
+		// END NEW FOR ASSESSMENT 2
 	}
 
+	// NEW FOR ASSESSMENT 2
 	/**	
 	 * Adds an entity at the end of a frame, required to avoid concurrent modification
 	 * of the entities list.	
@@ -279,6 +303,7 @@ public class World {
 	{
 		addAtEndOfFrame.add(e);
 	}
+	// END NEW FOR ASSESSMENT 2
 	
 	/** @return The width of the world in pixels */
 	public static float getWidth() {
@@ -297,7 +322,9 @@ public class World {
 	 */
 	public void onCollegeDestroyed(College college) {
 		destroyedColleges++;
+		// NEW FOR ASSESSMENT 2
 		college.dead = true;
+		// END NEW FOR ASSESSMENT 2
 		if (game != null) game.onCollegeDestroyed(college);
 	}
 	
@@ -311,8 +338,10 @@ public class World {
 		return CollegeManager.collegeList.size() - destroyedColleges;
 	}
 	
+	// NEW FOR ASSESSMENT 2
 	public Difficulty getDifficulty() {
 		return game.getDifficulty();
 	}
+	// END NEW FOR ASSESSMENT 2
 
 }
