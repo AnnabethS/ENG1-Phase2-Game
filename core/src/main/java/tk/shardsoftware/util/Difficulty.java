@@ -1,5 +1,7 @@
 package tk.shardsoftware.util;
 
+// whole file new for assessment 2
+
 public enum Difficulty {
 	EASY, NORMAL, HARD, GAMER, TEST;
 
