@@ -18,8 +18,10 @@ public abstract class Entity {
 
 	/** The maximum speed the entity is allowed to travel at */
 	protected float maximumSpeed = 250f;
+	// NEW FOR ASSESSMENT 2
 	private float drag = 0.99f;
 	protected boolean isStorm = false;
+	// END NEW FOR ASSESSMENT 2
 	/**
 	 * The direction the entity is facing in degrees. Note that this can be
 	 * different than the direction it is moving.
@@ -335,6 +337,7 @@ public abstract class Entity {
 		return this;
 	}
 
+	// NEW FOR ASSESSMENT 2
 	public void setStorm(boolean isStorm)
 	{
 		this.isStorm = isStorm;
@@ -347,6 +350,7 @@ public abstract class Entity {
 	public float getMaxSpeed() {
 		return maximumSpeed;
 	}
+	// END NEW FOR ASSESSMENT 2
 
 	public float getWidth() {
 		return width;
@@ -402,6 +406,7 @@ public abstract class Entity {
 	public void onRemove() {
 	}
 
+	// NEW FOR ASSESSMENT 2
 	public float getDrag() {
 		return drag;
 	}
@@ -409,5 +414,6 @@ public abstract class Entity {
 	public void setDrag(float drag) {
 		this.drag = drag;
 	}
+	// END NEW FOR ASSESSMENT 2
 
 }

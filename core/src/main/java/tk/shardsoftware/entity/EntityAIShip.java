@@ -19,6 +19,8 @@ public class EntityAIShip extends EntityShip {
 	private int chaseDistance = 500;
 	/** The minimum distance the entity tries to maintain from the player */
 	private int minDistance = 100;
+
+	// NEW FOR ASSESSMENT 2
 	/** The minimum interval between firing in seconds */
 	private float fireRate = 2f;
 	/** The amount of seconds since the ship last fired*/
@@ -58,6 +60,7 @@ public class EntityAIShip extends EntityShip {
 		}
 		this.health = maxHealth;
 	}
+	// END NEW FOR ASSESSMENT 2
 	
 	/**
 	 * Constructor for EntityAIShip.
@@ -66,7 +69,9 @@ public class EntityAIShip extends EntityShip {
 	 * @param player the ship controlled by the player
 	 */
 	public EntityAIShip(World world, EntityShip player) {
+	// NEW FOR ASSESSMENT 2
 		super(world, Difficulty.NORMAL);
+	// END NEW FOR ASSESSMENT 2
 		this.aiState = AIState.IDLE;
 		this.player = player;
 		this.maxHealth = 25;
@@ -116,10 +121,12 @@ public class EntityAIShip extends EntityShip {
 	public void update(float delta) {
 		super.update(delta);
 
+	// NEW FOR ASSESSMENT 2
 		// update to tell the ship when it can fire
 		timeSinceLastFire += delta;
 		if(timeSinceLastFire > fireRate)
 			timeSinceLastFire = fireRate;
+	// END NEW FOR ASSESSMENT 2
 
 		Vector2 playerPos = player.getPosition();
 		Vector2 shipPos = this.getPosition();
@@ -139,6 +146,7 @@ public class EntityAIShip extends EntityShip {
 		}
 		if (aiState == AIState.FOLLOW_PLAYER || aiState == AIState.FLEE_PLAYER) {
 			followPlayer(delta);
+	// NEW FOR ASSESSMENT 2
 			if(timeSinceLastFire >= fireRate && distToPlayer <= minDistance)
 			{
 				timeSinceLastFire = 0;
@@ -147,6 +155,7 @@ public class EntityAIShip extends EntityShip {
 				EntityCannonball c = new EntityCannonball(worldObj, getCenterPoint().x, getCenterPoint().y, diff, this);
 				worldObj.addEntityAtEndOfFrame(c);
 			}
+	// END NEW FOR ASSESSMENT 2
 		}
 	}
 }

@@ -17,6 +17,9 @@ import tk.shardsoftware.util.SoundManager;
  * 
  * @author Leif Kemp
  */
+
+// whole file is new for assessment 2
+
 public class Mine extends Entity {
     // FIXME finish mine behaviour lmao
 
