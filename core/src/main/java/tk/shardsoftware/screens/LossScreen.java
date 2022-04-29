@@ -39,6 +39,7 @@ public class LossScreen implements Screen {
 	/** Font to use */
 	private BitmapFont font = ResourceUtil.font;
 
+	// NEW FOR ASSESSMENT 2
 	/** Text to use */
 	private String textToDisplay = "You were defeated! Press the space key to restart...";
 	private GlyphLayout displayText;
@@ -53,6 +54,7 @@ public class LossScreen implements Screen {
 		this.width = Gdx.graphics.getWidth();
 		this.height = Gdx.graphics.getHeight();
 		batch = new SpriteBatch();
+		// NEW FOR ASSESSMENT 2
 		displayText = new GlyphLayout();
 		displayText.setText(font, textToDisplay);
 	}
@@ -75,7 +77,9 @@ public class LossScreen implements Screen {
 
 	private void closeScreen() {
 		lossMusic.stop();
+		// NEW FOR ASSESSMENT 2
 		pirateGameObj.openScreen(Screens.Menu, null, null);
+		// END NEW FOR ASSESSMENT 2
 		//pirateGameObj.openNewMenuScreen();
 	}
 
@@ -87,15 +91,19 @@ public class LossScreen implements Screen {
 		}
 
 		batch.begin();
+		// NEW FOR ASSESSMENT 2
 		batch.draw(background, 0, 0, width, height);
 		font.draw(batch, displayText,
 				(int) (width * 0.5) - (displayText.width / 2), (int) (height * 0.5) + (displayText.height / 2));
+		// END NEW FOR ASSESSMENT 2
 		batch.end();
 	}
 	
+	// NEW FOR ASSESSMENT 2
 	public void setText(String text) {
 		displayText.setText(font, text);
 	}
+	// END NEW FOR ASSESSMENT 2
 
 	@Override
 	public void resize(int width, int height) {

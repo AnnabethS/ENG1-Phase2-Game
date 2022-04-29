@@ -61,9 +61,12 @@ public class LoadScreen implements Screen {
 
 	private Vector2 progBarStart = new Vector2(25, Gdx.graphics.getHeight() - 25);
 	private Vector2 progBarEnd = new Vector2(175, Gdx.graphics.getHeight() - 25);
+
 	
+	// NEW FOR ASSESSMENT 2
 	private Sound ding = ResourceUtil.getSound("audio/splash/ding.mp3");
 	private Sound burp = ResourceUtil.getSound("audio/splash/burp.wav");
+	// END NEW FOR ASSESSMENT 2
 
 	public LoadScreen(AssetManager assets, PirateGame pg) {
 		this.assets = assets;
@@ -74,6 +77,7 @@ public class LoadScreen implements Screen {
 		batch = new SpriteBatch();
 		// logoSound = Gdx.audio
 		// .newSound(Gdx.files.internal("audio/logo/intro.mp3"));
+		// NEW FOR ASSESSMENT 2
 		vPlayer = VideoPlayerCreator.createVideoPlayer();
 		try {
 			vPlayer.play(Gdx.files.internal("textures/logo/shardlogo_mario.webm"));
@@ -91,6 +95,7 @@ public class LoadScreen implements Screen {
 			    	SoundManager.playSound(burp);
 			    }
 			}, 6.9f);
+			// END NEW FOR ASSESSMENT 2
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -128,8 +133,10 @@ public class LoadScreen implements Screen {
 					logo.setAlpha(logoAlpha -= (delta / LOGO_FADE_TIME));
 				} else {
 					// Enter different state once faded
+					// NEW FOR ASSESSMENT 2
 					pirateGameObj.initialiseScreens();
 					pirateGameObj.openScreen(Screens.Menu, null, null);
+					// END NEW FOR ASSESSMENT 2
 					//pirateGameObj.openNewMenuScreen();
 				}
 			}

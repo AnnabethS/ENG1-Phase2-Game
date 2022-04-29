@@ -46,7 +46,8 @@ public class MenuScreen implements Screen {
 	private Texture shardLogo;
 
 	// textures for menus 
-
+	
+	// NEW FOR ASSESSMENT 2
 	private Texture[] playButtonTextures = new Texture[2];
 	private Texture[] loadButtonTextures = new Texture[3];
 	private Texture[] helpButtonTextures = new Texture[2];
@@ -57,6 +58,7 @@ public class MenuScreen implements Screen {
 	private Menu selection = Menu.PLAY;
 	private int selectionInt = 0;
 	private boolean canLoadLevel = true;
+	// END NEW FOR ASSESSMENT 2
 
 	/**
 	 * Constructor for LossScreen
@@ -69,6 +71,7 @@ public class MenuScreen implements Screen {
 		this.height = Gdx.graphics.getHeight();
 		batch = new SpriteBatch();
 		text = new GlyphLayout();
+		// NEW FOR ASSESSMENT 2
 		text.setText(font, "Press the space key to make your selection");
 		shardLogo = new Texture("textures/logo/shardlogo.png");
 		playButtonTextures[0] = ResourceUtil.getUITexture("mainmenu/play-deselected");
@@ -84,19 +87,23 @@ public class MenuScreen implements Screen {
 		dButtonTexture = ResourceUtil.getUITexture("keys/d-button");
 
 		decreaseSelection();
+		// END NEW FOR ASSESSMENT 2
 	}
 
 	@Override
 	public void show() {
 		System.out.println("Entering the main menu...");
+		// NEW FOR ASSESSMENT 2
 		Preferences prefs = Gdx.app.getPreferences("mario.eng1.savegame");
 		canLoadLevel = !(prefs.getLong("mapseed", -1) == -1);
+		// END NEW FOR ASSESSMENT 2
 
 		// SoundManager.playMusic(menuMusic);
 	}
 
 	private void closeScreen() {
 		menuMusic.stop();
+		// NEW FOR ASSESSMENT 2
 		switch (selection)
 		{
 			case PLAY:
@@ -113,12 +120,14 @@ public class MenuScreen implements Screen {
 			case QUIT:
 				break;
 		}
+		// END NEW FOR ASSESSMENT 2
 	}
 
 	@Override
 	public void render(float delta) {
 		// Restart the game when a key is pressed
 		if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+			// NEW FOR ASSESSMENT 2
 			switch (selection)
 			{
 				case PLAY:
@@ -194,11 +203,12 @@ public class MenuScreen implements Screen {
 
 		batch.draw(dButtonTexture, 1120, 120, 100, 100);
 
-
+		// END NEW FOR ASSESSMENT 2
 
 		batch.end();
 	}
 
+	// NEW FOR ASSESSMENT 2
 	private void increaseSelection()
 	{
 		if(selectionInt < Menu.values().length - 1) selectionInt++;
@@ -214,6 +224,7 @@ public class MenuScreen implements Screen {
 			selectionInt--;
 		selection = Menu.fromInteger(selectionInt);
 	}
+	// END NEW FOR ASSESSMENT 2
 
 	@Override
 	public void resize(int width, int height) {

@@ -85,12 +85,16 @@ public class GameScreen implements Screen {
 	private long soundIdBoatMovement;
 
 	private PirateGame pg;
+	// NEW FOR ASSESSMENT 2
 	private boolean gameStarted = false;
+	// END NEW FOR ASSESSMENT 2
 	
 	private SpriteBatch batch, hudBatch;
 	private ShapeRenderer shapeRenderer;
 	private OrthographicCamera camera;
+	// NEW FOR ASSESSMENT 2
 	private boolean resetCamera = false;
+	// END NEW FOR ASSESSMENT 2
 
 	public ChooseCollegeDisplay cDisplay;
 	public Stage stage;
@@ -99,14 +103,18 @@ public class GameScreen implements Screen {
 	/** The overlay to display the game instructions on screen */
 	private InstructionOverlay instOverlay;
 
+	// NEW FOR ASSESSMENT 2
 	public World worldObj;
+	// END NEW FOR ASSESSMENT 2
 	private Minimap miniMap;
 
 	/** The ship object that the player will control */
 	private EntityShip player;
 	
+	// NEW FOR ASSESSMENT 2
 	/** The list of currently active powerups the player has */
 	public HashMap<PowerupType, Float> activePowerups;
+	// END NEW FOR ASSESSMENT 2
 
 	/** The number of points the player has scored */
 	private int points = 0;
@@ -117,8 +125,10 @@ public class GameScreen implements Screen {
 	public GlyphLayout pointTxtLayout;
 	/** The text to display the plunder */
 	public GlyphLayout plunderTxtLayout;
+	// NEW FOR ASSESSMENT 2
 	/** The text to display the active powerups */
 	public GlyphLayout powerupTxtLayout;
+	// END NEW FOR ASSESSMENT 2
 	/** The text to display the number of remaining colleges */
 	public GlyphLayout remainingCollegeTxtLayout;
 	/** The text to display victory over a college */
@@ -139,6 +149,7 @@ public class GameScreen implements Screen {
 	/** Toggle sound button */
 	private ImageButton soundButton;
 
+	// NEW FOR ASSESSMENT 2
 	// save game button
 	private ImageButton saveGameButton;
 
@@ -161,6 +172,7 @@ public class GameScreen implements Screen {
 	public void addPlunder(int p) {
 		setPlunder(plunder + p);
 	}
+	// END NEW FOR ASSESSMENT 2
 
 	/**
 	 * Search the world map for a region that contains only water to spawn the *
@@ -177,6 +189,7 @@ public class GameScreen implements Screen {
 		// FIXME: Player doesn't always spawn in water
 		Function<Vector2, Boolean> startPosConds = vec2 -> {
 
+			// NEW FOR ASSESSMENT 2
 			// Check the player is surrounded tile is in water
 			for (int x = (int) (vec2.x - 5); x < vec2.x + 5; x++) {
 				for (int y = (int) (vec2.y - 5); y < vec2.y + 5; y++) {
@@ -186,6 +199,7 @@ public class GameScreen implements Screen {
 					}
 				}
 			}
+			// END NEW FOR ASSESSMENT 2
 
 			// Check the tile is neither too far or too close to the college
 			int tileX = (int) vec2.x * World.WORLD_TILE_SIZE;
@@ -214,6 +228,7 @@ public class GameScreen implements Screen {
 	 * @param pg the {@link PirateGame} object
 	 */
 	public GameScreen(PirateGame pg, Difficulty difficulty, boolean loadLevel) {
+		// NEW FOR ASSESSMENT 2
 		Preferences prefs = null;
 		if(loadLevel) // if we are trying to load a savegame, load it into prefs
 			prefs = Gdx.app.getPreferences("mario.eng1.savegame");
@@ -228,9 +243,11 @@ public class GameScreen implements Screen {
 			this.difficulty = difficulty;
 
 		activePowerups = new HashMap<PowerupType, Float>();
+		// END NEW FOR ASSESSMENT 2
 
 		// TODO: Implement ambient sounds
 
+		// SCREEN LOADER MOVED INTO IF STATEMENT FOR ASSESSMENT 2
 		if (pg != null) // pg is only null in the case the code is headless
 		{
 			boatWaterMovement = ResourceUtil.getSound("audio/entity/boat-water-movement.wav");
@@ -271,6 +288,7 @@ public class GameScreen implements Screen {
 			});
 			stage.addActor(soundButton);
 
+			// NEW FOR ASSESSMENT 2
 			saveGameButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(
 							ResourceUtil.getTexture("textures/ui/save-game.png"))));
 			saveGameButton.setSize(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 10);
@@ -282,9 +300,11 @@ public class GameScreen implements Screen {
 						}
 			});
 			stage.addActor(saveGameButton);
+			// END NEW FOR ASSESSMENT 2
 		}
 
 
+		// LOAD LEVEL CASES ADDED FOR ASSESSMENT 2
 		/** World Objects */
 		if(loadLevel)
 			worldObj = new World(difficulty, prefs.getLong("mapseed"));
@@ -297,6 +317,7 @@ public class GameScreen implements Screen {
 
 		worldObj.addEntity(player);
 		College ally = null;
+		// NEW FOR ASSESSMENT 2
 		if(loadLevel)
 		{
 			worldObj.destroyedColleges = 0;
@@ -323,6 +344,7 @@ public class GameScreen implements Screen {
 				}
 			}
 		}
+		// END NEW FOR ASSESMENT 2
 		else
 			placeColleges();
 		placeObstacles();
@@ -349,6 +371,7 @@ public class GameScreen implements Screen {
 						Gdx.graphics.getHeight(), batch, stage, CollegeManager.collegeList, this);
 		}
 
+		// NEW FOR ASSESSMENT 2
 		if(loadLevel)
 		{
 			points = prefs.getInteger("points");
@@ -383,6 +406,7 @@ public class GameScreen implements Screen {
 			prefs.clear();
 			prefs.flush();
 		}
+		// END NEW FOR ASSESSMENT 2
 	}
 
 	/**
@@ -394,13 +418,16 @@ public class GameScreen implements Screen {
 	public void setPlayerCollege(String collegeName) {
 		player.setCollegeName(collegeName);
 		setPlayerStartPosition();
+		// NEW FOR ASSESSMENT 2
 		ObstacleManager.removeNearbyMines(worldObj, 10, player);
+		// END NEW FOR ASSESSMENT 2
 		CollegeManager.setFriendlyCollege(collegeName);
 	}
 
 	@Override
 	public void show() {
 		// Ensure that certain events don't happen more than once, as we flick between this screen and back.
+		// NEW FOR ASSESSMENT 2
 		if(!gameStarted) {
 			soundIdBoatMovement = boatWaterMovement.loop(0);
 			ambientOcean.loop(SoundManager.gameVolume);
@@ -413,16 +440,19 @@ public class GameScreen implements Screen {
 				public void run() {
 					// If the instructions are being displayed, don't process
 					if (instOverlay.shouldDisplay) return;
+					// END NEW FOR ASSESSMENT 2
 
 					if (--gameTime < 30) {
 						font.setColor(Color.MAROON);
 					}
 					timerTxtLayout.setText(font, "Time Left: " + gameTime);
 					font.setColor(Color.WHITE);
+					// NEW FOR ASSESSMENT 2
 					if(isStorm)
 						points += 2;
 					else
 						points++;
+					// END NEW FOR ASSESSMENT 2
 					pointTxtLayout.setText(font, "Points: " + points);
 					plunderTxtLayout.setText(font, "Plunder: " + plunder);
 									
@@ -432,10 +462,12 @@ public class GameScreen implements Screen {
 					}
 				}
 			}, 1, 1);
+			// NEW FOR ASSESSMENT 2
 		} else {
 			resetCamera = true;
 		}
 		gameStarted = true;
+		// END NEW FOR ASSESSMENT 2
 	}
 
 	/**
@@ -451,8 +483,10 @@ public class GameScreen implements Screen {
 		worldObj.worldMap.buildWorld();
 
 		placeColleges();
+		// NEW FOR ASSESSMENT 2
 		placeObstacles();
 		placePowerups();
+		// END NEW FOR ASSESSMENT 2
 		miniMap.prepareMap();
 		cDisplay = new ChooseCollegeDisplay(worldObj, 0, 0, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight(), batch, stage, CollegeManager.collegeList, this);
@@ -480,6 +514,7 @@ public class GameScreen implements Screen {
 		boolean down = Gdx.input.isKeyPressed(Input.Keys.S);
 		boolean left = Gdx.input.isKeyPressed(Input.Keys.A);
 		boolean right = Gdx.input.isKeyPressed(Input.Keys.D);
+		// NEW FOR ASSESSMENT 2
 		boolean accelerate = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
 		boolean verticalFlag = up || down;
 		boolean horizontalFlag = left || right;
@@ -489,7 +524,9 @@ public class GameScreen implements Screen {
 		// If a key is pressed, the ship should turn
 		boolean turnFlag = (verticalFlag && !vertCancel) || (horizontalFlag && !horizCancel);
 
+		// NEW FOR ASSESSMENT 2
 		boolean accelWithoutTurn = (vertCancel || horizCancel || accelerate) && !turnFlag;
+		// END NEW FOR ASSESSMENT 2
 
 		if (turnFlag) {
 			if ((vertCancel || !verticalFlag) && !horizCancel) {
@@ -528,6 +565,7 @@ public class GameScreen implements Screen {
 		}
 	}
 
+	// NEW FOR ASSESSMENT 2
 	/**
 	 * Calls ObstacleManager.generateObstacles(), generating the mines on the map, and
 	 * adds them to the entity handler.
@@ -587,6 +625,7 @@ public class GameScreen implements Screen {
 			worldObj.addEntity(c);
 		}
 	}
+	// END NEW FOR ASSESSMENT 2
 
 	/**
 	 * Handles user input
@@ -615,6 +654,7 @@ public class GameScreen implements Screen {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
 			miniMap.onToggleKeyJustPressed();
 		}
+		// NEW FOR ASSESSMENT 2
 		if(Gdx.input.isKeyJustPressed(Input.Keys.N)) {
 			pg.openScreen(Screens.Shop, difficulty, null);
 		}
@@ -627,6 +667,7 @@ public class GameScreen implements Screen {
 
 		if (player.isInRangeOfFriendlyCollege() && Gdx.input.isKeyJustPressed(Input.Keys.E))
 			setStorm(false);
+		// END NEW FOR ASSESSMENT 2
 
 		if (DEBUG_MODE) {
 			// Instantly halt the player movement
@@ -645,6 +686,7 @@ public class GameScreen implements Screen {
 			if (Gdx.input.isKeyJustPressed(Input.Keys.B)) {
 				DebugUtil.damageAllEntities(worldObj, 5); // cause 5 damage to all entities
 			}
+			// NEW FOR ASSESSMENT 2
 			if (Gdx.input.isKeyJustPressed(Input.Keys.V)) {
 				addPlunder(1000);
 			}
@@ -671,6 +713,7 @@ public class GameScreen implements Screen {
 				decayPowerups(30);
 			}
 		}
+		// END NEW FOR ASSESSMENT 2
 
 	}
 
@@ -694,10 +737,12 @@ public class GameScreen implements Screen {
 			
 			
 			lerpCamera(player.getCenterPoint(), 0.04f, delta);
+			// NEW FOR ASSESSMENT 2
 			if(resetCamera) {
 				lerpCamera(player.getCenterPoint(), 1f, delta);
 				resetCamera = false;
 			}
+			// END NEW FOR ASSESSMENT 2
 		});
 
 		ScreenUtils.clear(0, 0, 0, 1); // clears the buffer
@@ -707,12 +752,14 @@ public class GameScreen implements Screen {
 		batch.begin();
 
 		DebugUtil.saveProcessTime("Map Draw Time", () -> {
-			//TODO: replace with actual check of rain
+			// NEW FOR ASSESSMENT 2
 			worldObj.worldMap.drawTilesInRange(camera, batch); 
+			// END NEW FOR ASSESSMENT 2
 		});
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		DebugUtil.saveProcessTime("Entity Draw Time", () -> renderEntities());
 
+		// NEW FOR ASSESSMENT 2
 		if(isStorm) 
 		{
 			worldObj.worldMap.drawRain(camera, batch, delta);
@@ -721,6 +768,7 @@ public class GameScreen implements Screen {
 		if(healthRegen) {
 			player.repair(delta * 2);
 		}
+		// END NEW FOR ASSESSMENT 2
 
 		// call rain draw here
 
@@ -767,19 +815,23 @@ public class GameScreen implements Screen {
 			font.draw(hudBatch, timerTxtLayout, Gdx.graphics.getWidth() - timerTxtLayout.width - 20,
 					Gdx.graphics.getHeight() - 140);
 			
+			// NEW FOR ASSESSMENT 2
 			font.draw(hudBatch, powerupTxtLayout, 20,
 					powerupTxtLayout.height + 20);
+			// END NEW FOR ASSESSMENT 2
 
 			if (displayCollegeDestroyTxt) font.draw(hudBatch, collegeDestroyTxtLayout,
 					(Gdx.graphics.getWidth() - collegeDestroyTxtLayout.width) / 2,
 					(Gdx.graphics.getHeight() - collegeDestroyTxtLayout.height) / 2);
 
+			// NEW FOR ASSESSMENT 2
 			if (isStorm && player.isInRangeOfFriendlyCollege())
 			{
 				font.draw(hudBatch, skipStormTxtLayout, 
 					(Gdx.graphics.getWidth() - skipStormTxtLayout.width) / 2,
 					(Gdx.graphics.getHeight() - skipStormTxtLayout.height) / 2);
 			}
+			// END NEW FOR ASSESSMENT 2
 
 		});
 
@@ -788,9 +840,11 @@ public class GameScreen implements Screen {
 		miniMap.stage.draw();
 		if (instOverlay.shouldDisplay) instOverlay.render();
 		
+		// NEW FOR ASSESSMENT 2
 		if(activePowerups.size() > 0) {
 			decayPowerups(delta);
 		}
+		// END NEW FOR ASSESSMENT 2
 	}
 
 	/** Renders the hitbox outline for all entities */
@@ -871,16 +925,18 @@ public class GameScreen implements Screen {
 		if (player.getHealth() <= 0 || gameTime <= 0) {
 			SoundManager.stopMusic();
 			
+			// NEW FOR ASSESSMENT 2
 			//pg.openNewLossScreen();
 			boatWaterMovement.setVolume(soundIdBoatMovement, 0);
 			pg.openScreen(Screens.Loss, null, null);
 			//pg.openScreen(Screens.Loss, difficulty, null);
 			return;
+			// END NEW FOR ASSESSMENT 2
 		}
 
 		if (worldObj.getRemainingColleges() <= 1) {
 			SoundManager.stopMusic();
-			
+			// NEW FOR ASSESSMENT 2	
 			//pg.openNewWinScreen();
 			boatWaterMovement.setVolume(soundIdBoatMovement, 0);
 			pg.openScreen(Screens.Victory, null, null);
@@ -914,6 +970,7 @@ public class GameScreen implements Screen {
 				setStorm(false);
 			}
 		}
+		// END NEW FOR ASSESSMENT 2
 
 		worldObj.update(delta);
 
@@ -925,6 +982,7 @@ public class GameScreen implements Screen {
 		// if the game is muted, skip processing
 		//if (SoundManager.gameVolume == 0) return;
 		//float vol = (player.getVelocity().len2() / (player.getMaxSpeed() * player.getMaxSpeed()));
+		// NEW FOR ASSESSMENT 2
 		float vol = (player.getVelocity().len2() / (100 * 100));
 		
 		boatWaterMovement.setVolume(soundIdBoatMovement, vol * SoundManager.gameVolume * 0.25f);
@@ -948,6 +1006,7 @@ public class GameScreen implements Screen {
 			e.setStorm(storm);
 		}
 	}
+	// END NEW FOR ASSESSMENT 2
 
 	/**
 	 * Moves the camera smoothly to the target position
@@ -961,6 +1020,7 @@ public class GameScreen implements Screen {
 		delta *= 60; // standardize for 60fps
 		Vector3 camPos = camera.position;
 
+		// NEW FOR ASSESSMENT 2
 		if(speed < 1) {
 			camPos.x = camera.position.x + (target.x - camera.position.x) * speed * delta;
 			camPos.y = camera.position.y + (target.y - camera.position.y) * speed * delta;
@@ -968,6 +1028,7 @@ public class GameScreen implements Screen {
 			camPos.x = target.x;
 			camPos.y = target.y;
 		}
+		// END NEW FOR ASSESSMENT 2
 
 		/* Confine the camera to the bounds of the map */
 
@@ -1024,6 +1085,7 @@ public class GameScreen implements Screen {
 	 * @param college the destroyed college
 	 */
 	public void onCollegeDestroyed(College college) {
+		// NEW FOR ASSESSMENT 2
 		if(!college.isFriendly){
 			collegeDestroyTxtLayout.setText(font, "Victory Over " + college.getName() + " College!");
 			displayCollegeDestroyTxt = true;
@@ -1125,6 +1187,7 @@ public class GameScreen implements Screen {
 		if(pg != null)
 			powerupTxtLayout.setText(powerupFont, text);
 	}
+	// END NEW FOR ASSESSMENT 2
 
 	@Override
 	public void pause() {
@@ -1148,6 +1211,7 @@ public class GameScreen implements Screen {
 		//miniMap.dispose();
 	}
 	
+	// NEW FOR ASSESSMENT 2
 	public void setPlayer(EntityShip player) {
 		this.player = player;
 	}
@@ -1231,4 +1295,5 @@ public class GameScreen implements Screen {
 
 	public int getPoints() {return points;}
 	public void setPoints(int points) {this.points = points;}
+	// END NEW FOR ASSESSMENT 2
 }

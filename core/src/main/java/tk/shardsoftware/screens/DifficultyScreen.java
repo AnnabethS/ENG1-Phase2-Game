@@ -24,6 +24,9 @@ import tk.shardsoftware.util.ResourceUtil;
  * @author Anna Singleton
  * @author Leif Kemp
  */
+
+// this file is a modified version of the original main menu, and thus most of it is new
+
 public class DifficultyScreen implements Screen {
 
 	private SpriteBatch batch;
