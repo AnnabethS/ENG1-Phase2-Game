@@ -15,6 +15,8 @@ import tk.shardsoftware.entity.Powerup;
 import tk.shardsoftware.entity.College;
 import tk.shardsoftware.entity.EntityShip;
 
+// whole file new for assessment 2
+
 /**
  * @author James Burnell
  * @author Hector Woods

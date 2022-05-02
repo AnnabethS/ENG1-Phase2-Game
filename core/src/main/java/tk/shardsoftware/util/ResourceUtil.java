@@ -33,7 +33,9 @@ public abstract class ResourceUtil {
 	/** The game's asset manager */
 	private static AssetManager assetManager;
 
+	// NEW FOR ASSESSMENT 2
 	public static BitmapFont font, debugFont, collegeFont, miniMapFont, chooseCollegeFont, powerupFont;
+	// END NEW FOR ASSESMENT 2
 
 	/**
 	 * Load any required textures into memory
@@ -53,6 +55,7 @@ public abstract class ResourceUtil {
 		addTexture("textures/entity/playership.png");
 		addTexture("textures/entity/cannonball.png");
 		addTexture("textures/entity/college.png");
+		// NEW FOR ASSESSMENT 2
 		addTexture("textures/entity/mine.png");
 		/* Powerups */
 		addTexture("textures/powerups/speed.png");
@@ -60,6 +63,7 @@ public abstract class ResourceUtil {
 		addTexture("textures/powerups/ram.png");
 		addTexture("textures/powerups/rapidfire.png");
 		addTexture("textures/powerups/invincibility.png");
+		// END NEW FOR ASSESSMENT 2
 		/* UI */
 		addTexture("textures/ui/expand-map-button.png");
 		addTexture("textures/ui/minimise-map-button.png");
@@ -74,6 +78,7 @@ public abstract class ResourceUtil {
 		addTexture("textures/ui/college-choice-text.png");
 		addTexture("textures/ui/sound-disabled.png");
 		addTexture("textures/ui/sound-enabled.png");
+		// NEW FOR ASSESSMENT 2
 		addTexture("textures/ui/keys/a-button.png");
 		addTexture("textures/ui/keys/d-button.png");
 		addTexture("textures/ui/keys/w-button.png");
@@ -154,13 +159,16 @@ public abstract class ResourceUtil {
 		{
 			addTexture("textures/tiles/rain/rain" + i + ".png");
 		}
+		// END NEW FOR ASSESSMENT 2
 
 		/* Sound */
 		addSound("audio/entity/boat-water-movement.wav");
 		addSound("audio/entity/cannon.mp3");
 		addSound("audio/entity/college-hit.mp3");
+		// NEW FOR ASSESSMENT 2
 		addSound("audio/splash/ding.mp3");
 		addSound("audio/splash/burp.wav");
+		// END NEW FOR ASSESSMENT 2
 
 		/* Music */
 		addMusic("audio/music/folk-round.mp3");
@@ -195,10 +203,12 @@ public abstract class ResourceUtil {
 					false);
 			miniMapFont.setColor(Color.WHITE);
 			miniMapFont.getData().setScale(0.2f);
+			// NEW FOR ASSESSMENT 2
 			powerupFont = new BitmapFont(Gdx.files.internal("font/jagged-font.fnt"), // jagged-font
 					false);
 			powerupFont.setColor(Color.WHITE);
 			powerupFont.getData().setScale(0.4f);
+			// END NEW FOR ASSESSMENT 2
 		} else {
 			Gdx.app.error("error", "Could not locate jagged font file");
 		}
@@ -332,8 +342,10 @@ public abstract class ResourceUtil {
 		return getTexture("textures/entity/" + entityName);
 	}
 
+	// NEW FOR ASSESSMENT 2
 	public static Texture getUITexture(String uiTextureName){
 		return getTexture("textures/ui/" + uiTextureName + ".png");
 	}
+	// END NEW FOR ASSESSMENT 2
 
 }

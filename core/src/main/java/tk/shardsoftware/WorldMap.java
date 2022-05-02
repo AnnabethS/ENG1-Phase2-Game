@@ -37,11 +37,13 @@ public class WorldMap {
 
 	public PerlinNoiseGenerator perlin;
 
+	// NEW FOR ASSESSMENT 2
 	// use for drawing the rain
 	private Texture[] rainTextures;
 	private int rainFrame = 0;
 	private final float frameTime = 0.05f; //amount each rain frame should be on screen (in seconds)
 	private float remainingFrameTime = frameTime;
+	// END NEW FOR ASSESSMENT 2
 
 	/** The local random object */
 	private Random rand = new Random();
@@ -58,11 +60,13 @@ public class WorldMap {
 		this.tile_size = world_tile_size;
 		this.width = world_width;
 		this.height = world_height;
+		// NEW FOR ASSESSMENT 2
 		rainTextures = new Texture[8];
 		for(int i=0; i < 8; i++)
 		{
 			rainTextures[i] = ResourceUtil.getTileTexture("rain/rain" + (i+1) + ".png");
 		}
+		// END NEW FOR ASSESSMENT 2
 	}
 
 	/**
@@ -190,6 +194,7 @@ public class WorldMap {
 		}
 	}
 
+	// NEW FOR ASSESSMENT 2
 	public void drawRain(Camera cam, SpriteBatch batch, float delta)
 	{
 		int numberOfTilesX = (int) (cam.viewportWidth / tile_size);
@@ -215,6 +220,7 @@ public class WorldMap {
 			}
 		}
 	}
+	// END NEW FOR ASSESSMENT 2
 
 	/**
 	 * Get the tile type of the tile positioned at (x,y). If there is no tile

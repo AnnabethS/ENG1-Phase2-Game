@@ -67,6 +67,7 @@ public class InstructionOverlay implements Disposable {
 		font.draw(batch, "A", 40, Gdx.graphics.getHeight() - 35 - 90); // left
 		font.draw(batch, "D", 40 + 90 + 90, Gdx.graphics.getHeight() - 35 - 90); // right
 		
+		// NEW FOR ASSESSMENT 2
 		font.draw(batch, "Left Shift", 30, Gdx.graphics.getHeight() - 310); // left shift
 		font.draw(batch, "Accelerate or Ram", 195, Gdx.graphics.getHeight() - 310);
 
@@ -80,6 +81,7 @@ public class InstructionOverlay implements Disposable {
 		font.draw(batch, "Open Shop", 40 + 70, Gdx.graphics.getHeight() - 480 - 180);
 
 		font.draw(batch, "Move Controls", 40, Gdx.graphics.getHeight() - 50 - 90 - 90 - 140);
+		// END NEW FOR ASSESSMENT 2
 
 		// Render instructions
 		font.draw(batch, instructions, Gdx.graphics.getWidth() - instructions.width - 50,

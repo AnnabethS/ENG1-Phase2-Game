@@ -18,6 +18,9 @@ import tk.shardsoftware.util.PowerupType;
  * 
  * @author Leif Kemp
  */
+
+// whole file is new for assessment 2
+
 public class Powerup extends Entity {
     // FIXME finish powerup behaviour lmao
 	private PowerupType powerupType;

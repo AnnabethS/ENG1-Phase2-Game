@@ -50,7 +50,9 @@ public class VictoryScreen implements Screen {
 
 	private void closeScreen() {
 		victoryMusic.stop();
+		// NEW FOR ASSESSMENT 2
 		pirateGameObj.openScreen(Screens.Menu, null, null);
+		// END NEW FOR ASSESSMENT 2
 		//pirateGameObj.openNewMenuScreen();
 	}
 

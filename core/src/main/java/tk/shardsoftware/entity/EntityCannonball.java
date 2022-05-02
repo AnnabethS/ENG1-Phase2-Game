@@ -97,10 +97,12 @@ public class EntityCannonball extends Entity {
 			return false;
 		}
 		
+	// NEW FOR ASSESSMENT 2
 		// make sure the parentObj can't damage themselves
 		if (parentObj == obj) {
 			return false;
 		}
+	// END NEW FOR ASSESSMENT 2
 		
 		return true;
 	}

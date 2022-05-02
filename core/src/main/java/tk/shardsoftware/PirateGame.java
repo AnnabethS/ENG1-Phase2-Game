@@ -38,10 +38,14 @@ public class PirateGame extends Game {
 			//openNewGameScreen();
 			// openNewVictoryScreen();
 			// openNewLossScreen();
+	// NEW FOR ASSESSMENT 2
 			openScreen(Screens.Menu, null, null);
+	// END NEW FOR ASSESSMENT 2
 			//openNewMenuScreen();
 		} else {
+	// NEW FOR ASSESSMENT 2
 			this.setScreen(new LoadScreen(assets, this));
+	// END NEW FOR ASSESSMENT 2
 		}
 	}
 	/*
@@ -79,6 +83,7 @@ public class PirateGame extends Game {
 	}
 	*/
 	
+	// NEW FOR ASSESSMENT 2
 	public void openScreen(Screens screen, Difficulty difficulty, String lossText) {
 		if(difficulty == null) difficulty = Difficulty.EASY;
 		if(lossText == "" || lossText == null) lossText = "You were defeated! Press the space key to restart...";
@@ -171,6 +176,7 @@ public class PirateGame extends Game {
 	public void quitGame() {
 		Gdx.app.exit();
 	}
+	// END NEW FOR ASSESSMENT 2
 
 	@Override
 	public void render() {

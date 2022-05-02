@@ -1,5 +1,7 @@
 package tk.shardsoftware.util;
 
+// whole file new for assessment 2
+
 public enum Help {
     HOWTO, CONTROLS, POWERUPS, BADWEATHER, SHOP, BACK;
 

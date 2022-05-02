@@ -41,7 +41,9 @@ public class College extends Entity implements IRepairable, ICannonCarrier {
 	/** The maximum number of ships the college should spawn */
 	public int maxShipsToSpawn = 1;
 
+	// NEW FOR ASSESSMENT 2
 	public boolean dead = false;
+	// END NEW FOR ASSESSMENT 2
 
 	/** The search function for the spawn point of the ships */
 	private Function<Vector2, Boolean> shipPosConds = vector2 -> {
@@ -90,7 +92,9 @@ public class College extends Entity implements IRepairable, ICannonCarrier {
 
 		startPos = new Vector2(startPos.x * WORLD_TILE_SIZE, startPos.y * WORLD_TILE_SIZE);
 
+		// NEW FOR ASSESSMENT 2
 		EntityAIShip ship = new EntityAIShip(worldObj, player, worldObj.getDifficulty());
+		// END NEW FOR ASSESSMENT 2
 		ship.setPosition(startPos);
 		worldObj.addEntity(ship);
 

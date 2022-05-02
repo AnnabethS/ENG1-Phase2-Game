@@ -24,7 +24,9 @@ public class DebugUtil {
 	/** Controls additional logging and on-screen data */
 	public static boolean DEBUG_MODE = false;
 	/** Controls whether or not the instructions overlay is visible regardless of DEBUG_MODE */
+	// NEW FOR ASSESSMENT 2
 	public static boolean DEBUG_SHOW_INSTRUCTIONS = true;
+	// END NEW FOR ASSESSMENT 2
 
 	/**
 	 * A list of maps determined to be playable. This is to have a reliable testing

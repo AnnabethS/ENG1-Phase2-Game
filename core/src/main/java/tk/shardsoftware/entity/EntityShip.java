@@ -26,6 +26,7 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 	/** How much time left until cannons can be fired */
 	public float timeUntilFire = 0f;
 	
+	// NEW FOR ASSESSMENT 2
 	public boolean doubleDamage = false;
 
 	protected float maxHealth;
@@ -35,14 +36,17 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 	public boolean canRam = false;
 	public boolean ramming = false;
 	public boolean speedBoost = false;
+	// END NEW FOR ASSESSMENT 2
 
 	protected String collegeName;
 	public boolean isPlayer = false;
 	
+	// NEW FOR ASSESSMENT 2
 	/** Shop Upgrades*/
 	private float damageMultiplier = 1f;
 	private float reloadTimeMultiplier = 1f;
 	private float speedMultiplier = 1f;
+	// END NEW FOR ASSESSMENT 2
 
 	private Sound cannonSfx = ResourceUtil.getSound("audio/entity/cannon.mp3");
 
@@ -52,6 +56,7 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 		this.setTexture("textures/entity/playership.png");
 		this.setMaxSpeed(100);
 		this.setHitboxScale(0.39f);
+	// NEW FOR ASSESSMENT 2
 		switch(d)
 		{
 			case EASY:
@@ -71,6 +76,7 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 				break;
 		}
 		health = maxHealth;
+	// END NEW FOR ASSESSMENT 2
 	}
 
 	public String getCollegeName() {
@@ -87,10 +93,13 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 		velocityVec.setAngleDeg(direction);
 
 		// TODO: Write water drag system
+	// NEW FOR ASSESSMENT 2
 		velocityVec.scl(getDrag());
+	// END NEW FOR ASSESSMENT 2
 		timeUntilFire -= delta;
 		timeUntilFire = timeUntilFire <= 0 ? 0 : timeUntilFire;
 		
+	// NEW FOR ASSESSMENT 2
 		if(getVelocity().len() < (isStorm ? 50 : ((speedBoost ? 135 : 100) * getSpeedMultiplier()))) {
 			ramming = false;
 			setDrag(speedBoost ? (getSpeedMultiplier() <= 1 ? 0.995f : 0.9975f) : 
@@ -104,6 +113,7 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 			setMaxSpeed(500f);
 			this.setIgnoreEntityCollision(true);
 		}
+	// END NEW FOR ASSESSMENT 2
 	}
 
 	/**
@@ -158,7 +168,9 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 		fireCannonball(true);
 		fireCannonball(false);
 		// Reload
+	// NEW FOR ASSESSMENT 2
 		timeUntilFire += (reloadTime / getReloadTimeMultiplier());
+	// END NEW FOR ASSESSMENT 2
 		// Play sfx
 		SoundManager.playSound(cannonSfx, 8);
 		return true;
@@ -192,9 +204,11 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 		return timeUntilFire;
 	}
 	
+	// NEW FOR ASSESSMENT 2
 	public void setMaxHealth(float maxHealth) {
 		this.maxHealth = maxHealth;
 	}
+	// END NEW FOR ASSESSMENT 2
 
 	@Override
 	public float getMaxHealth() {
@@ -208,11 +222,13 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 
 	@Override
 	public void damage(float dmgAmount) {
+	// NEW FOR ASSESSMENT 2
 		if(!invulnerable && !ramming) health -= dmgAmount;
 		health = health < 0 ? 0 : health;
 		if (health <= 0) {
 			this.remove = true;
 		}
+	// END NEW FOR ASSESSMENT 2
 	}
 
 	@Override
@@ -223,9 +239,12 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 
 	@Override
 	public float getCannonDamage() {
+	// NEW FOR ASSESSMENT 2
 		return !doubleDamage ? 10f * getDamageMultiplier() : 20f * getDamageMultiplier();
+	// END NEW FOR ASSESSMENT 2
 	}
 
+	// NEW FOR ASSESSMENT 2
 	public boolean isInRangeOfFriendlyCollege()
 	{
 		College c = CollegeManager.getCollegeWithName(getCollegeName());
@@ -322,4 +341,5 @@ public class EntityShip extends Entity implements ICannonCarrier, IRepairable {
 	public float getReloadTimeMultiplier() {
 		return reloadTimeMultiplier;
 	}
+	// END NEW FOR ASSESSMENT 2
 }
